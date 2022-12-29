@@ -6,18 +6,20 @@ import 'package:weight_app/widget/weight_item.dart';
 import '../repository/repository.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key, required this.repository}) : super(key: key);
 
-  Repository repo = WeightRepository();
+  final Repository repository;
 
   @override
   Widget build(BuildContext context) {
-    final items = repo.fetchFakeData();
+    final items = repository.fetchFakeData();
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.of(context).push<MaterialPageRoute>(
-                MaterialPageRoute(builder: (context) => const AddWeightPage()));
+            Navigator.of(context).push<MaterialPageRoute>(MaterialPageRoute(
+                builder: (context) => AddWeightPage(
+                      repository: repository,
+                    )));
           },
           child: const Icon(Icons.add),
         ),
