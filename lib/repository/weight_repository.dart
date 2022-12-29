@@ -3,6 +3,8 @@ import 'package:weight_app/repository/repository.dart';
 
 class WeightRepository extends Repository<Weight> {
 
+  List<Weight> weights = [];
+
   @override
   List<Weight> fetchFakeData() {
     List<Weight> fakeList = [
@@ -19,5 +21,16 @@ class WeightRepository extends Repository<Weight> {
     ];
 
     return fakeList;
+  }
+
+  @override
+  void addWeight(Weight item) {git 
+    weights.add(item);
+    print('Weight Repo | addWeight | Weight: $item');
+  }
+
+  @override
+  List<Weight> fetchData() {
+    return weights;
   }
 }
