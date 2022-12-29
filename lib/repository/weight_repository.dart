@@ -24,7 +24,7 @@ class WeightRepository extends Repository<Weight> {
   }
 
   @override
-  void addWeight(Weight item) {git 
+  void addWeight(Weight item) {
     weights.add(item);
     print('Weight Repo | addWeight | Weight: $item');
   }
