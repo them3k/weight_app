@@ -6,7 +6,7 @@ class WeightRepository extends Repository<Weight> {
   List<Weight> weights = [];
 
   @override
-  List<Weight> fetchFakeData() {
+  Future<List<Weight>> fetchFakeData() async {
     List<Weight> fakeList = [
       Weight(value: 75.0, dateEntry: DateTime.now().add(const Duration(days: 1))),
       Weight(value: 63.2, dateEntry: DateTime.now().add(const Duration(days: 2))),
@@ -20,17 +20,18 @@ class WeightRepository extends Repository<Weight> {
       Weight(value: 84.5, dateEntry: DateTime.now().add(const Duration(days: 10))),
     ];
 
-    return fakeList;
+    return Future.value(fakeList);
   }
 
   @override
-  void addWeight(Weight item) {
+  Future<void> addWeight(Weight item) async {
     weights.add(item);
     print('Weight Repo | addWeight | Weight: $item');
+    fetchData();
   }
 
   @override
-  List<Weight> fetchData() {
+  Future<List<Weight>> fetchData() async {
     return weights;
   }
 }

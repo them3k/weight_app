@@ -1,7 +1,7 @@
 abstract class Repository<T> {
-  List<T> fetchFakeData();
+  Future<List<T>> fetchFakeData();
 
-  List<T> fetchData();
+  Future<List<T>> fetchData();
 
-  void addWeight(T item);
+  Future<void> addWeight(T item);
 }
