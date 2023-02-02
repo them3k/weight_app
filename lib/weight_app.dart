@@ -28,7 +28,7 @@ class _WeightAppState extends State<WeightApp> {
       create: (context) => viewModel..loadData(),
         child: MaterialApp(
           theme: _themeData,
-            title: 'Weight App', home: HomePage()));
+            title: 'Weight App', home: HistoryPage()));
   }
 
   ThemeData _buildThemeData() {
