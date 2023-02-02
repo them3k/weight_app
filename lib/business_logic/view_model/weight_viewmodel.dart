@@ -8,9 +8,11 @@ class WeightViewModel extends ChangeNotifier {
   final StorageService _storageService = serviceLocator<StorageService>();
 
   List<Weight> _weights = [];
+  List<int> _selectedIndexes = [];
+  late bool isItemsSelected = false;
 
   List<WeightPresentation> get weights {
-    return preparePresentation(_weights);
+    return WeightPresentation.preparePresentation(_weights);
   }
 
   void loadData() async {
@@ -38,10 +40,11 @@ class WeightViewModel extends ChangeNotifier {
     loadData();
   }
 
-  void deleteWeight(List<int> indexes) {
+  void deleteWeights(List<int> indexes) {
     _storageService.deleteWeight(indexes);
     loadData();
   }
+
 
   bool isWeightGrater(int index, int prevIndex){
     print('weight_viewModel | $index | $prevIndex');
@@ -61,7 +64,49 @@ class WeightViewModel extends ChangeNotifier {
       _weights.last.value;
 
 
-  List<WeightPresentation> preparePresentation(List<Weight> list) {
+  // List Item operation
+
+
+
+  void onTapDeleteSelectedItems() {
+    deleteWeights(_selectedIndexes);
+    clearSelectedIndexes();
+  }
+
+  void clearSelectedIndexes() {
+    _selectedIndexes = List.empty();
+  }
+
+  void shouldShowDeleteIcon() {
+    isItemsSelected = _selectedIndexes.isNotEmpty;
+    notifyListeners();
+    print('WeightViewModel | shouldShowDeleteIcon | result: $isItemsSelected');
+    print('WeightViewModel | shouldShowDeleteIcon | selected: $_selectedIndexes');
+  }
+
+  bool checkIfIsSelected(int index) =>
+      _selectedIndexes.contains(index);
+
+  void selectItem(int index) {
+    _selectedIndexes.add(index);
+    shouldShowDeleteIcon();
+  }
+
+  void removeSelectedIndex(int index) {
+    _selectedIndexes.remove(index);
+    shouldShowDeleteIcon();
+  }
+
+
+}
+
+class WeightPresentation {
+  final String value;
+  final String dateEntry;
+
+  WeightPresentation(this.value, this.dateEntry);
+
+  static List<WeightPresentation> preparePresentation(List<Weight> list) {
     List<WeightPresentation> weightPresentationList = [];
 
     list.sort((a, b) => a.dateEntry.compareTo(b.dateEntry));
@@ -79,11 +124,4 @@ class WeightViewModel extends ChangeNotifier {
     }
     return double.parse(value.replaceAll(',', '.'));
   }
-}
-
-class WeightPresentation {
-  final String value;
-  final String dateEntry;
-
-  WeightPresentation(this.value, this.dateEntry);
 }

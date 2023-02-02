@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:weight_app/business_logic/view_model/weight_viewmodel.dart';
 import 'package:weight_app/model/weight_model.dart';
 import 'package:weight_app/ui/views/add_page.dart';
-import 'package:weight_app/ui/views/chart_page.dart';
 import 'package:provider/provider.dart';
 import 'package:weight_app/ui/views/update_page.dart';
-
-import '../../business_logic/utils/constants.dart';
 import '../widget/weight_item.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -17,81 +14,47 @@ class HistoryPage extends StatefulWidget {
 }
 
 class _HistoryPageState extends State<HistoryPage> {
-  List<int> _selectedIndexes = [];
+  late WeightViewModel _viewModel;
 
-  bool checkIfIsSelected(int index) {
-    return _selectedIndexes.contains(index);
+  @override
+  void initState() {
+    super.initState();
+    _viewModel = Provider.of<WeightViewModel>(context, listen: false);
   }
+
 
   void onLongItemPress(int index) {
     print('Item with index: $index is pressed');
-
+    var result = _viewModel.checkIfIsSelected(index);
     setState(() {
-      checkIfIsSelected(index)
-          ? _selectedIndexes.remove(index)
-          : _selectedIndexes.add(index);
+      result ? _viewModel.removeSelectedIndex(index) : _viewModel.selectItem(index);
     });
-    print('HomePage | onItemPress | selectedIndexes: $_selectedIndexes');
+    print('HomePage | onItemPress | selectedIndexes: ');
   }
-
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<WeightViewModel>(
-      builder: (context, model, child) {
-              return Scaffold(
-                  floatingActionButton: FloatingActionButton(
-                    onPressed: () =>
-                        navigateToAddPage(context, Constants.NEW_ITEM),
-                    child: const Icon(Icons.add),
-                  ),
-                  appBar: AppBar(actions: [
-                    _selectedIndexes.isEmpty
-                        ? const SizedBox()
-                        : GestureDetector(
-                      child: const Icon(Icons.delete),
-                      onTap: () {
-                        model.deleteWeight(_selectedIndexes);
-                        setState(() {
-                          _selectedIndexes = [];
-                          print(
-                              'HomePage | build | selectedIndex: $_selectedIndexes');
-                        });
-                      },
-                    ),
-                    GestureDetector(
-                      onTap: () =>
-                      {
-                        Navigator.of(context).push<MaterialPageRoute>(
-                            MaterialPageRoute(builder: (_) => ChartPage()))
-                      },
-                      child: Container(
-                          margin: const EdgeInsets.only(right: 10),
-                          child: const Icon(Icons.show_chart)),
-                    )
-                  ], title: const Text('Home Page')),
-                  body: ListView.builder(
-                      itemCount: model.weights.length,
-                      itemBuilder: (context, position) {
-                        return WeightItem(
-                          item: model.weights[position],
-                          onLongItemPress: onLongItemPress,
-                          onItemPressed: (int position) {
-                            navigateToUpdatePage(model.getItemAtIndex(position)!, position);
-                            },
-                          index: position,
-                          isPressed: checkIfIsSelected(position),
-                          isGreater: model.isWeightGrater(
-                              position, position - 1),
-                        );
-                      }));
-            });
-
+    return Consumer<WeightViewModel>(builder: (context, model, child) {
+      return ListView.builder(
+          itemCount: model.weights.length,
+          itemBuilder: (context, position) {
+            return WeightItem(
+              item: model.weights[position],
+              onLongItemPress: onLongItemPress,
+              onItemPressed: (int position) {
+                navigateToUpdatePage(model.getItemAtIndex(position)!, position);
+              },
+              index: position,
+              isPressed: _viewModel.checkIfIsSelected(position),
+              isGreater: model.isWeightGrater(position, position - 1),
+            );
+          });
+    });
   }
 
   void navigateToAddPage(BuildContext context, int index) {
-    Navigator.of(context).push(MaterialPageRoute<AddPage>(
-        builder: (_) => const AddPage()));
+    Navigator.of(context)
+        .push(MaterialPageRoute<AddPage>(builder: (_) => const AddPage()));
   }
 
   void navigateToUpdatePage(Weight item, int index) {
