@@ -3,11 +3,12 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weight_app/model/weight_chart.dart';
+import 'package:weight_app/model/weight_model.dart';
+import 'package:weight_app/ui/widget/weight_chart.dart';
 import 'package:weight_app/ui/widget/chart_widget_from_7_days.dart';
 
 import '../../business_logic/view_model/chart_viewmodel.dart';
-import '../../model/weight.dart';
+import '../../model/hive/models/weight.dart';
 import '../widget/chart_widget_from_30_days.dart';
 import '../widget/chart_widget_from_90_days.dart';
 

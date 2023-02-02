@@ -1,8 +1,7 @@
 import 'dart:math';
 
+import 'package:weight_app/model/weight_model.dart';
 import 'package:weight_app/services/storage/storage_service.dart';
-
-import '../../model/weight.dart';
 
 class StorageServiceFake implements StorageService {
   List<Weight> fakeList = List.generate(
@@ -49,4 +48,9 @@ class StorageServiceFake implements StorageService {
             diffDays.millisecondsSinceEpoch)
         .toList();
   }
+
+  @override
+  Future<double> getMinWeightValue() async =>
+      fakeList.map((e) => e.value).reduce(min);
+
 }

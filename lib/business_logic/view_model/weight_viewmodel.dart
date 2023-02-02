@@ -2,15 +2,15 @@ import 'package:flutter/widgets.dart';
 import 'package:weight_app/business_logic/utils/utils.date_format.dart';
 import 'package:weight_app/service_locator.dart';
 import 'package:weight_app/services/storage/storage_service.dart';
-
-import '../../model/weight.dart';
+import '../../model/weight_model.dart';
 
 class WeightViewModel extends ChangeNotifier {
   final StorageService _storageService = serviceLocator<StorageService>();
 
   List<Weight> _weights = [];
+
   List<WeightPresentation> get weights {
-    return _preparePresentation(_weights);
+    return preparePresentation(_weights);
   }
 
   void loadData() async {
@@ -44,13 +44,24 @@ class WeightViewModel extends ChangeNotifier {
   }
 
   bool isWeightGrater(int index, int prevIndex){
+    print('weight_viewModel | $index | $prevIndex');
     if(index == 0){
       return false;
     }
     return _weights[index].value > _weights[prevIndex].value;
   }
 
-  List<WeightPresentation> _preparePresentation(List<Weight> list) {
+  Future<double> getMinWeightValue() async =>
+      await _storageService.getMinWeightValue();
+
+  // TODO IMPLEMENT WEIGHT VALUE GOAL
+  Future<double> getGoalWeightValue() async => 75.5;
+
+  double getLastWeightValue() =>
+      _weights.last.value;
+
+
+  List<WeightPresentation> preparePresentation(List<Weight> list) {
     List<WeightPresentation> weightPresentationList = [];
 
     list.sort((a, b) => a.dateEntry.compareTo(b.dateEntry));

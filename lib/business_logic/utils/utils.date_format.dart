@@ -2,10 +2,22 @@ import 'package:intl/intl.dart' as intl;
 
 class DateFormat {
 
+
+
+
  static String displayDate(DateTime dateTime) {
-    var outputFormat = intl.DateFormat('dd/MM/yyyy');
-    return outputFormat.format(dateTime);
+
+   if(dateTime.year == DateTime.now().year){
+      return intl.DateFormat('dd MMM').format(dateTime);
+   }
+
+    return intl.DateFormat('dd MMM yyyy').format(dateTime);
   }
+
+
+ static String ddMMMyyyy(DateTime dateTime) =>
+     intl.DateFormat('dd MMM yyyy').format(dateTime);
+
 
   static String displayDateXAxis(DateTime dateTimeToFormat, [DateTime? now]) {
 
@@ -20,5 +32,7 @@ class DateFormat {
    return intl.DateFormat('MMM yyyy').format(dateTimeToFormat);
 
   }
+
+
 
 }
