@@ -8,7 +8,6 @@ import 'package:weight_app/ui/views/update_page.dart';
 
 import '../../business_logic/utils/constants.dart';
 import '../widget/weight_item.dart';
-import 'add_weight_page.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
