@@ -2,9 +2,8 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:weight_app/model/weight.dart';
-
-import '../business_logic/utils/utils.date_format.dart';
+import '../../business_logic/utils/utils.date_format.dart';
+import '../../model/weight_model.dart';
 
 
 abstract class WeightChartWidget extends StatelessWidget{

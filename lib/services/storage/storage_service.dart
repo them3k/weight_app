@@ -1,4 +1,4 @@
-import '../../model/weight.dart';
+import 'package:weight_app/model/weight_model.dart';
 
 abstract class StorageService {
 
@@ -13,4 +13,6 @@ abstract class StorageService {
  Future<List<Weight>> getWeightsByDate();
 
  Future<List<Weight>> loadWeightFromDaysAgo(int days);
+
+ Future<double> getMinWeightValue();
 }

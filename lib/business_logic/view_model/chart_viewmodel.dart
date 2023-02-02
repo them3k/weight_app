@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:weight_app/service_locator.dart';
 import 'package:weight_app/services/storage/storage_service.dart';
-import '../../model/weight.dart';
+import '../../model/hive/models/weight.dart';
+import '../../model/weight_model.dart';
 import '../../ui/views/chart_page.dart';
 
 
