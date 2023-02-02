@@ -4,6 +4,7 @@ import 'package:weight_app/business_logic/view_model/weight_viewmodel.dart';
 import 'package:weight_app/colors.dart';
 import 'package:weight_app/service_locator.dart';
 import 'package:weight_app/ui/views/history_page.dart';
+import 'package:weight_app/ui/views/main_page.dart';
 
 class WeightApp extends StatefulWidget {
   WeightApp({Key? key}) : super(key: key);
@@ -28,7 +29,7 @@ class _WeightAppState extends State<WeightApp> {
       create: (context) => viewModel..loadData(),
         child: MaterialApp(
           theme: _themeData,
-            title: 'Weight App', home: HistoryPage()));
+            title: 'Weight App', home: MainPage()));
   }
 
   ThemeData _buildThemeData() {
