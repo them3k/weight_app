@@ -18,3 +18,4 @@ class MainPage extends StatelessWidget {
 
 }
 
+enum Page {home,history,settings}
