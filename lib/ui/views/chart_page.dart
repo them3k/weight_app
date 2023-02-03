@@ -89,8 +89,9 @@ class _ChartPageState extends State<ChartPage> {
                             ]),
                       ),
                       Container(
-                        padding: const EdgeInsets.only(left: 8,right: 0,bottom: 8,top: 16),
-                        height: 300,
+                        margin: const EdgeInsets.only(left: 16),
+
+                        height: 200,
                         child: _showChart(viewModel.period, viewModel.weights)
                       ),
                     ],

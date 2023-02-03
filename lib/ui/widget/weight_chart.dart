@@ -38,20 +38,21 @@ abstract class WeightChartWidget extends StatelessWidget {
           rightTitles: AxisTitles(
               sideTitles: SideTitles(
             interval: 1,
-            reservedSize: 62,
+            reservedSize: 48,
             showTitles: true,
             getTitlesWidget: rightTitleWidgets,
           )),
           topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
           bottomTitles: AxisTitles(
               sideTitles: SideTitles(
-            interval: 1,
+            interval: 2,
             showTitles: true,
             getTitlesWidget: (double value, TitleMeta meta) {
               return buildBottomTitleWidgets(value, meta, weights, now);
             },
           )),
-          leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false))),
+          leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)))
+      ,
       minY: countMinY(spots),
       maxY: countMaxY(spots),
       minX: countMinX(weights),
@@ -77,7 +78,9 @@ abstract class WeightChartWidget extends StatelessWidget {
   }
 
   Widget rightTitleWidgets(double value, TitleMeta meta) {
-    if (value == meta.min) return Container();
+
+    //if (value == meta.min) return Container();
+
     print('Weight_chart | RightTitle | $value');
     return Container(
         margin: const EdgeInsets.only(left: 8),
