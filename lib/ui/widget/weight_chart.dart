@@ -11,7 +11,7 @@ abstract class WeightChartWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context);
 
-  LineChartData showLineChartData(List<Weight> weights) {
+  LineChartData showLineChartData(List<Weight> weights, BuildContext context) {
     List<FlSpot> spots = convertToDaysFlSpot(weights);
     DateTime now = DateTime.now();
     spots.sort((a, b) => a.x.compareTo(b.x));

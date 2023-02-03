@@ -13,7 +13,7 @@ class WidgetChatWidgetFrom30days extends WeightChartWidget {
   @override
   Widget build(BuildContext context) {
     return LineChart(
-        showLineChartData(weights));
+        showLineChartData(weights,context));
   }
 
 }

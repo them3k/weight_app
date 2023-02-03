@@ -19,7 +19,7 @@ class WeightChartWidgetFrom90days extends WeightChartWidget {
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight
     ]);
-    return LineChart(showLineChartData(_weights));
+    return LineChart(showLineChartData(_weights,context));
   }
 
 }
