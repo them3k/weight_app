@@ -5,6 +5,8 @@ import 'package:weight_app/ui/views/history_page.dart';
 import 'package:weight_app/ui/views/home_page.dart';
 import 'package:weight_app/ui/views/settings_page.dart';
 
+import 'chart_page.dart';
+
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
 
@@ -20,7 +22,7 @@ class _MainPageState extends State<MainPage> {
     super.initState();
   }
 
-  List page = [const HomePage(), const HistoryPage(), const SettingsPage()];
+  List page = [const HomePage(), const HistoryPage(), const ChartPage()];
 
   @override
   Widget build(BuildContext context) {
