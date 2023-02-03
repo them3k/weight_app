@@ -24,6 +24,11 @@ abstract class WeightChartWidget extends StatelessWidget {
           border:
               Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.4)))),
       gridData: FlGridData(
+          getDrawingVerticalLine: (value) {
+            return FlLine(
+                color: Colors.grey.withOpacity(0.2),
+                strokeWidth: 1);
+          },
           show: true,
           drawVerticalLine: true,
           verticalInterval: 1,
@@ -56,13 +61,16 @@ abstract class WeightChartWidget extends StatelessWidget {
           belowBarData: BarAreaData(
               show: true,
               gradient: LinearGradient(
-                colors: [Colors.red, Colors.blueAccent]
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [Colors.white, Theme.of(context).colorScheme.primary]
                     .map((color) => color.withOpacity(0.3))
                     .toList(),
               )),
           spots: spots,
+          color: Theme.of(context).colorScheme.primary,
           isCurved: true,
-          barWidth: 4,
+          barWidth: 2,
         )
       ],
     );
@@ -100,11 +108,11 @@ abstract class WeightChartWidget extends StatelessWidget {
 
   Widget showXTitle(DateTime weightDateTime, DateTime now) {
     return Container(
-      margin: const EdgeInsets.only(top: 8),
+        margin: const EdgeInsets.only(top: 8),
         child: Text(
-      DateFormat.displayDateXAxis(weightDateTime, now),
-      style: TextStyle(color: Colors.grey, fontSize: 12),
-    ));
+          DateFormat.displayDateXAxis(weightDateTime, now),
+          style: TextStyle(color: Colors.grey, fontSize: 12),
+        ));
   }
 
   double countMinY(List<FlSpot> spots) {
