@@ -28,6 +28,7 @@ class _WeightAppState extends State<WeightApp> {
     return ChangeNotifierProvider(
       create: (context) => viewModel..loadData(),
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           theme: _themeData,
             title: 'Weight App', home: MainPage()));
   }
