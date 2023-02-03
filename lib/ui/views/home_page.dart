@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:weight_app/business_logic/view_model/chart_viewmodel.dart';
+
+import '../../model/weight_model.dart';
+import '../../service_locator.dart';
+import '../widget/chart_widget_from_7_days.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -9,7 +15,21 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+enum Periods { weekly, monthly, quarterly, semiAnnually }
+
+extension PeriodsExtension on Periods {
+  static const names = {
+    Periods.weekly: '7 days',
+    Periods.monthly: '30 days',
+    Periods.quarterly: '90 days',
+    Periods.semiAnnually: '180 days',
+  };
+
+  String? get name => names[this];
+}
+
 class _HomePageState extends State<HomePage> {
+
   final _weightValue = 79.9;
 
   final List<String> _choices = const ['Daily', 'Weekly', 'Monthly', 'Yearly'];
@@ -28,7 +48,9 @@ class _HomePageState extends State<HomePage> {
         children: [
           _buildCongratWidget(context),
           _buildCurrentWeightWidget(context),
-          _buildChipsRow(context)
+          _buildPeriodSegmentedButtons(),
+          _buildChartContainer(),
+          _buildAddWeightButton(),
         ],
       ),
     );
@@ -108,7 +130,7 @@ class _HomePageState extends State<HomePage> {
               height: 4,
             ),
             Text(
-              _weightValue.toString(),
+              '${_weightValue}kg',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 34),
             )
           ],
@@ -117,33 +139,85 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildChipsRow(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(4),
-      height: 50,
-      child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: _choices.length,
-          itemBuilder: (context, index) => _buildChoiceChip(index, context)),
-    );
-  }
+  Periods period = Periods.weekly;
 
-  Widget _buildChoiceChip(int index, BuildContext context) {
+  final List<Periods> _periods = const [
+    Periods.weekly,
+    Periods.monthly,
+    Periods.quarterly,
+    Periods.semiAnnually
+  ];
+
+  Widget _buildPeriodSegmentedButtons() {
+    TextStyle textStyle = TextStyle(fontSize: 11);
     return Container(
         padding: const EdgeInsets.only(left: 5, right: 5),
-        child: ChoiceChip(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          side: BorderSide.none,
-          label: Text(_choices[index]),
-          selected: _choiceIndex == index,
-          selectedColor: Theme.of(context).colorScheme.primaryContainer,
-          backgroundColor: Colors.grey.withOpacity(0.4),
-          onSelected: (isSelected) {
+        child: SegmentedButton<Periods>(
+          segments: [
+            ..._periods.map((e) => ButtonSegment(
+                value: e,
+                label: Text(
+                  '${e.name}',
+                  style: textStyle,
+                )))
+          ],
+          selected: <Periods>{period},
+          onSelectionChanged: (Set<Periods> newSelection) {
             setState(() {
-              _choiceIndex = isSelected ? index : 0;
+              period = newSelection.first;
             });
           },
         ));
+  }
+
+  Widget _buildChartContainer() {
+    return Consumer<ChartViewModel>(
+        builder: (context, viewModel, child) => viewModel.weights.isEmpty
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Center(child: Text('Add weight to display chart')),
+                  ),
+                  Icon(
+                    Icons.add_chart,
+                    size: 44,
+                  )
+                ],
+              )
+            : Container(
+                margin: const EdgeInsets.only(top: 16),
+                height: 200,
+                child: _showChart(period, viewModel.weights)));
+  }
+
+  Widget _showChart(Periods period, List<Weight> weights) {
+    switch (period) {
+      case Periods.weekly:
+        return WeightChartWidgetFrom7days(weights);
+      case Periods.monthly:
+        return WeightChartWidgetFrom7days(weights);
+      case Periods.quarterly:
+        return WeightChartWidgetFrom7days(weights);
+      case Periods.semiAnnually:
+        return WeightChartWidgetFrom7days(weights);
+      default:
+        return Text('Unsupported period $period');
+    }
+  }
+
+  Widget _buildAddWeightButton(){
+    return Container(
+      margin: const EdgeInsets.only(left: 16,right: 16, top: 16),
+      height: 50,
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: () {
+
+        },
+        child: Text('Add Weight'),
+      ),
+    );
   }
 }

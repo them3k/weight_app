@@ -19,7 +19,7 @@ class WeightChartWidgetFrom7days extends WeightChartWidget {
       double value, TitleMeta meta, List<Weight> weights, DateTime now) {
     if (meta.min == value) {
       return Container(
-        margin: const EdgeInsets.only(left: 10),
+        margin: const EdgeInsets.only(left: 40),
         child: showXTitle(weights[value.toInt()].dateEntry, now),
       );
     }

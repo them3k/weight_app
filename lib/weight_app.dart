@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weight_app/business_logic/view_model/chart_viewmodel.dart';
 import 'package:weight_app/business_logic/view_model/weight_viewmodel.dart';
 import 'package:weight_app/colors.dart';
 import 'package:weight_app/service_locator.dart';
@@ -14,7 +15,8 @@ class WeightApp extends StatefulWidget {
 }
 
 class _WeightAppState extends State<WeightApp> {
-  final WeightViewModel viewModel = serviceLocator<WeightViewModel>();
+  final WeightViewModel _weightViewModel = serviceLocator<WeightViewModel>();
+  final ChartViewModel _chartViewModel = serviceLocator<ChartViewModel>();
   late ThemeData _themeData = _buildThemeData();
 
   @override
@@ -25,12 +27,19 @@ class _WeightAppState extends State<WeightApp> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => viewModel..loadData(),
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => _weightViewModel..loadData(),
+          ),
+          ChangeNotifierProvider(
+              create: (context) => _chartViewModel..loadData())
+        ],
         child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: _themeData,
-            title: 'Weight App', home: MainPage()));
+            debugShowCheckedModeBanner: false,
+            theme: _themeData,
+            title: 'Weight App',
+            home: MainPage()));
   }
 
   ThemeData _buildThemeData() {
@@ -40,5 +49,4 @@ class _WeightAppState extends State<WeightApp> {
       colorScheme: lightColorScheme,
     );
   }
-
 }
