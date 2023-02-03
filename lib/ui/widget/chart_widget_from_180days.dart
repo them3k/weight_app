@@ -14,7 +14,7 @@ class WeightChartWidgetFrom90days extends WeightChartWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LineChart(showLineChartData(weights));
+    return LineChart(showLineChartData(weights,context));
   }
 
   @override
