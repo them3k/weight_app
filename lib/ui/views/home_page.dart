@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weight_app/business_logic/view_model/chart_viewmodel.dart';
+import 'package:weight_app/business_logic/view_model/weight_viewmodel.dart';
 import 'package:weight_app/ui/widget/chart_widget_from_30_days.dart';
 
 import '../../model/weight_model.dart';
@@ -30,9 +31,6 @@ extension PeriodsExtension on Periods {
 }
 
 class _HomePageState extends State<HomePage> {
-
-  final _weightValue = 79.9;
-
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -128,9 +126,9 @@ class _HomePageState extends State<HomePage> {
               height: 4,
             ),
             Text(
-              '${_weightValue}kg',
+              '${context.read<WeightViewModel>().getLastWeightValue()}kg',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 34),
-            )
+            ),
           ],
         ),
       ),
@@ -186,7 +184,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               )
             : Container(
-                margin: const EdgeInsets.only(top: 16,left: 16),
+                margin: const EdgeInsets.only(top: 16, left: 16),
                 height: 200,
                 child: _showChart(_period, viewModel.weights)));
   }
@@ -206,13 +204,13 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Widget _buildAddWeightButton(BuildContext context){
+  Widget _buildAddWeightButton(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 16,right: 16, top: 16),
+      margin: const EdgeInsets.only(left: 16, right: 16, top: 16),
       height: 50,
       width: double.infinity,
       child: ElevatedButton(
-        onPressed:() => navigateToAddPage(context),
+        onPressed: () => navigateToAddPage(context),
         child: Text('Add Weight'),
       ),
     );

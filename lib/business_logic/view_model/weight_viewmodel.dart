@@ -54,8 +54,9 @@ class WeightViewModel extends ChangeNotifier {
     return _weights[index].value > _weights[prevIndex].value;
   }
 
-  Future<double> getMinWeightValue() async =>
-      await _storageService.getMinWeightValue();
+  Future<double> getMinWeightValue() {
+    return _storageService.getMinWeightValue();
+  }
 
   // TODO IMPLEMENT WEIGHT VALUE GOAL
   Future<double> getGoalWeightValue() async => 75.5;
