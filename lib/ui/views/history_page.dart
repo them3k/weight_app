@@ -51,12 +51,6 @@ class _HistoryPageState extends State<HistoryPage> {
           });
     });
   }
-
-  void navigateToAddPage(BuildContext context, int index) {
-    Navigator.of(context)
-        .push(MaterialPageRoute<AddPage>(builder: (_) => const AddPage()));
-  }
-
   void navigateToUpdatePage(Weight item, int index) {
     Navigator.of(context).push(MaterialPageRoute<UpdatePage>(
         builder: (_) => UpdatePage(item: item, index: index)));

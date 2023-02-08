@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 
 import 'package:weight_app/service_locator.dart';
 import 'package:weight_app/services/storage/storage_service.dart';
-import '../../model/hive/models/weight.dart';
 import '../../model/weight_model.dart';
 import '../../ui/views/chart_page.dart';
+import '../../ui/views/home_page.dart';
 
 
 class ChartViewModel extends ChangeNotifier {
-  static const int SIX_MONTHS_IN_DAYS = 180;
-  static const int THREE_MONTHS_IN_DAYS = 90;
-  static const int THIRTY_DAYS = 30;
-  static const int SEVEN_DAYS = 7;
+
+  static const int WEEKLY = 7 ;
+  static const int MONTHLY = 30 ;
+  static const int QUATERLY = 90 ;
+  static const int SEMI_ANNUALLY = 180 ;
+
 
   final StorageService _storageService = serviceLocator<StorageService>();
 
@@ -19,14 +21,14 @@ class ChartViewModel extends ChangeNotifier {
 
   List<Weight> get weights => _weights;
 
-  Period get period => _period;
+  Periods get period => _period;
 
-  Period _period = Period.days7;
+  Periods _period = Periods.weekly;
 
   bool isPeriodPickerSelected(Period selectedPeriod) =>
       _period == selectedPeriod;
 
-  void togglePeriod(Period selectedPeriod) {
+  void togglePeriod(Periods selectedPeriod) {
     if (_period == selectedPeriod) {
       return;
     }
@@ -36,13 +38,13 @@ class ChartViewModel extends ChangeNotifier {
 
   Future<List<Weight>> loadDataBasedOnPeriod() async {
     switch (_period) {
-      case Period.days180:
+      case Periods.semiAnnually:
         return loadDataWeightFrom180daysAgo();
-      case Period.days90:
+      case Periods.quarterly:
         return loadDataWeightFrom90daysAgo();
-      case Period.days30:
+      case Periods.monthly:
         return loadDataWeightFrom30daysAgo();
-      case Period.days7:
+      case Periods.weekly:
         return loadDataWeightFrom7daysAgo();
       default:
         return [];
@@ -72,19 +74,19 @@ class ChartViewModel extends ChangeNotifier {
   }
 
   Future<List<Weight>> loadDataWeightFrom180daysAgo() async {
-    return _storageService.loadWeightFromDaysAgo(SIX_MONTHS_IN_DAYS);
+    return _storageService.loadWeightFromDaysAgo(SEMI_ANNUALLY);
   }
 
   Future<List<Weight>> loadDataWeightFrom90daysAgo() async {
-    return _storageService.loadWeightFromDaysAgo(THREE_MONTHS_IN_DAYS);
+    return _storageService.loadWeightFromDaysAgo(QUATERLY);
   }
 
   Future<List<Weight>> loadDataWeightFrom30daysAgo() async {
-    return _storageService.loadWeightFromDaysAgo(THIRTY_DAYS);
+    return _storageService.loadWeightFromDaysAgo(MONTHLY);
   }
 
   Future<List<Weight>> loadDataWeightFrom7daysAgo() async {
-    return _storageService.loadWeightFromDaysAgo(SEVEN_DAYS);
+    return _storageService.loadWeightFromDaysAgo(WEEKLY);
   }
 
 

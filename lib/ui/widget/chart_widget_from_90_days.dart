@@ -11,14 +11,10 @@ class WeightChartWidgetFrom90days extends WeightChartWidget {
   final List<Weight> _weights;
 
 
-  const WeightChartWidgetFrom90days(this._weights, {super.key});
+  WeightChartWidgetFrom90days(this._weights, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight
-    ]);
     return LineChart(showLineChartData(_weights,context));
   }
 

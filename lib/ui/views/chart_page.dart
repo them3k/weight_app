@@ -11,6 +11,7 @@ import '../../business_logic/view_model/chart_viewmodel.dart';
 import '../../model/hive/models/weight.dart';
 import '../widget/chart_widget_from_30_days.dart';
 import '../widget/chart_widget_from_90_days.dart';
+import 'home_page.dart';
 
 enum Period { days180, days90, days30, days7 }
 
@@ -57,7 +58,7 @@ class _ChartPageState extends State<ChartPage> {
                               periodPicker(
                                   text: '6 months',
                                   togglePeriod: () =>
-                                      viewModel.togglePeriod(Period.days180),
+                                      viewModel.togglePeriod(Periods.semiAnnually),
                                   isPeriodPickerSelected: viewModel
                                       .isPeriodPickerSelected(Period.days180),
                                   borderRadius: const BorderRadius.only(
@@ -66,21 +67,21 @@ class _ChartPageState extends State<ChartPage> {
                               periodPicker(
                                 text: '3 months',
                                 togglePeriod: () =>
-                                    viewModel.togglePeriod(Period.days90),
+                                    viewModel.togglePeriod(Periods.quarterly),
                                 isPeriodPickerSelected: viewModel
                                     .isPeriodPickerSelected(Period.days90),
                               ),
                               periodPicker(
                                 text: '30 days',
                                 togglePeriod: () =>
-                                    viewModel.togglePeriod(Period.days30),
+                                    viewModel.togglePeriod(Periods.monthly),
                                 isPeriodPickerSelected: viewModel
                                     .isPeriodPickerSelected(Period.days30),
                               ),
                               periodPicker(
                                   text: '7 days',
                                   togglePeriod: () =>
-                                      viewModel.togglePeriod(Period.days7),
+                                      viewModel.togglePeriod(Periods.weekly),
                                   isPeriodPickerSelected: viewModel
                                       .isPeriodPickerSelected(Period.days7),
                                   borderRadius: const BorderRadius.only(
@@ -101,15 +102,15 @@ class _ChartPageState extends State<ChartPage> {
     );
   }
 
-  WeightChartWidget _showChart(Period period, List<Weight> weights) {
+  WeightChartWidget _showChart(Periods period, List<Weight> weights) {
     switch (period) {
-      case Period.days180:
+      case Periods.semiAnnually:
         return WeightChartWidgetFrom90days(weights);
-      case Period.days90:
+      case Periods.quarterly:
         return WeightChartWidgetFrom90days(weights);
-      case Period.days30:
-        return WidgetChatWidgetFrom30days(weights);
-      case Period.days7:
+      case Periods.monthly:
+        return WeightChartWidgetFrom30days(weights);
+      case Periods.weekly:
         return WeightChartWidgetFrom7days(weights);
       default:
         return WeightChartWidgetFrom7days(weights);

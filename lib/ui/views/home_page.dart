@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weight_app/business_logic/view_model/chart_viewmodel.dart';
+import 'package:weight_app/ui/widget/chart_widget_from_30_days.dart';
 
 import '../../model/weight_model.dart';
-import '../../service_locator.dart';
 import '../widget/chart_widget_from_7_days.dart';
+import 'add_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -32,9 +33,6 @@ class _HomePageState extends State<HomePage> {
 
   final _weightValue = 79.9;
 
-  final List<String> _choices = const ['Daily', 'Weekly', 'Monthly', 'Yearly'];
-  int _choiceIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -50,7 +48,7 @@ class _HomePageState extends State<HomePage> {
           _buildCurrentWeightWidget(context),
           _buildPeriodSegmentedButtons(),
           _buildChartContainer(),
-          _buildAddWeightButton(),
+          _buildAddWeightButton(context),
         ],
       ),
     );
@@ -139,7 +137,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Periods period = Periods.weekly;
+  Periods _period = Periods.weekly;
 
   final List<Periods> _periods = const [
     Periods.weekly,
@@ -161,10 +159,11 @@ class _HomePageState extends State<HomePage> {
                   style: textStyle,
                 )))
           ],
-          selected: <Periods>{period},
+          selected: <Periods>{_period},
           onSelectionChanged: (Set<Periods> newSelection) {
             setState(() {
-              period = newSelection.first;
+              _period = newSelection.first;
+              context.read<ChartViewModel>().togglePeriod(_period);
             });
           },
         ));
@@ -187,9 +186,9 @@ class _HomePageState extends State<HomePage> {
                 ],
               )
             : Container(
-                margin: const EdgeInsets.only(top: 16),
+                margin: const EdgeInsets.only(top: 16,left: 16),
                 height: 200,
-                child: _showChart(period, viewModel.weights)));
+                child: _showChart(_period, viewModel.weights)));
   }
 
   Widget _showChart(Periods period, List<Weight> weights) {
@@ -197,7 +196,7 @@ class _HomePageState extends State<HomePage> {
       case Periods.weekly:
         return WeightChartWidgetFrom7days(weights);
       case Periods.monthly:
-        return WeightChartWidgetFrom7days(weights);
+        return WeightChartWidgetFrom30days(weights);
       case Periods.quarterly:
         return WeightChartWidgetFrom7days(weights);
       case Periods.semiAnnually:
@@ -207,17 +206,20 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Widget _buildAddWeightButton(){
+  Widget _buildAddWeightButton(BuildContext context){
     return Container(
       margin: const EdgeInsets.only(left: 16,right: 16, top: 16),
       height: 50,
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () {
-
-        },
+        onPressed:() => navigateToAddPage(context),
         child: Text('Add Weight'),
       ),
     );
+  }
+
+  void navigateToAddPage(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute<AddPage>(builder: (_) => const AddPage()));
   }
 }

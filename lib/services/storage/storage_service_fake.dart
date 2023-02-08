@@ -4,10 +4,12 @@ import 'package:weight_app/model/weight_model.dart';
 import 'package:weight_app/services/storage/storage_service.dart';
 
 class StorageServiceFake implements StorageService {
+
+
   List<Weight> fakeList = List.generate(
-      200,
+      180,
       (index) => Weight(
-          value: (index / 10) +  60 + Random().nextInt(2) - 1,
+          value: (index / 10) +  60 + Random().nextInt(20) + 16,
           dateEntry: DateTime.now().subtract(Duration(days: index))));
 
   @override
@@ -52,5 +54,14 @@ class StorageServiceFake implements StorageService {
   @override
   Future<double> getMinWeightValue() async =>
       fakeList.map((e) => e.value).reduce(min);
+
+
+  Future<List<Weight>> weeklyFakeList(int length) async {
+    return List.generate(
+        length,
+            (index) => Weight(
+            value: (index / 10) +  60 + Random().nextInt(2) - 1,
+            dateEntry: DateTime.now().subtract(Duration(days: index))));
+  }
 
 }

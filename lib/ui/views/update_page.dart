@@ -17,8 +17,8 @@ class UpdatePage extends StatefulWidget {
 }
 
 class _UpdatePageState extends State<UpdatePage> {
-  late DateTime _date;
-  late TextEditingController _weightController;
+  DateTime _date = DateTime.now();
+  final TextEditingController _weightController = TextEditingController();
   late double _weightValue;
   late double _goal = 75.0;
   late double _minimum = 0;
@@ -36,7 +36,7 @@ class _UpdatePageState extends State<UpdatePage> {
     var goal = await _viewModel.getGoalWeightValue();
     var minimum = await _viewModel.getMinWeightValue();
     _weightValue = widget.item.value;
-    _weightController = TextEditingController(text: _weightValue.toString());
+    _weightController.text = _weightValue.toString();
     _date = widget.item.dateEntry;
     setState(() {
       _minimum = minimum;
