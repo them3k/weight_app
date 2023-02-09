@@ -11,7 +11,7 @@ import '../../business_logic/view_model/chart_viewmodel.dart';
 import '../../model/hive/models/weight.dart';
 import '../widget/chart_widget_from_30_days.dart';
 import '../widget/chart_widget_from_90_days.dart';
-import 'home_page.dart';
+import 'home/home_page.dart';
 
 enum Period { days180, days90, days30, days7 }
 

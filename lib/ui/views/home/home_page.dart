@@ -4,9 +4,9 @@ import 'package:weight_app/business_logic/view_model/chart_viewmodel.dart';
 import 'package:weight_app/business_logic/view_model/weight_viewmodel.dart';
 import 'package:weight_app/ui/widget/chart_widget_from_30_days.dart';
 
-import '../../model/weight_model.dart';
-import '../widget/chart_widget_from_7_days.dart';
-import 'add_page.dart';
+import '../../../model/weight_model.dart';
+import '../../widget/chart_widget_from_7_days.dart';
+import '../add_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

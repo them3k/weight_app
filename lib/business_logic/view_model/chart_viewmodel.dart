@@ -4,7 +4,7 @@ import 'package:weight_app/service_locator.dart';
 import 'package:weight_app/services/storage/storage_service.dart';
 import '../../model/weight_model.dart';
 import '../../ui/views/chart_page.dart';
-import '../../ui/views/home_page.dart';
+import '../../ui/views/home/home_page.dart';
 
 
 class ChartViewModel extends ChangeNotifier {
