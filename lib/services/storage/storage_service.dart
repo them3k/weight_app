@@ -15,4 +15,6 @@ abstract class StorageService {
  Future<List<Weight>> loadWeightFromDaysAgo(int days);
 
  Future<double> getMinWeightValue();
+
+ Future<double> getLastWeightValue();
 }

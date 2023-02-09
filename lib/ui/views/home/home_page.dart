@@ -73,7 +73,8 @@ class _HomePageState extends State<HomePage> {
               height: 4,
             ),
             Text(
-              '${context.read<WeightViewModel>().getLastWeightValue()}kg',
+              '64kg',
+            //  '${context.read<WeightViewModel>().getLastWeightValue()}kg',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 34),
             ),
           ],

@@ -74,15 +74,15 @@ class WeightViewModel extends ChangeNotifier {
     return _storageService.getMinWeightValue();
   }
 
-  double getLastWeightValue() =>
-      _weights.last.value;
+  Future<double> getLastWeightValue() =>
+      _storageService.getLastWeightValue();
 
   Future<double> countGainWeightFromLastWeek() async {
 
     List<Weight> lastWeekWeights = await _storageService.loadWeightFromDaysAgo(ChartViewModel.WEEKLY);
     double avg = lastWeekWeights.map((e) => e.value).reduce((a, b) => a + b) / lastWeekWeights.length;
 
-    return getLastWeightValue() - avg;
+    return  await getLastWeightValue() - avg;
 
   }
 

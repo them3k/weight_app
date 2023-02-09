@@ -64,4 +64,9 @@ class StorageServiceFake implements StorageService {
             dateEntry: DateTime.now().subtract(Duration(days: index))));
   }
 
+  @override
+  Future<double> getLastWeightValue() async =>
+      fakeList.last.value;
+
+
 }
