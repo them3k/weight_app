@@ -9,6 +9,7 @@ import 'package:weight_app/ui/widget/chart_widget_from_7_days.dart';
 
 import '../../business_logic/view_model/chart_viewmodel.dart';
 import '../../model/hive/models/weight.dart';
+import '../../model/periods.dart';
 import '../widget/chart_widget_from_30_days.dart';
 import '../widget/chart_widget_from_90_days.dart';
 import 'home/home_page.dart';

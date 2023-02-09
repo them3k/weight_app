@@ -6,6 +6,7 @@ import 'package:weight_app/ui/views/home/widgets/congrat_widget.dart';
 import 'package:weight_app/ui/views/home/widgets/current_weight_widget.dart';
 import 'package:weight_app/ui/widget/chart_widget_from_30_days.dart';
 
+import '../../../model/periods.dart';
 import '../../../model/weight_model.dart';
 import '../../widget/chart_widget_from_7_days.dart';
 import '../add_page.dart';
@@ -18,20 +19,10 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-enum Periods { weekly, monthly, quarterly, semiAnnually }
-
-extension PeriodsExtension on Periods {
-  static const names = {
-    Periods.weekly: '7 days',
-    Periods.monthly: '30 days',
-    Periods.quarterly: '90 days',
-    Periods.semiAnnually: '180 days',
-  };
-
-  String? get name => names[this];
-}
-
 class _HomePageState extends State<HomePage> {
+
+  Periods _period = Periods.weekly;
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -53,24 +44,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
-
-  Periods _period = Periods.weekly;
-
-  final List<Periods> _periods = const [
-    Periods.weekly,
-    Periods.monthly,
-    Periods.quarterly,
-    Periods.semiAnnually
-  ];
-
   Widget _buildPeriodSegmentedButtons() {
     TextStyle textStyle = TextStyle(fontSize: 11);
     return Container(
         padding: const EdgeInsets.only(left: 5, right: 5),
         child: SegmentedButton<Periods>(
           segments: [
-            ..._periods.map((e) => ButtonSegment(
+            ...periods.map((e) => ButtonSegment(
                 value: e,
                 label: Text(
                   '${e.name}',

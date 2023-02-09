@@ -5,5 +5,9 @@ class Constants {
 
   static final double BALLONS_IMAGE_WIDTH = 100;
 
-  static const int DAILY = 0;
+  static const int WEEKLY = 7 ;
+  static const int MONTHLY = 30 ;
+  static const int QUATERLY = 90 ;
+  static const int SEMI_ANNUALLY = 180 ;
+
 }

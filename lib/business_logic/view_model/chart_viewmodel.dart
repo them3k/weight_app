@@ -2,18 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:weight_app/service_locator.dart';
 import 'package:weight_app/services/storage/storage_service.dart';
+import '../../model/periods.dart';
 import '../../model/weight_model.dart';
 import '../../ui/views/chart_page.dart';
-import '../../ui/views/home/home_page.dart';
+import '../utils/constants.dart';
 
 
 class ChartViewModel extends ChangeNotifier {
-
-  static const int WEEKLY = 7 ;
-  static const int MONTHLY = 30 ;
-  static const int QUATERLY = 90 ;
-  static const int SEMI_ANNUALLY = 180 ;
-
 
   final StorageService _storageService = serviceLocator<StorageService>();
 
@@ -74,19 +69,19 @@ class ChartViewModel extends ChangeNotifier {
   }
 
   Future<List<Weight>> loadDataWeightFrom180daysAgo() async {
-    return _storageService.loadWeightFromDaysAgo(SEMI_ANNUALLY);
+    return _storageService.loadWeightFromDaysAgo(Constants.SEMI_ANNUALLY);
   }
 
   Future<List<Weight>> loadDataWeightFrom90daysAgo() async {
-    return _storageService.loadWeightFromDaysAgo(QUATERLY);
+    return _storageService.loadWeightFromDaysAgo(Constants.QUATERLY);
   }
 
   Future<List<Weight>> loadDataWeightFrom30daysAgo() async {
-    return _storageService.loadWeightFromDaysAgo(MONTHLY);
+    return _storageService.loadWeightFromDaysAgo(Constants.MONTHLY);
   }
 
   Future<List<Weight>> loadDataWeightFrom7daysAgo() async {
-    return _storageService.loadWeightFromDaysAgo(WEEKLY);
+    return _storageService.loadWeightFromDaysAgo(Constants.WEEKLY);
   }
 
 
