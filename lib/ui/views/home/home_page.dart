@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weight_app/business_logic/view_model/chart_viewmodel.dart';
 import 'package:weight_app/business_logic/view_model/weight_viewmodel.dart';
+import 'package:weight_app/ui/views/home/widgets/congrat_widget.dart';
 import 'package:weight_app/ui/widget/chart_widget_from_30_days.dart';
 
 import '../../../model/weight_model.dart';
@@ -11,7 +12,6 @@ import '../add_page.dart';
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  static final double BALLONS_IMAGE_WIDTH = 100;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
           appBarMaxHeight,
       child: Column(
         children: [
-          _buildCongratWidget(context),
+          const CongratsWidget(),
           _buildCurrentWeightWidget(context),
           _buildPeriodSegmentedButtons(),
           _buildChartContainer(),
@@ -52,66 +52,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildCongratWidget(BuildContext context) {
-    return Stack(
-      alignment: Alignment.bottomLeft,
-      children: [
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 10),
-          height: 100,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: [
-                  Theme.of(context).colorScheme.surface,
-                  Theme.of(context).colorScheme.primary.withOpacity(0.7),
-                ]),
-            borderRadius: const BorderRadius.all(Radius.circular(20)),
-          ),
-          child: Row(
-            children: [
-              SizedBox(
-                width: HomePage.BALLONS_IMAGE_WIDTH,
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Congrats!',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  FutureBuilder(
-                    future: context.read<WeightViewModel>().countGainWeightFromLastWeek(),
-                    builder: (context, snapshot) {
-                      if(snapshot.data != null) {
-                        return _buildWeightProgressText(snapshot.data!);
-                      }else {
-                        return const CircularProgressIndicator();
-                      }
-                    }
-                  )
-                ],
-              ),
-            ],
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.only(left: 10),
-          child: Image.asset(
-            'lib/assets/images/ballons.png',
-            width: HomePage.BALLONS_IMAGE_WIDTH,
-            height: 120,
-          ),
-        ),
-      ],
-    );
-  }
+
 
   Widget _buildCurrentWeightWidget(BuildContext context) {
     return Padding(
@@ -227,18 +168,5 @@ class _HomePageState extends State<HomePage> {
         .push(MaterialPageRoute<AddPage>(builder: (_) => const AddPage()));
   }
 
-  Widget _buildWeightProgressText(double progressValue) {
-    String text = '';
 
-    if(progressValue > 0){
-      text = 'You gain ${progressValue.toStringAsFixed(2)} kg in last week';
-    }else {
-      text = 'You lost ${progressValue.abs().toStringAsFixed(2)} kg in last week';
-    }
-
-    return Text(
-      text,
-      style: TextStyle(fontSize: 14),
-    );
-  }
 }

@@ -12,8 +12,11 @@ class WeightViewModel extends ChangeNotifier {
   List<int> _selectedIndexes = [];
   late bool isItemsSelected = false;
   double _goal = 0;
+  double _gainWeightFromLastWeek = 0;
 
   double get goal => _goal;
+
+  double get gainWeightFromLastWeek => _gainWeightFromLastWeek;
 
   void updateGoal(double value) {
     if(value == _goal){
@@ -29,6 +32,7 @@ class WeightViewModel extends ChangeNotifier {
 
   void loadData() async {
     _weights = await _storageService.getWeightData();
+    _gainWeightFromLastWeek = await countGainWeightFromLastWeek();
     notifyListeners();
     print('ViewModel: $hashCode');
   }
