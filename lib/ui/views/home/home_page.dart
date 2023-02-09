@@ -4,6 +4,7 @@ import 'package:weight_app/business_logic/view_model/chart_viewmodel.dart';
 import 'package:weight_app/business_logic/view_model/weight_viewmodel.dart';
 import 'package:weight_app/ui/views/home/widgets/congrat_widget.dart';
 import 'package:weight_app/ui/views/home/widgets/current_weight_widget.dart';
+import 'package:weight_app/ui/views/home/widgets/perdiod_segmented_buttons_widget.dart';
 import 'package:weight_app/ui/widget/chart_widget_from_30_days.dart';
 
 import '../../../model/periods.dart';
@@ -21,7 +22,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  Periods _period = Periods.weekly;
 
   @override
   Widget build(BuildContext context) {
@@ -36,73 +36,16 @@ class _HomePageState extends State<HomePage> {
         children: [
           const CongratsWidget(),
           const CurrentWeightWidget(),
-          _buildPeriodSegmentedButtons(),
-          _buildChartContainer(),
+          const PeriodSegmentedButtonWidget(),
+          const ChartContainer(),
           _buildAddWeightButton(context),
         ],
       ),
     );
   }
 
-  Widget _buildPeriodSegmentedButtons() {
-    TextStyle textStyle = TextStyle(fontSize: 11);
-    return Container(
-        padding: const EdgeInsets.only(left: 5, right: 5),
-        child: SegmentedButton<Periods>(
-          segments: [
-            ...periods.map((e) => ButtonSegment(
-                value: e,
-                label: Text(
-                  '${e.name}',
-                  style: textStyle,
-                )))
-          ],
-          selected: <Periods>{_period},
-          onSelectionChanged: (Set<Periods> newSelection) {
-            setState(() {
-              _period = newSelection.first;
-              context.read<ChartViewModel>().togglePeriod(_period);
-            });
-          },
-        ));
-  }
 
-  Widget _buildChartContainer() {
-    return Consumer<ChartViewModel>(
-        builder: (context, viewModel, child) => viewModel.weights.isEmpty
-            ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Center(child: Text('Add weight to display chart')),
-                  ),
-                  Icon(
-                    Icons.add_chart,
-                    size: 44,
-                  )
-                ],
-              )
-            : Container(
-                margin: const EdgeInsets.only(top: 16, left: 16),
-                height: 200,
-                child: _showChart(_period, viewModel.weights)));
-  }
 
-  Widget _showChart(Periods period, List<Weight> weights) {
-    switch (period) {
-      case Periods.weekly:
-        return WeightChartWidgetFrom7days(weights);
-      case Periods.monthly:
-        return WeightChartWidgetFrom30days(weights);
-      case Periods.quarterly:
-        return WeightChartWidgetFrom7days(weights);
-      case Periods.semiAnnually:
-        return WeightChartWidgetFrom7days(weights);
-      default:
-        return Text('Unsupported period $period');
-    }
-  }
 
   Widget _buildAddWeightButton(BuildContext context) {
     return Container(
