@@ -26,7 +26,7 @@ class DateFormat {
    }
 
     if(dateTimeToFormat.year == now.year){
-      return intl.DateFormat('dd MMM').format(dateTimeToFormat).toUpperCase();
+      return intl.DateFormat('dd MMM').format(dateTimeToFormat);
     }
 
    return intl.DateFormat('MMM yyyy').format(dateTimeToFormat);

@@ -5,121 +5,210 @@ import 'package:flutter/material.dart';
 import '../../business_logic/utils/utils.date_format.dart';
 import '../../model/weight_model.dart';
 
-
-abstract class WeightChartWidget extends StatelessWidget{
-
-  const WeightChartWidget({super.key});
+abstract class WeightChartWidget extends StatelessWidget {
+  WeightChartWidget({super.key});
 
   @override
   Widget build(BuildContext context);
 
-  LineChartData showLineChartData(List<Weight> weights) {
+  LineChartData showLineChartData(List<Weight> weights, BuildContext context) {
     List<FlSpot> spots = convertToDaysFlSpot(weights);
+    double diff = countDiff(spots);
+    double interval = countRightTitleInterval(diff.toInt());
     DateTime now = DateTime.now();
-    spots.sort((a,b) => a.x.compareTo(b.x));
-    print('weight_chart | showLineChartData | weight.len: ${weights.length} | spots.len: ${spots.length}');
-    print('weight_chart | showLineChartData | spots: ${spots}');
-    print('0.3: ${(weights.length * 0.3).floorToDouble()}');
+    spots.sort((a, b) => a.x.compareTo(b.x));
     return LineChartData(
       borderData: FlBorderData(
-          border: const Border(bottom: BorderSide(), left: BorderSide())),
+          border:
+              Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.4)))),
       gridData: FlGridData(
-          show: true, drawVerticalLine: true, horizontalInterval: 1,),
+          getDrawingVerticalLine: (value) {
+            return FlLine(color: Colors.grey.withOpacity(0.2), strokeWidth: 1);
+          },
+          show: true,
+          drawVerticalLine: true,
+          verticalInterval: 1,
+          drawHorizontalLine: false),
       titlesData: FlTitlesData(
           show: true,
-          rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          rightTitles: AxisTitles(
+              sideTitles: SideTitles(
+            interval: countRightTitleInterval(diff.toInt()),
+            reservedSize: 48,
+            showTitles: true,
+            getTitlesWidget: buildRightTitleWidgets,
+          )),
           topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
           bottomTitles: AxisTitles(
               sideTitles: SideTitles(
-                interval: 1,
-                  showTitles: true,
-                  getTitlesWidget: (double value, TitleMeta meta) {
-                    return buildBottomTitleWidgets(value, meta, weights,now);
-                  },
-              )),
-          leftTitles: AxisTitles(
-              sideTitles: SideTitles(
-                  reservedSize: 28,
-                  showTitles: true,
-                  getTitlesWidget: leftTitleWidgets,
-              ))),
-      minY: countMinY(spots),
-      maxY: countMaxY(spots),
+            interval: countBottomTitleInterval(weights.length),
+            showTitles: true,
+            getTitlesWidget: (double value, TitleMeta meta) {
+              return buildBottomTitleWidgets(value, meta, weights, now);
+            },
+          )),
+          leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false))),
+      minY: countMinY(getMinWeightValue(spots), interval),
+      maxY: countMaxY(getMaxWeightValue(spots), interval),
       minX: countMinX(weights),
       maxX: countMaxX(weights),
       lineBarsData: [
         LineChartBarData(
-          spots: spots,
-          isCurved: true,
-          barWidth: 4,
-        )
+            belowBarData: BarAreaData(
+                show: true,
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [Colors.white, Theme.of(context).colorScheme.primary]
+                      .map((color) => color.withOpacity(0.3))
+                      .toList(),
+                )),
+            spots: spots,
+            color: Theme.of(context).colorScheme.primary,
+            isCurved: true,
+            barWidth: 0.3,
+            dotData: FlDotData(show: false))
       ],
     );
   }
 
-  Widget leftTitleWidgets(double value, TitleMeta meta){
-
-    if (value == meta.min) return Container();
-
-    return Text(value.toInt().toString());
+  Widget buildRightTitleWidgets(double value, TitleMeta meta) {
+    return Container(
+        margin: const EdgeInsets.only(left: 8),
+        child: Text(
+          '${value.toInt()} kg',
+          style: TextStyle(color: Colors.grey, fontSize: 12),
+        ));
   }
 
-  Widget buildBottomTitleWidgets(double value, TitleMeta meta, List<Weight> weights,DateTime now) {
-
-    print('Weight_Chart | buildBottomTitle | $value');
-    Widget xTitleWidget;
-
-    if (value == meta.min) {
-      xTitleWidget = showXTitle(weights[value.toInt()].dateEntry, now);
-    }else if (value == meta.max) {
-      xTitleWidget =  showXTitle(weights[value.toInt()].dateEntry, now);
-    }else if (value == (weights.length * 0.3).floorToDouble()) {
-      xTitleWidget =  showXTitle(weights[value.toInt()].dateEntry, now);
-    }else if (value == (weights.length * 0.6).toInt()) {
-      xTitleWidget =  showXTitle(weights[value.toInt()].dateEntry, now);
-    }else {
-      xTitleWidget = Container();
+  Widget buildBottomTitleWidgets(
+      double value, TitleMeta meta, List<Weight> weights, DateTime now) {
+    if (meta.min == value) {
+      return Container(
+        margin: const EdgeInsets.only(left: 20),
+        child: showXTitle(weights[value.toInt()].dateEntry, now),
+      );
     }
-    return xTitleWidget;
+
+    return showXTitle(weights[value.toInt()].dateEntry, now);
   }
 
   Widget showXTitle(DateTime weightDateTime, DateTime now) {
-    return Text(DateFormat.displayDateXAxis(weightDateTime, now));
+    return Container(
+        margin: const EdgeInsets.only(top: 8),
+        child: Text(
+          DateFormat.displayDateXAxis(weightDateTime, now),
+          style: TextStyle(color: Colors.grey, fontSize: 12),
+        ));
   }
 
-
-
-  double countMinY(List<FlSpot> spots){
+  double getMinWeightValue(List<FlSpot> spots) {
     List<double> ySpots = [];
     for (var spot in spots) {
       ySpots.add(spot.y);
     }
-    return ySpots.reduce(min) - 2;
+    print('Weight_chart | min: ${ySpots.reduce(min)}');
+    return ySpots.reduce(min);
   }
 
-  double countMaxY(List<FlSpot> spots) {
+  double getMaxWeightValue(List<FlSpot> spots) {
     List<double> ySpots = [];
     for (var spot in spots) {
       ySpots.add(spot.y);
     }
-    return ySpots.reduce(max) + 2;
+    print('Weight_chart | max: ${ySpots.reduce(max)}');
+    return ySpots.reduce(max);
   }
 
-  double? countMinX(List<Weight> weights){
+// interval nie ma wpływu na diff
+  double countMaxY(double max, double interval) {
+    if (isEven(max, interval)) {
+      return (max += interval).toDouble();
+    }
+
+    return ((max / interval).toInt() * interval) + interval;
+  }
+
+  double countMinY(double min, double interval) {
+    if (min - interval <= 0) {
+      return 0;
+    }
+
+    if (isEven(min, interval)) {
+      return (min -= interval).toDouble();
+    }
+
+    return ((min / interval).toInt() * interval) - interval;
+  }
+
+  bool isEven(double max, double interval) {
+    return max.toInt() % interval == 0;
+  }
+
+  double? countMinX(List<Weight> weights) {
     return 0;
   }
 
-  double? countMaxX(List<Weight> weights){
-    return weights.length -1;
+  double? countMaxX(List<Weight> weights) {
+    return weights.length - 1;
   }
 
   List<FlSpot> convertToDaysFlSpot(List<Weight> weights) {
     List<FlSpot> spots = [];
     for (int i = 0; i < weights.length; i++) {
-      spots.add(FlSpot(i.toDouble(), weights[i].value));
+      spots.add(FlSpot(i.toDouble(), weights[i].value.floorToDouble()));
     }
-    return spots;
+    return spots.toSet().toList();
   }
 
+  double countDiff(List<FlSpot> spots) =>
+      getMaxWeightValue(spots) - getMinWeightValue(spots);
 
+  double countRightTitleInterval(int diff) {
+    if (diff >= 0 && diff <= 4) {
+      return 1;
+    }
+
+    if (diff >= 5 && diff <= 7) {
+      return 2;
+    }
+
+    if (diff >= 8 && diff <= 10) {
+      return 3;
+    }
+
+    if (diff >= 11 && diff <= 13) {
+      return 4;
+    }
+
+    if (diff >= 14 && diff <= 16) {
+      return 5;
+    }
+
+    if (diff >= 17 && diff <= 44) {
+      return 10;
+    }
+
+    if (diff >= 45 && diff <= 74) {
+      return 20;
+    }
+
+    if (diff >= 75 && diff <= 104) {
+      return 30;
+    }
+
+    if (diff >= 105) {
+      return 50;
+    }
+
+    return 1;
+  }
+
+  double countBottomTitleInterval(int length) {
+    if (length <= 3) {
+      return 1;
+    }
+
+    return (length - 1) / 2;
+  }
 }

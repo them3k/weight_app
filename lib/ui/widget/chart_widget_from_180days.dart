@@ -5,27 +5,16 @@ import 'package:weight_app/ui/widget/weight_chart.dart';
 import '../../model/hive/models/weight.dart';
 import '../../model/weight_model.dart';
 
-class WeightChartWidgetFrom90days extends WeightChartWidget {
+class WeightChartWidgetFrom180days extends WeightChartWidget {
 
   final List<Weight> weights;
 
-
-  const WeightChartWidgetFrom90days(this.weights, {super.key});
+  WeightChartWidgetFrom180days(this.weights, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    return LineChart(showLineChartData(weights));
+    return LineChart(showLineChartData(weights,context));
   }
 
-  @override
-  List<FlSpot> convertToDaysFlSpot(List<Weight> weights) {
-    List<FlSpot> spots = [];
-    for (int i = 0; i < weights.length; i++) {
-      if(i%9==0){
-        spots.add(FlSpot(i.toDouble(), weights[i].value));
-      }
-    }
-    return spots;
-  }
 
 }

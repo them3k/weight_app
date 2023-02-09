@@ -11,6 +11,7 @@ import '../../business_logic/view_model/chart_viewmodel.dart';
 import '../../model/hive/models/weight.dart';
 import '../widget/chart_widget_from_30_days.dart';
 import '../widget/chart_widget_from_90_days.dart';
+import 'home_page.dart';
 
 enum Period { days180, days90, days30, days7 }
 
@@ -32,93 +33,84 @@ class _ChartPageState extends State<ChartPage> {
             appBar: AppBar(
               title: const Text('Weight Chart'),
             ),
-            body: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: viewModel.weights.isEmpty
-                  ? Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Center(
-                              child: Text('Add weight to display chart')),
-                        ),
-                        Icon(
-                          Icons.add_chart,
-                          size: 44,
-                        )
-                      ],
-                    )
-                  : Column(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(left: 16, right: 16),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                periodPicker(
-                                    text: '6 months',
-                                    togglePeriod: () =>
-                                        viewModel.togglePeriod(Period.days180),
-                                    isPeriodPickerSelected: viewModel
-                                        .isPeriodPickerSelected(Period.days180),
-                                    borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(10),
-                                        bottomLeft: Radius.circular(10))),
-                                periodPicker(
-                                  text: '3 months',
+            body: viewModel.weights.isEmpty
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Center(
+                            child: Text('Add weight to display chart')),
+                      ),
+                      Icon(
+                        Icons.add_chart,
+                        size: 44,
+                      )
+                    ],
+                  )
+                : Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(left: 16, right: 16),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              periodPicker(
+                                  text: '6 months',
                                   togglePeriod: () =>
-                                      viewModel.togglePeriod(Period.days90),
+                                      viewModel.togglePeriod(Periods.semiAnnually),
                                   isPeriodPickerSelected: viewModel
-                                      .isPeriodPickerSelected(Period.days90),
-                                ),
-                                periodPicker(
-                                  text: '30 days',
+                                      .isPeriodPickerSelected(Period.days180),
+                                  borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(10),
+                                      bottomLeft: Radius.circular(10))),
+                              periodPicker(
+                                text: '3 months',
+                                togglePeriod: () =>
+                                    viewModel.togglePeriod(Periods.quarterly),
+                                isPeriodPickerSelected: viewModel
+                                    .isPeriodPickerSelected(Period.days90),
+                              ),
+                              periodPicker(
+                                text: '30 days',
+                                togglePeriod: () =>
+                                    viewModel.togglePeriod(Periods.monthly),
+                                isPeriodPickerSelected: viewModel
+                                    .isPeriodPickerSelected(Period.days30),
+                              ),
+                              periodPicker(
+                                  text: '7 days',
                                   togglePeriod: () =>
-                                      viewModel.togglePeriod(Period.days30),
+                                      viewModel.togglePeriod(Periods.weekly),
                                   isPeriodPickerSelected: viewModel
-                                      .isPeriodPickerSelected(Period.days30),
-                                ),
-                                periodPicker(
-                                    text: '7 days',
-                                    togglePeriod: () =>
-                                        viewModel.togglePeriod(Period.days7),
-                                    isPeriodPickerSelected: viewModel
-                                        .isPeriodPickerSelected(Period.days7),
-                                    borderRadius: const BorderRadius.only(
-                                        topRight: Radius.circular(10),
-                                        bottomRight: Radius.circular(10)))
-                              ]),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(left: 8,right: 28,bottom: 8,top: 16),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                color: Colors.black,
-                                width: 2,
-                              )),
-                          height: 300,
-                          child: _showChart(viewModel.period, viewModel.weights)
-                        ),
-                      ],
-                    ),
-            ),
+                                      .isPeriodPickerSelected(Period.days7),
+                                  borderRadius: const BorderRadius.only(
+                                      topRight: Radius.circular(10),
+                                      bottomRight: Radius.circular(10)))
+                            ]),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(left: 16),
+                        height: 200,
+                        child: _showChart(viewModel.period, viewModel.weights)
+                      ),
+                    ],
+                  ),
           );
         },
       ),
     );
   }
 
-  WeightChartWidget _showChart(Period period, List<Weight> weights) {
+  WeightChartWidget _showChart(Periods period, List<Weight> weights) {
     switch (period) {
-      case Period.days180:
+      case Periods.semiAnnually:
         return WeightChartWidgetFrom90days(weights);
-      case Period.days90:
+      case Periods.quarterly:
         return WeightChartWidgetFrom90days(weights);
-      case Period.days30:
-        return WidgetChatWidgetFrom30days(weights);
-      case Period.days7:
+      case Periods.monthly:
+        return WeightChartWidgetFrom30days(weights);
+      case Periods.weekly:
         return WeightChartWidgetFrom7days(weights);
       default:
         return WeightChartWidgetFrom7days(weights);

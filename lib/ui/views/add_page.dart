@@ -14,12 +14,11 @@ class AddPage extends StatefulWidget {
 }
 
 class _AddPageState extends State<AddPage> {
-  late DateTime _date;
-  late TextEditingController _weightController;
+  late DateTime _date = DateTime.now();
+  final TextEditingController _weightController = TextEditingController();
   late double _weightValue;
-  late double _goal = 75.0;
+  late double _goal = 200.0;
   late double _minimum = 0;
-  late double _progressValue = 0;
   late WeightViewModel _viewModel;
 
   @override
@@ -30,15 +29,13 @@ class _AddPageState extends State<AddPage> {
 
   void loadData() async {
     _viewModel = Provider.of<WeightViewModel>(context, listen: false);
-    var goal = await _viewModel.getGoalWeightValue();
+    var goal = _viewModel.goal;
     var minimum = await _viewModel.getMinWeightValue();
     _weightValue = _viewModel.getLastWeightValue();
-    _weightController = TextEditingController(text: _weightValue.toString());
-    _date = DateTime.now();
+    _weightController.text = _weightValue.toString();
     setState(() {
       _minimum = minimum;
       _goal = goal;
-      _progressValue = (_minimum / _goal) * 100;
     });
   }
 
@@ -60,7 +57,7 @@ class _AddPageState extends State<AddPage> {
           HalfCircleChart(
             minimum: _minimum,
             goal: _goal,
-            progressValue: _progressValue,
+            progressValue: _weightValue,
           ),
           Stack(children: [
             Container(
@@ -170,7 +167,7 @@ class _AddPageState extends State<AddPage> {
                 TextButton(
                     onPressed: () => {
                           _weightValue = double.parse(_weightController.text),
-                          Navigator.of(innerContext).pop(true)
+                          Navigator.of(innerContext).pop(true),
                         },
                     child: Text('Save')),
                 TextButton(
