@@ -86,9 +86,15 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: 4,
                   ),
-                  Text(
-                    'You gain 3.4 kg in last week',
-                    style: TextStyle(fontSize: 14),
+                  FutureBuilder(
+                    future: context.read<WeightViewModel>().countGainWeightFromLastWeek(),
+                    builder: (context, snapshot) {
+                      if(snapshot.data != null) {
+                        return _buildWeightProgressText(snapshot.data!);
+                      }else {
+                        return const CircularProgressIndicator();
+                      }
+                    }
                   )
                 ],
               ),
@@ -219,5 +225,20 @@ class _HomePageState extends State<HomePage> {
   void navigateToAddPage(BuildContext context) {
     Navigator.of(context)
         .push(MaterialPageRoute<AddPage>(builder: (_) => const AddPage()));
+  }
+
+  Widget _buildWeightProgressText(double progressValue) {
+    String text = '';
+
+    if(progressValue > 0){
+      text = 'You gain ${progressValue.toStringAsFixed(2)} kg in last week';
+    }else {
+      text = 'You lost ${progressValue.abs().toStringAsFixed(2)} kg in last week';
+    }
+
+    return Text(
+      text,
+      style: TextStyle(fontSize: 14),
+    );
   }
 }
