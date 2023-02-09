@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:weight_app/business_logic/utils/utils.date_format.dart';
+import 'package:weight_app/business_logic/view_model/chart_viewmodel.dart';
 import 'package:weight_app/service_locator.dart';
 import 'package:weight_app/services/storage/storage_service.dart';
 import '../../model/weight_model.dart';
@@ -10,6 +11,17 @@ class WeightViewModel extends ChangeNotifier {
   List<Weight> _weights = [];
   List<int> _selectedIndexes = [];
   late bool isItemsSelected = false;
+  double _goal = 0;
+
+  double get goal => _goal;
+
+  void updateGoal(double value) {
+    if(value == _goal){
+      return;
+    }
+    _goal = value;
+    notifyListeners();
+  }
 
   List<WeightPresentation> get weights {
     return WeightPresentation.preparePresentation(_weights);
@@ -58,16 +70,17 @@ class WeightViewModel extends ChangeNotifier {
     return _storageService.getMinWeightValue();
   }
 
-  // TODO IMPLEMENT WEIGHT VALUE GOAL
-  Future<double> getGoalWeightValue() async => 75.5;
-
   double getLastWeightValue() =>
       _weights.last.value;
 
+  Future<double> countGainWeightFromLastWeek() async {
 
-  // List Item operation
+    List<Weight> lastWeekWeights = await _storageService.loadWeightFromDaysAgo(ChartViewModel.WEEKLY);
+    double avg = lastWeekWeights.map((e) => e.value).reduce((a, b) => a + b) / lastWeekWeights.length;
 
+    return getLastWeightValue() - avg;
 
+  }
 
   void onTapDeleteSelectedItems() {
     deleteWeights(_selectedIndexes);
@@ -119,7 +132,7 @@ class WeightPresentation {
     return weightPresentationList;
   }
 
-  double parseWeight(String value) {
+  static double parseWeight(String value) {
     if (value.isEmpty) {
       return -1;
     }

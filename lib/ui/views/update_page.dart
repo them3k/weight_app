@@ -33,7 +33,7 @@ class _UpdatePageState extends State<UpdatePage> {
 
   void loadData() async {
     _viewModel = Provider.of<WeightViewModel>(context, listen: false);
-    var goal = await _viewModel.getGoalWeightValue();
+    var goal = await _viewModel.goal;
     var minimum = await _viewModel.getMinWeightValue();
     _weightValue = widget.item.value;
     _weightController.text = _weightValue.toString();

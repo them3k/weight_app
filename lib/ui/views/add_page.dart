@@ -17,7 +17,7 @@ class _AddPageState extends State<AddPage> {
   late DateTime _date = DateTime.now();
   final TextEditingController _weightController = TextEditingController();
   late double _weightValue;
-  late double _goal = 75.0;
+  late double _goal = 200.0;
   late double _minimum = 0;
   late WeightViewModel _viewModel;
 
@@ -29,7 +29,7 @@ class _AddPageState extends State<AddPage> {
 
   void loadData() async {
     _viewModel = Provider.of<WeightViewModel>(context, listen: false);
-    var goal = await _viewModel.getGoalWeightValue();
+    var goal = _viewModel.goal;
     var minimum = await _viewModel.getMinWeightValue();
     _weightValue = _viewModel.getLastWeightValue();
     _weightController.text = _weightValue.toString();
