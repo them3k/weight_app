@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:weight_app/business_logic/view_model/chart_viewmodel.dart';
 import 'package:weight_app/business_logic/view_model/weight_viewmodel.dart';
 import 'package:weight_app/ui/views/home/widgets/congrat_widget.dart';
+import 'package:weight_app/ui/views/home/widgets/current_weight_widget.dart';
 import 'package:weight_app/ui/widget/chart_widget_from_30_days.dart';
 
 import '../../../model/weight_model.dart';
@@ -43,7 +44,7 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         children: [
           const CongratsWidget(),
-          _buildCurrentWeightWidget(context),
+          const CurrentWeightWidget(),
           _buildPeriodSegmentedButtons(),
           _buildChartContainer(),
           _buildAddWeightButton(context),
@@ -53,35 +54,6 @@ class _HomePageState extends State<HomePage> {
   }
 
 
-
-  Widget _buildCurrentWeightWidget(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 10, top: 16),
-      child: Container(
-        alignment: Alignment.bottomLeft,
-        height: 100,
-        child: Column(
-          children: [
-            const Text(
-              'Current Weight',
-              style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 4,
-            ),
-            Text(
-              '64kg',
-            //  '${context.read<WeightViewModel>().getLastWeightValue()}kg',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 34),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
   Periods _period = Periods.weekly;
 

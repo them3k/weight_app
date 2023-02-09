@@ -13,13 +13,16 @@ class WeightViewModel extends ChangeNotifier {
   late bool isItemsSelected = false;
   double _goal = 0;
   double _gainWeightFromLastWeek = 0;
+  double _lastWeight = 0;
 
   double get goal => _goal;
 
   double get gainWeightFromLastWeek => _gainWeightFromLastWeek;
 
+  double get lastWeight => _lastWeight;
+
   void updateGoal(double value) {
-    if(value == _goal){
+    if (value == _goal) {
       return;
     }
     _goal = value;
@@ -32,13 +35,14 @@ class WeightViewModel extends ChangeNotifier {
 
   void loadData() async {
     _weights = await _storageService.getWeightData();
+    _lastWeight = await getLastWeightValue();
     _gainWeightFromLastWeek = await countGainWeightFromLastWeek();
     notifyListeners();
     print('ViewModel: $hashCode');
   }
 
-  Weight? getItemAtIndex(int index){
-    if(index == -1){
+  Weight? getItemAtIndex(int index) {
+    if (index == -1) {
       return null;
     }
     return _weights[index];
@@ -61,29 +65,25 @@ class WeightViewModel extends ChangeNotifier {
     loadData();
   }
 
-
-  bool isWeightGrater(int index, int prevIndex){
+  bool isWeightGrater(int index, int prevIndex) {
     print('weight_viewModel | $index | $prevIndex');
-    if(index == 0){
+    if (index == 0) {
       return false;
     }
     return _weights[index].value > _weights[prevIndex].value;
   }
 
-  Future<double> getMinWeightValue() {
-    return _storageService.getMinWeightValue();
-  }
+  Future<double> getMinWeightValue() => _storageService.getMinWeightValue();
 
-  Future<double> getLastWeightValue() =>
-      _storageService.getLastWeightValue();
+  Future<double> getLastWeightValue() => _storageService.getLastWeightValue();
 
   Future<double> countGainWeightFromLastWeek() async {
+    List<Weight> lastWeekWeights =
+        await _storageService.loadWeightFromDaysAgo(ChartViewModel.WEEKLY);
+    double avg = lastWeekWeights.map((e) => e.value).reduce((a, b) => a + b) /
+        lastWeekWeights.length;
 
-    List<Weight> lastWeekWeights = await _storageService.loadWeightFromDaysAgo(ChartViewModel.WEEKLY);
-    double avg = lastWeekWeights.map((e) => e.value).reduce((a, b) => a + b) / lastWeekWeights.length;
-
-    return  await getLastWeightValue() - avg;
-
+    return await getLastWeightValue() - avg;
   }
 
   void onTapDeleteSelectedItems() {
@@ -99,11 +99,11 @@ class WeightViewModel extends ChangeNotifier {
     isItemsSelected = _selectedIndexes.isNotEmpty;
     notifyListeners();
     print('WeightViewModel | shouldShowDeleteIcon | result: $isItemsSelected');
-    print('WeightViewModel | shouldShowDeleteIcon | selected: $_selectedIndexes');
+    print(
+        'WeightViewModel | shouldShowDeleteIcon | selected: $_selectedIndexes');
   }
 
-  bool checkIfIsSelected(int index) =>
-      _selectedIndexes.contains(index);
+  bool checkIfIsSelected(int index) => _selectedIndexes.contains(index);
 
   void selectItem(int index) {
     _selectedIndexes.add(index);
@@ -114,8 +114,6 @@ class WeightViewModel extends ChangeNotifier {
     _selectedIndexes.remove(index);
     shouldShowDeleteIcon();
   }
-
-
 }
 
 class WeightPresentation {
