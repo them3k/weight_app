@@ -21,6 +21,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   List page = [const HomePage(), const HistoryPage(), const SettingsPage()];
+  List appBarTitle = const ['Home', 'History','Settings'];
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +60,7 @@ class _MainPageState extends State<MainPage> {
               )
             : const SizedBox();
       }),
-    ], title: const Text('Home Page'));
+    ], title: Text(appBarTitle[_selectedIndex]));
   }
 }
 
