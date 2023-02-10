@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import 'package:weight_app/service_locator.dart';
@@ -14,11 +17,19 @@ class ChartViewModel extends ChangeNotifier {
 
   List<Weight> _weights = [];
 
-  List<Weight> get weights => _weights;
+  List<Weight>? get weights => _weights;
+
+  List<FlSpot>? _spots;
+
+  List<FlSpot>? get spots => _spots;
 
   Periods get period => _period;
 
   Periods _period = Periods.weekly;
+
+  late double _diff = 0;
+
+  double get diff => _diff;
 
   bool isPeriodPickerSelected(Period selectedPeriod) =>
       _period == selectedPeriod;
@@ -47,7 +58,18 @@ class ChartViewModel extends ChangeNotifier {
   }
 
   void loadData() async {
-    _weights = joinRepeatedWeightDate( await loadDataBasedOnPeriod());
+    loadDataBasedOnPeriod().then((value) {
+      _weights = value;
+      transformData();
+    });
+    notifyListeners();
+  }
+
+  void transformData() {
+    _spots = convertToDaysFlSpot();
+    _sortFlSpots();
+    _diff = countDiff();
+    print('chart_viewmodel | spots: $_spots');
     notifyListeners();
   }
 
@@ -82,6 +104,142 @@ class ChartViewModel extends ChangeNotifier {
 
   Future<List<Weight>> loadDataWeightFrom7daysAgo() async {
     return _storageService.loadWeightFromDaysAgo(Constants.WEEKLY);
+  }
+
+  List<FlSpot> convertToDaysFlSpot() {
+    print('chart_viewModel | convertToDaysFlSpots');
+    List<FlSpot> spots = [];
+    for (int i = 0; i < _weights.length; i++) {
+      spots.add(FlSpot(i.toDouble(), _weights[i].value.floorToDouble()));
+    }
+    return spots.toSet().toList();
+  }
+
+  void _sortFlSpots() {
+    if(_spots == null){
+      return;
+    }
+    _spots!.sort((a, b) => a.x.compareTo(b.x));
+  }
+
+  double countDiff() =>
+      getMaxWeightValue() - getMinWeightValue();
+
+  double getMinWeightValue() {
+
+    if(_spots == null) {
+      return 0;
+    }
+
+    List<double> ySpots = [];
+    for (var spot in _spots!) {
+      ySpots.add(spot.y);
+    }
+    print('Weight_chart | min: ${ySpots.reduce(min)}');
+    return ySpots.reduce(min);
+  }
+
+  double getMaxWeightValue() {
+
+    if(_spots == null){
+      return 0;
+    }
+    List<double> ySpots = [];
+    for (var spot in _spots!) {
+      ySpots.add(spot.y);
+    }
+    print('Weight_chart | max: ${ySpots.reduce(max)}');
+    return ySpots.reduce(max);
+  }
+
+
+  double countRightTitleInterval() {
+    if (_diff >= 0 && _diff <= 4) {
+      return 1;
+    }
+
+    if (_diff >= 5 && _diff <= 7) {
+      return 2;
+    }
+
+    if (_diff >= 8 && _diff <= 10) {
+      return 3;
+    }
+
+    if (_diff >= 11 && _diff <= 13) {
+      return 4;
+    }
+
+    if (_diff >= 14 && _diff <= 16) {
+      return 5;
+    }
+
+    if (_diff >= 17 && _diff <= 44) {
+      return 10;
+    }
+
+    if (_diff >= 45 && _diff <= 74) {
+      return 20;
+    }
+
+    if (_diff >= 75 && _diff <= 104) {
+      return 30;
+    }
+
+    if (_diff >= 105) {
+      return 50;
+    }
+
+    return 1;
+  }
+
+  double countBottomTitleInterval() {
+    if (_weights.length <= 3) {
+      return 1;
+    }
+  print('ChartViewModel | bottomInterval: ${(_weights.length - 1) / 2} ');
+    return (_weights.length - 1) / 2;
+  }
+
+  double countMaxY() {
+
+    double max = getMaxWeightValue();
+    double interval = countRightTitleInterval();
+
+    if (isDivisible(max, interval)) {
+      return (max += interval).toDouble();
+    }
+
+    return (max ~/ interval * interval) + interval;
+  }
+
+  double countMinY() {
+
+    double min = getMinWeightValue();
+    double interval = countRightTitleInterval();
+
+    if (min - interval <= 0) {
+      return 0;
+    }
+
+    if (isDivisible(min, interval)) {
+      return (min -= interval).toDouble();
+    }
+
+    return (min ~/ interval * interval) - interval;
+  }
+
+  bool isDivisible(double dividend, double divider) {
+    return dividend % divider == 0;
+  }
+
+  double? countMinX() {
+    return 0;
+  }
+
+  double? countMaxX() {
+    print('ChartViewModel | countMaxX: ${_weights.length -1}');
+    return _weights.length - 1;
   }
 
 

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,39 +16,42 @@ class ChartContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ChartViewModel>(
-        builder: (context, viewModel, child) => viewModel.weights.isEmpty
-            ? Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Center(child: Text('Add weight to display chart')),
-            ),
-            Icon(
-              Icons.add_chart,
-              size: 44,
-            )
-          ],
-        )
-            : Container(
-            margin: const EdgeInsets.only(top: 16, left: 16),
-            height: 200,
-            child: _showChart(viewModel.period, viewModel.weights)));
-  }
+    ChartViewModel _viewModel = Provider.of<ChartViewModel>(context,listen: true);
 
-  Widget _showChart(Periods period, List<Weight> weights) {
-    switch (period) {
-      case Periods.weekly:
-        return WeightChartWidgetFrom7days(weights);
-      case Periods.monthly:
-        return WeightChartWidgetFrom30days(weights);
-      case Periods.quarterly:
-        return WeightChartWidgetFrom90days(weights);
-      case Periods.semiAnnually:
-        return WeightChartWidgetFrom180days(weights);
-      default:
-        return Text('Unsupported period $period');
-    }
+    return _viewModel.spots == null
+        ? const CircularProgressIndicator()
+        : _viewModel.spots!.isEmpty
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Center(child: Text('Add weight to display chart')),
+                  ),
+                  Icon(
+                    Icons.add_chart,
+                    size: 44,
+                  )
+                ],
+              )
+            : Container(
+                margin: const EdgeInsets.only(top: 16, left: 16),
+                height: 200,
+                child: _showChart(_viewModel.period));
+  }
+}
+
+Widget _showChart(Periods period) {
+  switch (period) {
+    case Periods.weekly:
+      return WeightChartWidgetFrom7days();
+    case Periods.monthly:
+      return WeightChartWidgetFrom30days();
+    case Periods.quarterly:
+      return WeightChartWidgetFrom90days();
+    case Periods.semiAnnually:
+      return WeightChartWidgetFrom180days();
+    default:
+      return Text('Unsupported period $period');
   }
 }

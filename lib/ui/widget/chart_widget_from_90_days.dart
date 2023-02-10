@@ -8,14 +8,11 @@ import '../../model/weight_model.dart';
 
 class WeightChartWidgetFrom90days extends WeightChartWidget {
 
-  final List<Weight> _weights;
-
-
-  WeightChartWidgetFrom90days(this._weights, {super.key});
+  WeightChartWidgetFrom90days({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return LineChart(showLineChartData(_weights,context));
+    return showLineChart(context);
   }
 
 }

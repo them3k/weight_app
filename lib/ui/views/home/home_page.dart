@@ -6,7 +6,6 @@ import 'package:weight_app/ui/views/home/widgets/chart_container.dart';
 import 'package:weight_app/ui/views/home/widgets/congrat_widget.dart';
 import 'package:weight_app/ui/views/home/widgets/current_weight_widget.dart';
 import 'package:weight_app/ui/views/home/widgets/perdiod_segmented_buttons_widget.dart';
-import 'package:weight_app/ui/widget/chart_widget_from_30_days.dart';
 
 import '../../../model/periods.dart';
 import '../../../model/weight_model.dart';

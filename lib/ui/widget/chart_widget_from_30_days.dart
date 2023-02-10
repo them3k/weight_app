@@ -5,15 +5,13 @@ import 'package:weight_app/ui/widget/weight_chart.dart';
 import '../../model/weight_model.dart';
 
 class WeightChartWidgetFrom30days extends WeightChartWidget {
-  final List<Weight> weights;
 
-  WeightChartWidgetFrom30days(this.weights,{super.key});
+  WeightChartWidgetFrom30days({super.key});
 
 
   @override
   Widget build(BuildContext context) {
-    return LineChart(
-        showLineChartData(weights,context));
+    return showLineChart(context);
   }
 
 

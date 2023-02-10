@@ -26,6 +26,8 @@ class ChartPage extends StatefulWidget {
 class _ChartPageState extends State<ChartPage> {
   @override
   Widget build(BuildContext context) {
+
+    return Container();
     return ChangeNotifierProvider<ChartViewModel>(
       create: (context) => ChartViewModel()..loadData(),
       child: Consumer<ChartViewModel>(
@@ -34,7 +36,7 @@ class _ChartPageState extends State<ChartPage> {
             appBar: AppBar(
               title: const Text('Weight Chart'),
             ),
-            body: viewModel.weights.isEmpty
+            body: viewModel.weights != null
                 ? Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
@@ -93,7 +95,7 @@ class _ChartPageState extends State<ChartPage> {
                       Container(
                         margin: const EdgeInsets.only(left: 16),
                         height: 200,
-                        child: _showChart(viewModel.period, viewModel.weights)
+                       // child: _showChart(viewModel.period, viewModel.weights!!)
                       ),
                     ],
                   ),
@@ -103,20 +105,20 @@ class _ChartPageState extends State<ChartPage> {
     );
   }
 
-  WeightChartWidget _showChart(Periods period, List<Weight> weights) {
-    switch (period) {
-      case Periods.semiAnnually:
-        return WeightChartWidgetFrom90days(weights);
-      case Periods.quarterly:
-        return WeightChartWidgetFrom90days(weights);
-      case Periods.monthly:
-        return WeightChartWidgetFrom30days(weights);
-      case Periods.weekly:
-        return WeightChartWidgetFrom7days(weights);
-      default:
-        return WeightChartWidgetFrom7days(weights);
-    }
-  }
+  // WeightChartWidget _showChart(Periods period, List<Weight> weights) {
+  //   switch (period) {
+  //     case Periods.semiAnnually:
+  //       return WeightChartWidgetFrom90days(weights);
+  //     case Periods.quarterly:
+  //       return WeightChartWidgetFrom90days(weights);
+  //     case Periods.monthly:
+  //       return WeightChartWidgetFrom30days(weights);
+  //     case Periods.weekly:
+  //       return WeightChartWidgetFrom7days(weights);
+  //     default:
+  //       return WeightChartWidgetFrom7days(weights);
+  //   }
+  // }
 
 
   Widget periodPicker(

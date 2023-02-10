@@ -22,6 +22,7 @@ class _WeightAppState extends State<WeightApp> {
   @override
   void initState() {
     _themeData = _buildThemeData();
+    print('Weight_app | _chartViewModel: ${_chartViewModel.hashCode}');
     super.initState();
   }
 
