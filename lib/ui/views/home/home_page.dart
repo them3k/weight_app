@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weight_app/business_logic/view_model/chart_viewmodel.dart';
 import 'package:weight_app/business_logic/view_model/weight_viewmodel.dart';
+import 'package:weight_app/ui/views/home/widgets/add_weight_button_container.dart';
 import 'package:weight_app/ui/views/home/widgets/chart_container.dart';
 import 'package:weight_app/ui/views/home/widgets/congrat_widget.dart';
 import 'package:weight_app/ui/views/home/widgets/current_weight_widget.dart';
@@ -27,42 +28,23 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final appBarMaxHeight = Scaffold.of(context).appBarMaxHeight ?? 56;
-    return Container(
+    return SizedBox(
       height: mediaQuery.size.height -
           kBottomNavigationBarHeight -
           mediaQuery.padding.top -
           appBarMaxHeight,
       child: Column(
-        children: [
-          const CongratsWidget(),
-          const CurrentWeightWidget(),
-          const PeriodSegmentedButtonWidget(),
-          const ChartContainer(),
-          _buildAddWeightButton(context),
+        children: const [
+          CongratsWidget(),
+          CurrentWeightWidget(),
+          PeriodSegmentedButtonWidget(),
+          ChartContainer(),
+          AddWeightButtonContainer(),
         ],
       ),
     );
   }
 
-
-
-
-  Widget _buildAddWeightButton(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(left: 16, right: 16, top: 16),
-      height: 50,
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () => navigateToAddPage(context),
-        child: Text('Add Weight'),
-      ),
-    );
-  }
-
-  void navigateToAddPage(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute<AddPage>(builder: (_) => const AddPage()));
-  }
 
 
 }
