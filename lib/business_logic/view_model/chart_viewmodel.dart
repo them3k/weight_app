@@ -7,7 +7,6 @@ import 'package:weight_app/service_locator.dart';
 import 'package:weight_app/services/storage/storage_service.dart';
 import '../../model/periods.dart';
 import '../../model/weight_model.dart';
-import '../../ui/views/chart_page.dart';
 import '../utils/constants.dart';
 
 
@@ -31,7 +30,7 @@ class ChartViewModel extends ChangeNotifier {
 
   double get diff => _diff;
 
-  bool isPeriodPickerSelected(Period selectedPeriod) =>
+  bool isPeriodPickerSelected(Periods selectedPeriod) =>
       _period == selectedPeriod;
 
   void togglePeriod(Periods selectedPeriod) {
