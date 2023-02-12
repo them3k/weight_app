@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weight_app/business_logic/view_model/weight_viewmodel.dart';
 import 'package:weight_app/ui/views/history_page.dart';
-import 'package:weight_app/ui/views/home_page.dart';
+import 'package:weight_app/ui/views/home/home_page.dart';
 import 'package:weight_app/ui/views/settings_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -21,6 +21,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   List page = [const HomePage(), const HistoryPage(), const SettingsPage()];
+  List appBarTitle = const ['Home', 'History','Settings'];
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +60,7 @@ class _MainPageState extends State<MainPage> {
               )
             : const SizedBox();
       }),
-    ], title: const Text('Home Page'));
+    ], title: Text(appBarTitle[_selectedIndex]));
   }
 }
 
