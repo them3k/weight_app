@@ -89,6 +89,6 @@ class StorageServiceImpl extends StorageService {
 
   @override
   void saveGoal(double goal) {
-    getGoalBox().add(goal);
+    getGoalBox().put(Constants.GOAL_KEY, goal);
   }
 }

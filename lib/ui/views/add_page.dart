@@ -33,6 +33,9 @@ class _AddPageState extends State<AddPage> {
     var minimum = await _viewModel.getMinWeightValue();
     _weightValue =  await _viewModel.getLastWeightValue();
     _weightController.text = _weightValue.toString();
+    if(goal < minimum) {
+      goal = _weightValue;
+    }
     setState(() {
       _minimum = minimum;
       _goal = goal;
