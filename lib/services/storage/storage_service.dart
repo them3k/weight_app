@@ -1,4 +1,7 @@
+import 'package:hive/hive.dart';
 import 'package:weight_app/model/weight_model.dart';
+
+import '../../model/hive/models/weight.dart';
 
 abstract class StorageService {
 
@@ -17,4 +20,8 @@ abstract class StorageService {
  Future<double> getMinWeightValue();
 
  Future<double> getLastWeightValue();
+
+ Future<double> getGoal();
+
+ void saveGoal(double goal);
 }

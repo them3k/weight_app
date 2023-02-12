@@ -5,6 +5,7 @@ import 'package:weight_app/services/storage/storage_service.dart';
 
 class StorageServiceFake implements StorageService {
 
+  double goal = 0;
 
   List<Weight> fakeList = List.generate(
       180,
@@ -68,5 +69,16 @@ class StorageServiceFake implements StorageService {
   Future<double> getLastWeightValue() async =>
       fakeList.last.value;
 
+  @override
+  Future<double> getGoal() async {
+    return goal;
+  }
 
+  @override
+  void saveGoal(double goal) {
+    if(goal != this.goal) {
+      return;
+    }
+    this.goal = goal;
+  }
 }

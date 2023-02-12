@@ -18,5 +18,6 @@ void main() async {
 Future? initializeHive() async {
   await Hive.initFlutter();
   registerAdapters();
-  await Hive.openBox<HiveWeight>(Constants.NAME_BOX);
+  await Hive.openBox<HiveWeight>(Constants.WEIGHT_BOX);
+  await Hive.openBox<double>(Constants.GOAL_BOX);
 }

@@ -11,8 +11,13 @@ import '../../model/weight_model.dart';
 class StorageServiceImpl extends StorageService {
 
   Box<HiveWeight> getBox() {
-    return Hive.box<HiveWeight>(Constants.NAME_BOX);
+    return Hive.box<HiveWeight>(Constants.WEIGHT_BOX);
   }
+
+  Box<double> getGoalBox() {
+    return Hive.box<double>(Constants.GOAL_BOX);
+  }
+
 
   @override
   Future<Future<int>> addWeight(Weight item) async {
@@ -76,5 +81,14 @@ class StorageServiceImpl extends StorageService {
     return weights.last.value;
   }
 
+  @override
+  Future<double> getGoal() async {
+    Box<double> box = getGoalBox();
+    return box.get(Constants.GOAL_KEY) ?? 0;
+  }
 
+  @override
+  void saveGoal(double goal) {
+    getGoalBox().add(goal);
+  }
 }
