@@ -8,7 +8,7 @@ class AddWeightButtonContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 16, right: 16, top: 16),
+      margin: const EdgeInsets.only(left: 16, right: 16,bottom: 8),
       height: 50,
       width: double.infinity,
       child: ElevatedButton(

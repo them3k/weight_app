@@ -39,6 +39,7 @@ class _HomePageState extends State<HomePage> {
           CurrentWeightWidget(),
           PeriodSegmentedButtonWidget(),
           ChartContainer(),
+          Spacer(),
           AddWeightButtonContainer(),
         ],
       ),
