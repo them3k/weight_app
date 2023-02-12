@@ -28,7 +28,15 @@ class WeightViewModel extends ChangeNotifier {
     }
     _goal = value;
     notifyListeners();
+    saveGoal(goal);
   }
+
+  Future<double> getGoalValue() => _storageService.getGoal();
+
+  void saveGoal(double goal) =>
+      _storageService.saveGoal(goal);
+
+
 
   List<WeightPresentation> get weights {
     return WeightPresentation.preparePresentation(_weights);
@@ -38,6 +46,7 @@ class WeightViewModel extends ChangeNotifier {
     _weights = await _storageService.getWeightData();
     _lastWeight = await getLastWeightValue();
     _gainWeightFromLastWeek = await countGainWeightFromLastWeek();
+    _goal = await getGoalValue();
     notifyListeners();
     print('ViewModel: $hashCode');
   }
@@ -77,6 +86,7 @@ class WeightViewModel extends ChangeNotifier {
   Future<double> getMinWeightValue() => _storageService.getMinWeightValue();
 
   Future<double> getLastWeightValue() => _storageService.getLastWeightValue();
+
 
   Future<double> countGainWeightFromLastWeek() async {
     List<Weight> lastWeekWeights =
