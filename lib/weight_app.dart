@@ -28,19 +28,11 @@ class _WeightAppState extends State<WeightApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-            create: (context) => _weightViewModel..loadData(),
-          ),
-          ChangeNotifierProvider(
-              create: (context) => _chartViewModel..loadData())
-        ],
-        child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: _themeData,
-            title: 'Weight App',
-            home: MainPage()));
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: _themeData,
+        title: 'Weight App',
+        home: MainPage());
   }
 
   ThemeData _buildThemeData() {

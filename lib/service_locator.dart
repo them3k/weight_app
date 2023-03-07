@@ -13,8 +13,8 @@ GetIt serviceLocator = GetIt.instance;
 
 void setupServiceLocator() {
 
-  serviceLocator.registerFactory<WeightViewModel>(() => WeightViewModel());
-  serviceLocator.registerFactory<ChartViewModel>(() => ChartViewModel());
+  // serviceLocator.registerFactory<WeightViewModel>(() => WeightViewModel());
+  // serviceLocator.registerFactory<ChartViewModel>(() => ChartViewModel());
   serviceLocator.registerLazySingleton<StorageService>(() => StorageServiceFake());
 
 }
