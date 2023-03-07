@@ -15,14 +15,11 @@ class WeightApp extends StatefulWidget {
 }
 
 class _WeightAppState extends State<WeightApp> {
-  final WeightViewModel _weightViewModel = serviceLocator<WeightViewModel>();
-  final ChartViewModel _chartViewModel = serviceLocator<ChartViewModel>();
   late ThemeData _themeData = _buildThemeData();
 
   @override
   void initState() {
     _themeData = _buildThemeData();
-    print('Weight_app | _chartViewModel: ${_chartViewModel.hashCode}');
     super.initState();
   }
 
