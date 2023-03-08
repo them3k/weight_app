@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:weight_app/business_logic/view_model/base_model.dart';
 
 import 'package:weight_app/service_locator.dart';
 import 'package:weight_app/services/storage/storage_service.dart';
@@ -10,7 +11,7 @@ import '../../model/weight_model.dart';
 import '../utils/constants.dart';
 
 
-class ChartViewModel extends ChangeNotifier {
+class ChartsModel extends BaseModel {
 
   final StorageService _storageService = serviceLocator<StorageService>();
 
@@ -34,6 +35,7 @@ class ChartViewModel extends ChangeNotifier {
       _period == selectedPeriod;
 
   void togglePeriod(Periods selectedPeriod) {
+    print('charts_model_ | togglePeriod ');
     if (_period == selectedPeriod) {
       return;
     }
@@ -57,19 +59,18 @@ class ChartViewModel extends ChangeNotifier {
   }
 
   void loadData() async {
-    loadDataBasedOnPeriod().then((value) {
-      _weights = value;
-      transformData();
-    });
-    notifyListeners();
+    setBusy(true);
+    print('ChartsModel | loadData');
+    _weights = await loadDataBasedOnPeriod();
+    //await Future.delayed(const Duration(seconds: 2));
+    transformData();
+    setBusy(false);
   }
 
   void transformData() {
     _spots = convertToDaysFlSpot();
     _sortFlSpots();
     _diff = countDiff();
-    print('chart_viewmodel | spots: $_spots');
-    notifyListeners();
   }
 
   List<Weight> joinRepeatedWeightDate(List<Weight> list) {
@@ -134,7 +135,7 @@ class ChartViewModel extends ChangeNotifier {
     for (var spot in _spots!) {
       ySpots.add(spot.y);
     }
-    print('Weight_chart | min: ${ySpots.reduce(min)}');
+    print('Weight_chart | getMinWeightValue: ${ySpots.reduce(min)}');
     return ySpots.reduce(min);
   }
 
@@ -147,7 +148,7 @@ class ChartViewModel extends ChangeNotifier {
     for (var spot in _spots!) {
       ySpots.add(spot.y);
     }
-    print('Weight_chart | max: ${ySpots.reduce(max)}');
+    print('Weight_chart | getMaxWeightValue: ${ySpots.reduce(max)}');
     return ySpots.reduce(max);
   }
 
