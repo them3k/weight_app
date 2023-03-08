@@ -8,14 +8,12 @@ import '../../../widget/chart_widget_from_30_days.dart';
 import '../../../widget/chart_widget_from_7_days.dart';
 import '../../../widget/chart_widget_from_90_days.dart';
 
-class ChartContainer extends StatelessWidget {
-  const ChartContainer({Key? key}) : super(key: key);
+class ChartWidget extends StatelessWidget {
+  const ChartWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<ChartViewModel>.value(
-        value: ChartViewModel(),
-        child: Consumer<ChartViewModel>(
+    return Consumer<ChartViewModel>(
           builder: (context, model, child) {
             return model.busy
                 ? const CircularProgressIndicator()
@@ -39,7 +37,7 @@ class ChartContainer extends StatelessWidget {
                         height: 200,
                         child: _showChart(model.period));
           },
-        ));
+        );
   }
 }
 

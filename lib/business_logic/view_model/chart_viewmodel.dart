@@ -60,10 +60,9 @@ class ChartViewModel extends BaseModel {
   void loadData() async {
     setBusy(true);
     _weights = await loadDataBasedOnPeriod();
-    Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     transformData();
     setBusy(false);
-    notifyListeners();
   }
 
   void transformData() {
