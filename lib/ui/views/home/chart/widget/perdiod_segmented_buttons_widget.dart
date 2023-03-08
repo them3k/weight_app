@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weight_app/business_logic/view_model/charts_model.dart';
-import '../../../../model/periods.dart';
+import '../../../../../model/periods.dart';
 
 class PeriodSegmentedButtonWidget extends StatefulWidget {
 

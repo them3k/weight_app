@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../business_logic/view_model/charts_model.dart';
-import '../../../../model/periods.dart';
-import '../../../widget/chart_widget_from_180days.dart';
-import '../../../widget/chart_widget_from_30_days.dart';
-import '../../../widget/chart_widget_from_7_days.dart';
-import '../../../widget/chart_widget_from_90_days.dart';
+import '../../../../../business_logic/view_model/charts_model.dart';
+import '../../../../../model/periods.dart';
+import '../../../../widget/chart_widget_from_180days.dart';
+import '../../../../widget/chart_widget_from_30_days.dart';
+import '../../../../widget/chart_widget_from_7_days.dart';
+import '../../../../widget/chart_widget_from_90_days.dart';
 
 class ChartWidget extends StatefulWidget {
 

@@ -3,26 +3,26 @@ import 'package:provider/provider.dart';
 import 'package:weight_app/business_logic/view_model/charts_model.dart';
 import 'package:weight_app/business_logic/view_model/weight_viewmodel.dart';
 import 'package:weight_app/ui/views/home/widgets/add_weight_button_container.dart';
-import 'package:weight_app/ui/views/home/widgets/chart_container_widget.dart';
-import 'package:weight_app/ui/views/home/widgets/chart_widget.dart';
+import 'package:weight_app/ui/views/home/chart/widget/chart_view.dart';
+import 'package:weight_app/ui/views/home/chart/widget/chart_widget.dart';
 import 'package:weight_app/ui/views/home/widgets/congrat_widget.dart';
 import 'package:weight_app/ui/views/home/widgets/current_weight_widget.dart';
-import 'package:weight_app/ui/views/home/widgets/perdiod_segmented_buttons_widget.dart';
+import 'package:weight_app/ui/views/home/chart/widget/perdiod_segmented_buttons_widget.dart';
 
 import '../../../model/periods.dart';
 import '../../../model/weight_model.dart';
 import '../../widget/chart_widget_from_7_days.dart';
 import '../add_page.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomeView extends StatefulWidget {
+  const HomeView({Key? key}) : super(key: key);
 
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeViewState extends State<HomeView> {
 
 
   @override
