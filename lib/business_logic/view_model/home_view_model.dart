@@ -9,15 +9,27 @@ class HomeViewModel extends BaseModel {
 
   final StorageService _storageService = serviceLocator<StorageService>();
 
+  double _lastWeight = 0.0;
+
+  double get lastWeight => _lastWeight;
+
   double _gainedWeightFromLastWeek = 0.0;
 
   double get gainedWeightFromLastWeek => _gainedWeightFromLastWeek;
 
   void loadData() {
     setBusy(true);
+    fetchLastWeight();
     fetchGainedWeightFromLastWeek();
     setBusy(false);
   }
+
+  Future fetchLastWeight() async {
+    _lastWeight = await _storageService.getLastWeightValue();
+  }
+
+  Future<double> _getLastWeightValue() async =>
+      _storageService.getLastWeightValue();
 
   Future fetchGainedWeightFromLastWeek() async {
     _gainedWeightFromLastWeek = await _countGainWeightFromLastWeek();

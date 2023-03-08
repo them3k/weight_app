@@ -19,14 +19,11 @@ import '../add_page.dart';
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
 
-
   @override
   State<HomeView> createState() => _HomeViewState();
 }
 
 class _HomeViewState extends State<HomeView> {
-
-
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -36,15 +33,20 @@ class _HomeViewState extends State<HomeView> {
         model: HomeViewModel(),
         onModelReady: (model) => model.loadData(),
         builder: (context, model, child) {
-          return SizedBox(
+          return model.busy
+          ? CircularProgressIndicator()
+          : SizedBox(
             height: mediaQuery.size.height -
                 kBottomNavigationBarHeight -
                 mediaQuery.padding.top -
                 appBarMaxHeight,
             child: Column(
               children: [
-                CongratsWidget(gainWeightFromLastWeek:  model.gainedWeightFromLastWeek),
-                CurrentWeightWidget(),
+                CongratsWidget(
+                    gainWeightFromLastWeek: model.gainedWeightFromLastWeek),
+                CurrentWeightWidget(
+                  lastWeight: model.lastWeight,
+                ),
                 ChartContainerWidget(),
                 Spacer(),
                 AddWeightButtonContainer(),
@@ -53,5 +55,4 @@ class _HomeViewState extends State<HomeView> {
           );
         });
   }
-
 }
