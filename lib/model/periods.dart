@@ -1,11 +1,13 @@
+import '../business_logic/utils/constants.dart';
+
 enum Periods { weekly, monthly, quarterly, semiAnnually }
 
 extension PeriodsExtension on Periods {
   static const names = {
-    Periods.weekly: '7 days',
-    Periods.monthly: '30 days',
-    Periods.quarterly: '90 days',
-    Periods.semiAnnually: '180 days',
+    Periods.weekly: Constants.WEEKLY_NAME_NUM,
+    Periods.monthly: Constants.MONTHLY_NAME_NUM,
+    Periods.quarterly: Constants.QUATERLY_NAME_NUM,
+    Periods.semiAnnually: Constants.SEMI_ANNUALY_NAME_NUM,
   };
 
   String? get name => names[this];
