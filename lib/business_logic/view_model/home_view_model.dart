@@ -7,6 +7,8 @@ import '../utils/constants.dart';
 
 class HomeViewModel extends BaseModel {
 
+  final StorageService _storageService = serviceLocator<StorageService>();
+
   double _gainedWeightFromLastWeek = 0.0;
 
   double get gainedWeightFromLastWeek => _gainedWeightFromLastWeek;
