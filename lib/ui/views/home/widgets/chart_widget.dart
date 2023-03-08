@@ -1,19 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../business_logic/view_model/chart_viewmodel.dart';
+import '../../../../business_logic/view_model/charts_model.dart';
 import '../../../../model/periods.dart';
 import '../../../widget/chart_widget_from_180days.dart';
 import '../../../widget/chart_widget_from_30_days.dart';
 import '../../../widget/chart_widget_from_7_days.dart';
 import '../../../widget/chart_widget_from_90_days.dart';
 
-class ChartWidget extends StatelessWidget {
-  const ChartWidget({Key? key}) : super(key: key);
+class ChartWidget extends StatefulWidget {
+
+  final ChartsModel model;
+  final Function (ChartsModel)? onModelReady;
+
+  const ChartWidget({Key? key, required this.model, this.onModelReady}) : super(key: key);
+
+  @override
+  State<ChartWidget> createState() => _ChartWidgetState();
+}
+
+class _ChartWidgetState extends State<ChartWidget> {
+  late ChartsModel model;
+
+  @override
+  void initState() {
+    model = widget.model;
+
+    if (widget.onModelReady != null) {
+      widget.onModelReady!(model);
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ChartViewModel>(
+    return Consumer<ChartsModel>(
           builder: (context, model, child) {
             return model.busy
                 ? const CircularProgressIndicator()

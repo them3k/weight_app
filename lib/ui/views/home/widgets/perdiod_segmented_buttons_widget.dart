@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weight_app/business_logic/view_model/chart_viewmodel.dart';
+import 'package:weight_app/business_logic/view_model/charts_model.dart';
 import '../../../../model/periods.dart';
 
 class PeriodSegmentedButtonWidget extends StatefulWidget {
@@ -22,17 +22,15 @@ class _PeriodSegmentedButtonWidgetState extends State<PeriodSegmentedButtonWidge
             segments: [
               ...periods.map((e) => ButtonSegment(
                   value: e,
-                  label: Text(
-                    '${e.name}',
-                    style: textStyle,
-                  )))
+                  label: Text('${e.name}',
+                    style: textStyle,)))
             ],
             selected: <Periods>{_period},
             onSelectionChanged: (Set<Periods> newSelection) {
               setState(() {
                 _period = newSelection.first;
               });
-              context.read<ChartViewModel>().togglePeriod(newSelection.first);
+              context.read<ChartsModel>().togglePeriod(newSelection.first);
             },
           );
   }

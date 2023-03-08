@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weight_app/business_logic/view_model/chart_viewmodel.dart';
+import 'package:weight_app/business_logic/view_model/charts_model.dart';
 import 'package:weight_app/business_logic/view_model/weight_viewmodel.dart';
 import 'package:weight_app/ui/views/home/widgets/add_weight_button_container.dart';
 import 'package:weight_app/ui/views/home/widgets/chart_container_widget.dart';

@@ -11,7 +11,7 @@ import '../../model/weight_model.dart';
 import '../utils/constants.dart';
 
 
-class ChartViewModel extends BaseModel {
+class ChartsModel extends BaseModel {
 
   final StorageService _storageService = serviceLocator<StorageService>();
 
@@ -35,6 +35,7 @@ class ChartViewModel extends BaseModel {
       _period == selectedPeriod;
 
   void togglePeriod(Periods selectedPeriod) {
+    print('charts_model_ | togglePeriod ');
     if (_period == selectedPeriod) {
       return;
     }
@@ -59,8 +60,9 @@ class ChartViewModel extends BaseModel {
 
   void loadData() async {
     setBusy(true);
+    print('ChartsModel | loadData');
     _weights = await loadDataBasedOnPeriod();
-    await Future.delayed(const Duration(seconds: 2));
+    //await Future.delayed(const Duration(seconds: 2));
     transformData();
     setBusy(false);
   }
@@ -69,7 +71,6 @@ class ChartViewModel extends BaseModel {
     _spots = convertToDaysFlSpot();
     _sortFlSpots();
     _diff = countDiff();
-    print('chart_viewmodel | spots: $_spots');;
   }
 
   List<Weight> joinRepeatedWeightDate(List<Weight> list) {
@@ -134,7 +135,7 @@ class ChartViewModel extends BaseModel {
     for (var spot in _spots!) {
       ySpots.add(spot.y);
     }
-    print('Weight_chart | min: ${ySpots.reduce(min)}');
+    print('Weight_chart | getMinWeightValue: ${ySpots.reduce(min)}');
     return ySpots.reduce(min);
   }
 
@@ -147,7 +148,7 @@ class ChartViewModel extends BaseModel {
     for (var spot in _spots!) {
       ySpots.add(spot.y);
     }
-    print('Weight_chart | max: ${ySpots.reduce(max)}');
+    print('Weight_chart | getMaxWeightValue: ${ySpots.reduce(max)}');
     return ySpots.reduce(max);
   }
 

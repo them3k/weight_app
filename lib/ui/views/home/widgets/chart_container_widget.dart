@@ -1,4 +1,5 @@
-import 'package:weight_app/business_logic/view_model/chart_viewmodel.dart';
+import 'package:provider/provider.dart';
+import 'package:weight_app/business_logic/view_model/charts_model.dart';
 import 'package:weight_app/ui/base_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:weight_app/ui/views/home/widgets/chart_widget.dart';
@@ -9,20 +10,17 @@ class ChartContainerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseWidget<ChartViewModel>(
-      model: ChartViewModel(),
-      onModelReady: (model) => model.loadData(),
-      builder: (context, model, child) {
-            return Column(
-                children: [
-                  child!,
-                  model.busy
-                  ? const CircularProgressIndicator()
-                  : const ChartWidget()
-                ],
-              );
-      },
-      child: const PeriodSegmentedButtonWidget(),
-    );
+    ChartsModel model = ChartsModel();
+    return ChangeNotifierProvider<ChartsModel>(
+        create: (context) => model,
+        child: Column(
+          children: [
+            const PeriodSegmentedButtonWidget(),
+            ChartWidget(
+              model: model,
+              onModelReady: (model) => model.loadData(),
+            )
+          ],
+        ));
   }
 }

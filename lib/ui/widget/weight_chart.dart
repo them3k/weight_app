@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
 
-import 'package:weight_app/business_logic/view_model/chart_viewmodel.dart';
+import 'package:weight_app/business_logic/view_model/charts_model.dart';
 import 'package:weight_app/service_locator.dart';
 import '../../business_logic/utils/utils.date_format.dart';
 import '../../model/weight_model.dart';
@@ -11,7 +11,6 @@ abstract class WeightChartWidget extends StatelessWidget {
 
   WeightChartWidget({super.key});
 
-
   @override
   Widget build(BuildContext context);
 
@@ -19,9 +18,8 @@ abstract class WeightChartWidget extends StatelessWidget {
     // print('Weight Chart |hash: ${viewmodel.hashCode} | $weights  ');
 
     DateTime now = DateTime.now();
-    return Consumer<ChartViewModel>(
+    return Consumer<ChartsModel>(
       builder: (context,viewmodel,child) {
-        print('weight_chart | ${viewmodel.weights}');
         return LineChart(LineChartData(
         borderData: FlBorderData(
             border:
