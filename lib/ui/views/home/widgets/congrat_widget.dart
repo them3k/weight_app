@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:weight_app/business_logic/utils/constants.dart';
 
-import '../../../../business_logic/view_model/weight_viewmodel.dart';
+import 'package:weight_app/business_logic/utils/constants.dart';
 
 class CongratsWidget extends StatelessWidget {
   final double gainWeightFromLastWeek;
