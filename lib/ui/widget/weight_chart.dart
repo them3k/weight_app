@@ -87,7 +87,6 @@ abstract class WeightChartWidget extends StatelessWidget {
   }
 
   Widget buildBottomTitleWidgets(double value, TitleMeta meta,List<Weight> weights, DateTime now) {
-    print('WEight_chart | bottomTittleWidgets | value: $value' );
 
     DateTime dateEntry = weights[value.toInt()].dateEntry;
 
