@@ -34,12 +34,10 @@ class _HomeViewState extends State<HomeView> {
               children: [
                 CongratsWidget(
                     gainWeightFromLastWeek: model.gainedWeightFromLastWeek),
-                CurrentWeightWidget(
-                  lastWeight: model.lastWeight,
-                ),
-                ChartContainerWidget(),
-                Spacer(),
-                AddWeightButtonContainer(),
+                CurrentWeightWidget(lastWeight: model.lastWeight),
+                const ChartContainerWidget(),
+                const Spacer(),
+                const AddWeightButtonContainer(),
               ],
             ),
           );
