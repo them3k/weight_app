@@ -17,15 +17,17 @@ class HomeViewModel extends BaseModel {
 
   double get gainedWeightFromLastWeek => _gainedWeightFromLastWeek;
 
-  void loadData() {
+  void loadData() async {
+    print('HomeViewModel | loadData');
     setBusy(true);
-    fetchLastWeight();
-    fetchGainedWeightFromLastWeek();
+    await fetchLastWeight();
+    await fetchGainedWeightFromLastWeek();
     setBusy(false);
   }
 
   Future fetchLastWeight() async {
     _lastWeight = await _storageService.getLastWeightValue();
+    print('HomeViewModel | fetchLastWeight : $_lastWeight');
   }
 
   Future<double> _getLastWeightValue() async =>
@@ -43,4 +45,5 @@ class HomeViewModel extends BaseModel {
 
     return await _getLastWeightValue() - avg;
   }
+
 }
