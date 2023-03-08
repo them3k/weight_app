@@ -25,18 +25,21 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(),
-      body: page[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: onTap,
-        items: const [
-          BottomNavigationBarItem(label: 'Home', icon: Icon(Icons.home)),
-          BottomNavigationBarItem(label: "History", icon: Icon(Icons.history)),
-          BottomNavigationBarItem(
-              label: 'Settings', icon: Icon(Icons.settings)),
-        ],
+    return ChangeNotifierProvider<WeightViewModel>(
+      create: (context) => WeightViewModel(),
+      child: Scaffold(
+        appBar: _buildAppBar(),
+        body: page[_selectedIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          onTap: onTap,
+          items: const [
+            BottomNavigationBarItem(label: 'Home', icon: Icon(Icons.home)),
+            BottomNavigationBarItem(label: "History", icon: Icon(Icons.history)),
+            BottomNavigationBarItem(
+                label: 'Settings', icon: Icon(Icons.settings)),
+          ],
+        ),
       ),
     );
   }
