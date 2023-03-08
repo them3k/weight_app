@@ -7,7 +7,7 @@ class BaseWidget<T extends ChangeNotifier> extends StatefulWidget {
   final Widget? child;
   final Function(T)? onModelReady;
 
-  BaseWidget({
+  const BaseWidget({
     Key? key,
     required this.model,
     required this.onModelReady,
@@ -16,7 +16,7 @@ class BaseWidget<T extends ChangeNotifier> extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<BaseWidget> createState() => _BaseWidgetState();
+  _BaseWidgetState<T> createState() => _BaseWidgetState<T>();
 }
 
 class _BaseWidgetState<T extends ChangeNotifier> extends State<BaseWidget<T>> {
