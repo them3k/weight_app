@@ -58,10 +58,10 @@ class ChartViewModel extends BaseModel {
   }
 
   void loadData() async {
-    loadDataBasedOnPeriod().then((value) {
-      _weights = value;
-      transformData();
-    });
+    setBusy(true);
+    _weights = await loadDataBasedOnPeriod();
+    transformData();
+    setBusy(false);
     notifyListeners();
   }
 
@@ -69,8 +69,7 @@ class ChartViewModel extends BaseModel {
     _spots = convertToDaysFlSpot();
     _sortFlSpots();
     _diff = countDiff();
-    print('chart_viewmodel | spots: $_spots');
-    notifyListeners();
+    print('chart_viewmodel | spots: $_spots');;
   }
 
   List<Weight> joinRepeatedWeightDate(List<Weight> list) {
