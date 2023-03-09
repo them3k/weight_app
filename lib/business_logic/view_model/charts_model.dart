@@ -19,9 +19,9 @@ class ChartsModel extends BaseModel {
 
   List<Weight>? get weights => _weights;
 
-  List<FlSpot>? _spots;
+  List<FlSpot> _spots = [];
 
-  List<FlSpot>? get spots => _spots;
+  List<FlSpot> get spots => _spots;
 
   Periods get period => _period;
 
@@ -58,12 +58,21 @@ class ChartsModel extends BaseModel {
     }
   }
 
+  Future fetchWeights() async {
+    _weights = await loadDataBasedOnPeriod();
+  }
+
+  bool shouldDisplayChart() {
+    return _weights.isNotEmpty;
+  }
+
   void loadData() async {
     setBusy(true);
     print('ChartsModel | loadData');
-    _weights = await loadDataBasedOnPeriod();
-    //await Future.delayed(const Duration(seconds: 2));
-    transformData();
+    await fetchWeights();
+    if(shouldDisplayChart()) {
+      transformData();
+    }
     setBusy(false);
   }
 

@@ -38,21 +38,25 @@ class _ChartWidgetState extends State<ChartWidget> {
           builder: (context, model, child) {
             return model.busy
                 ? const CircularProgressIndicator()
-                : model.spots!.isEmpty
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Center(
-                                child: Text('Add weight to display chart')),
-                          ),
-                          Icon(
-                            Icons.add_chart,
-                            size: 44,
-                          )
-                        ],
-                      )
+                : model.spots.isEmpty
+                    ? SizedBox(
+              height: 200,
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: const [
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Center(
+                                  child: Text('Add weight to display chart')),
+                            ),
+                            Icon(
+                              Icons.add_chart,
+                              size: 44,
+                            )
+                          ],
+                        ),
+                    )
                     : Container(
                         margin: const EdgeInsets.only(top: 16, left: 16),
                         height: 200,

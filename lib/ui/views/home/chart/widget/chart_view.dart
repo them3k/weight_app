@@ -15,7 +15,9 @@ class ChartContainerWidget extends StatelessWidget {
         create: (context) => model,
         child: Column(
           children: [
-            const PeriodSegmentedButtonWidget(),
+            model.shouldDisplayChart()
+            ? const PeriodSegmentedButtonWidget()
+            : const SizedBox(),
             ChartWidget(
               model: model,
               onModelReady: (model) => model.loadData(),

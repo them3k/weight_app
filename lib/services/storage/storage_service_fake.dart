@@ -7,11 +7,13 @@ class StorageServiceFake implements StorageService {
 
   double goal = 0;
 
-  List<Weight> fakeList = List.generate(
-      180,
-      (index) => Weight(
-          value: (index / 10) +  60 + Random().nextInt(20) + 16,
-          dateEntry: DateTime.now().subtract(Duration(days: index))));
+  List<Weight> fakeList = [];
+
+  // List.generate(
+  //     180,
+  //     (index) => Weight(
+  //         value: (index / 10) +  60 + Random().nextInt(20) + 16,
+  //         dateEntry: DateTime.now().subtract(Duration(days: index))));
 
   @override
   Future<List<Weight>> getWeightData() async => fakeList;
@@ -66,8 +68,12 @@ class StorageServiceFake implements StorageService {
   }
 
   @override
-  Future<double> getLastWeightValue() async =>
-      fakeList.last.value;
+  Future<double> getLastWeightValue() async {
+    if(fakeList.isEmpty) {
+      return 0.0;
+    }
+    return fakeList.last.value;
+  }
 
   @override
   Future<double> getGoal() async {
