@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 import 'package:weight_app/business_logic/utils/constants.dart';
 
-import '../../../../business_logic/view_model/weight_viewmodel.dart';
-
 class CongratsWidget extends StatelessWidget {
-  const CongratsWidget({Key? key}) : super(key: key);
+  final double gainWeightFromLastWeek;
+
+  const CongratsWidget({Key? key, required this.gainWeightFromLastWeek})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +43,7 @@ class CongratsWidget extends StatelessWidget {
                   SizedBox(
                     height: 4,
                   ),
-
-                  Consumer<WeightViewModel>(
-                      builder: (context, viewModel,child) =>
-                          _buildWeightProgressText(viewModel.gainWeightFromLastWeek)
-                  )
+                  _buildWeightProgressText(gainWeightFromLastWeek)
                 ],
               ),
             ],
@@ -64,18 +61,19 @@ class CongratsWidget extends StatelessWidget {
     );
   }
 
-Widget _buildWeightProgressText(double progressValue) {
-  String text = '';
+  Widget _buildWeightProgressText(double progressValue) {
+    String text = '';
 
-  if(progressValue > 0){
-    text = 'You gain ${progressValue.toStringAsFixed(2)} kg in last week';
-  }else {
-    text = 'You lost ${progressValue.abs().toStringAsFixed(2)} kg in last week';
+    if (progressValue > 0) {
+      text = 'You gain ${progressValue.toStringAsFixed(2)} kg in last week';
+    } else {
+      text =
+          'You lost ${progressValue.abs().toStringAsFixed(2)} kg in last week';
+    }
+
+    return Text(
+      text,
+      style: TextStyle(fontSize: 14),
+    );
   }
-
-  return Text(
-    text,
-    style: TextStyle(fontSize: 14),
-  );
-}
 }

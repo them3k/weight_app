@@ -12,4 +12,9 @@ class Constants {
   static const int QUATERLY = 90 ;
   static const int SEMI_ANNUALLY = 180 ;
 
+  static const WEEKLY_NAME_NUM = '7 days';
+  static const MONTHLY_NAME_NUM = '30 days';
+  static const QUATERLY_NAME_NUM = '90 days';
+  static const SEMI_ANNUALY_NAME_NUM = '180 days';
+
 }

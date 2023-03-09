@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:weight_app/business_logic/view_model/weight_viewmodel.dart';
 
 class CurrentWeightWidget extends StatelessWidget {
-  const CurrentWeightWidget({Key? key}) : super(key: key);
+  final double lastWeight;
+
+  const CurrentWeightWidget({Key? key, required this.lastWeight})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +25,9 @@ class CurrentWeightWidget extends StatelessWidget {
             const SizedBox(
               height: 4,
             ),
-            Consumer<WeightViewModel>(
-              builder: (context, viewModel, child) => Text(
-                '${viewModel.lastWeight} kg',
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 34),
-              ),
+            Text(
+              '${lastWeight} kg',
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 34),
             ),
           ],
         ),
