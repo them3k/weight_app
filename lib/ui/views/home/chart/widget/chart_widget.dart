@@ -36,37 +36,54 @@ class _ChartWidgetState extends State<ChartWidget> {
   Widget build(BuildContext context) {
     return Consumer<ChartsModel>(
           builder: (context, model, child) {
+            print('Chart_widget | build');
             return model.busy
-                ? const CircularProgressIndicator()
-                : model.spots.isEmpty
-                    ? SizedBox(
-              height: 200,
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: const [
-                            Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Center(
-                                  child: Text('Add weight to display chart')),
-                            ),
-                            Icon(
-                              Icons.add_chart,
-                              size: 44,
-                            )
-                          ],
-                        ),
-                    )
-                    : Container(
-                        margin: const EdgeInsets.only(top: 16, left: 16),
-                        height: 200,
-                        child: _showChart(model.period));
+                ? _buildCircularProgressIndicator()
+                : model.shouldDisplayChart()
+                    ? _buildChart(model.period)
+                    : _buildEmptyChartInfo();
           },
         );
   }
 }
 
+Widget _buildCircularProgressIndicator() {
+  print('Charts_widget | _buildCircularProgressIndicator');
+  return const CircularProgressIndicator();
+}
+
+Widget _buildChart(Periods period) {
+  print('Charts_widget | _buildChart');
+  return Container(
+      margin: const EdgeInsets.only(top: 16, left: 16),
+      height: 200,
+      child: _showChart(period));
+}
+
+Widget _buildEmptyChartInfo(){
+  print('Charts_widget | _buildEmptyChartInfo');
+  return  SizedBox(
+    height: 200,
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: const [
+        Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Center(
+              child: Text('Add weight to display chart')),
+        ),
+        Icon(
+          Icons.add_chart,
+          size: 44,
+        )
+      ],
+    ),
+  );
+}
+
 Widget _showChart(Periods period) {
+  print('Charts_wiedget | showChart');
   switch (period) {
     case Periods.weekly:
       return WeightChartWidgetFrom7days();

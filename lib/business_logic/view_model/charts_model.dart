@@ -116,7 +116,6 @@ class ChartsModel extends BaseModel {
   }
 
   List<FlSpot> convertToDaysFlSpot() {
-    print('chart_viewModel | convertToDaysFlSpots');
     List<FlSpot> spots = [];
     for (int i = 0; i < _weights.length; i++) {
       spots.add(FlSpot(i.toDouble(), _weights[i].value.floorToDouble()));
@@ -144,7 +143,6 @@ class ChartsModel extends BaseModel {
     for (var spot in _spots!) {
       ySpots.add(spot.y);
     }
-    print('Weight_chart | getMinWeightValue: ${ySpots.reduce(min)}');
     return ySpots.reduce(min);
   }
 
@@ -157,7 +155,6 @@ class ChartsModel extends BaseModel {
     for (var spot in _spots!) {
       ySpots.add(spot.y);
     }
-    print('Weight_chart | getMaxWeightValue: ${ySpots.reduce(max)}');
     return ySpots.reduce(max);
   }
 
@@ -206,7 +203,6 @@ class ChartsModel extends BaseModel {
     if (_weights.length <= 3) {
       return 1;
     }
-  print('ChartViewModel | bottomInterval: ${(_weights.length - 1) / 2} ');
     return (_weights.length - 1) / 2;
   }
 
@@ -247,7 +243,6 @@ class ChartsModel extends BaseModel {
   }
 
   double? countMaxX() {
-    print('ChartViewModel | countMaxX: ${_weights.length -1}');
     return _weights.length - 1;
   }
 

@@ -16,10 +16,9 @@ abstract class WeightChartWidget extends StatelessWidget {
 
   Widget showLineChart(BuildContext context) {
     // print('Weight Chart |hash: ${viewmodel.hashCode} | $weights  ');
-
     DateTime now = DateTime.now();
     return Consumer<ChartsModel>(
-      builder: (context,viewmodel,child) {
+      builder: (context,model,child) {
         return LineChart(LineChartData(
         borderData: FlBorderData(
             border:
@@ -36,7 +35,7 @@ abstract class WeightChartWidget extends StatelessWidget {
             show: true,
             rightTitles: AxisTitles(
                 sideTitles: SideTitles(
-              interval: viewmodel.countRightTitleInterval(),
+              interval: model.countRightTitleInterval(),
               reservedSize: 48,
               showTitles: true,
               getTitlesWidget: buildRightTitleWidgets,
@@ -44,17 +43,17 @@ abstract class WeightChartWidget extends StatelessWidget {
             topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
             bottomTitles: AxisTitles(
                 sideTitles: SideTitles(
-              interval: viewmodel.countBottomTitleInterval(),
+              interval: model.countBottomTitleInterval(),
               showTitles: true,
               getTitlesWidget: (double value, TitleMeta meta) {
-                return buildBottomTitleWidgets(value, meta,viewmodel.weights!, now);
+                return buildBottomTitleWidgets(value, meta,model.weights!, now);
               },
             )),
             leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false))),
-        minY: viewmodel.countMinY(),
-        maxY: viewmodel.countMaxY(),
-        minX: viewmodel.countMinX(),
-        maxX: viewmodel.countMaxX(),
+        minY: model.countMinY(),
+        maxY: model.countMaxY(),
+        minX: model.countMinX(),
+        maxX: model.countMaxX(),
         lineBarsData: [
           LineChartBarData(
               belowBarData: BarAreaData(
@@ -66,7 +65,7 @@ abstract class WeightChartWidget extends StatelessWidget {
                         .map((color) => color.withOpacity(0.3))
                         .toList(),
                   )),
-              spots: viewmodel.spots,
+              spots: model.spots,
               color: Theme.of(context).colorScheme.primary,
               isCurved: true,
               barWidth: 0.3,
@@ -82,7 +81,7 @@ abstract class WeightChartWidget extends StatelessWidget {
         margin: const EdgeInsets.only(left: 8),
         child: Text(
           '${value.toInt()} kg',
-          style: TextStyle(color: Colors.grey, fontSize: 12),
+          style: const TextStyle(color: Colors.grey, fontSize: 12),
         ));
   }
 
@@ -105,7 +104,7 @@ abstract class WeightChartWidget extends StatelessWidget {
         margin: const EdgeInsets.only(top: 8),
         child: Text(
           DateFormat.displayDateXAxis(weightDateTime, now),
-          style: TextStyle(color: Colors.grey, fontSize: 12),
+          style: const TextStyle(color: Colors.grey, fontSize: 12),
         ));
   }
 

@@ -10,19 +10,21 @@ class ChartContainerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ChartsModel model = ChartsModel();
     return ChangeNotifierProvider<ChartsModel>(
-        create: (context) => model,
-        child: Column(
-          children: [
-            model.shouldDisplayChart()
-            ? const PeriodSegmentedButtonWidget()
-            : const SizedBox(),
-            ChartWidget(
-              model: model,
-              onModelReady: (model) => model.loadData(),
-            )
-          ],
-        ));
+        create: (context) => ChartsModel(),
+        builder: (context, child) {
+          final ChartsModel model = Provider.of(context);
+         return Column(
+            children: [
+              model.busy
+                  ? const SizedBox()
+                  : const PeriodSegmentedButtonWidget(),
+              ChartWidget(
+                model: model,
+                onModelReady: (model) => model.loadData(),
+              )
+            ],
+          );
+        });
   }
 }
