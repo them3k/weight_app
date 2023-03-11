@@ -3,6 +3,7 @@ import 'package:weight_app/business_logic/view_model/charts_model.dart';
 import 'package:weight_app/ui/base_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:weight_app/ui/views/home/chart/widget/chart_widget.dart';
+import 'package:weight_app/ui/views/home/chart/widget/empty_chart_info.dart';
 import 'package:weight_app/ui/views/home/chart/widget/perdiod_segmented_buttons_widget.dart';
 
 class ChartView extends StatelessWidget {
@@ -16,16 +17,16 @@ class ChartView extends StatelessWidget {
         builder: (context, model, child) {
           return model.busy
               ? Column(
-                  children: const [
-                    SizedBox(),
-                    CircularProgressIndicator()],
+                  children: const [SizedBox(), CircularProgressIndicator()],
                 )
-              : Column(
-                  children: [
-                    const PeriodSegmentedButtonWidget(),
-                    ChartWidget(shouldDisplayChart: !model.busy, period: model.period)
-                  ],
-                );
+              : model.shouldDisplayChart()
+                  ? Column(
+                      children: [
+                        const PeriodSegmentedButtonWidget(),
+                        ChartWidget(period: model.period)
+                      ],
+                    )
+                  : const EmptyChartInfo();
         });
   }
 }

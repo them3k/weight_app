@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../business_logic/view_model/home_view_model.dart';
-import '../../../../base_widget.dart';
-import '../../widgets/congrat_widget.dart';
-import '../../widgets/current_weight_widget.dart';
+import '../../../../business_logic/view_model/home_view_model.dart';
+import '../../../base_widget.dart';
+import 'congrat_widget.dart';
+import 'current_weight_widget.dart';
 
 class HomeViewHeader extends StatelessWidget {
   const HomeViewHeader({Key? key}) : super(key: key);

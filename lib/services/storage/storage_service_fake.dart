@@ -7,7 +7,8 @@ class StorageServiceFake implements StorageService {
 
   double goal = 0;
 
-  List<Weight> fakeList = List.generate(
+  List<Weight> fakeList = //[];
+  List.generate(
       180,
       (index) => Weight(
           value: (index / 10) +  60 + Random().nextInt(20) + 16,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weight_app/ui/views/home/chart/widget/home_view_header.dart';
+import 'package:weight_app/ui/views/home/widgets/home_view_header.dart';
 import 'package:weight_app/ui/views/home/widgets/add_weight_button_container.dart';
 import 'package:weight_app/ui/views/home/chart/widget/chart_view.dart';
 import 'package:weight_app/ui/views/home/widgets/congrat_widget.dart';
