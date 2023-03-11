@@ -10,9 +10,7 @@ import '../../model/periods.dart';
 import '../../model/weight_model.dart';
 import '../utils/constants.dart';
 
-
 class ChartsModel extends BaseModel {
-
   final StorageService _storageService = serviceLocator<StorageService>();
 
   List<Weight> _weights = [];
@@ -70,7 +68,7 @@ class ChartsModel extends BaseModel {
     setBusy(true);
     print('ChartsModel | loadData');
     await fetchWeights();
-    if(shouldDisplayChart()) {
+    if (shouldDisplayChart()) {
       transformData();
     }
     setBusy(false);
@@ -124,18 +122,16 @@ class ChartsModel extends BaseModel {
   }
 
   void _sortFlSpots() {
-    if(_spots == null){
+    if (_spots == null) {
       return;
     }
     _spots!.sort((a, b) => a.x.compareTo(b.x));
   }
 
-  double countDiff() =>
-      getMaxWeightValue() - getMinWeightValue();
+  double countDiff() => getMaxWeightValue() - getMinWeightValue();
 
   double getMinWeightValue() {
-
-    if(_spots == null) {
+    if (_spots == null) {
       return 0;
     }
 
@@ -147,8 +143,7 @@ class ChartsModel extends BaseModel {
   }
 
   double getMaxWeightValue() {
-
-    if(_spots == null){
+    if (_spots == null) {
       return 0;
     }
     List<double> ySpots = [];
@@ -157,7 +152,6 @@ class ChartsModel extends BaseModel {
     }
     return ySpots.reduce(max);
   }
-
 
   double countRightTitleInterval() {
     if (_diff >= 0 && _diff <= 4) {
@@ -207,7 +201,6 @@ class ChartsModel extends BaseModel {
   }
 
   double countMaxY() {
-
     double max = getMaxWeightValue();
     double interval = countRightTitleInterval();
 
@@ -219,7 +212,6 @@ class ChartsModel extends BaseModel {
   }
 
   double countMinY() {
-
     double min = getMinWeightValue();
     double interval = countRightTitleInterval();
 
@@ -245,6 +237,4 @@ class ChartsModel extends BaseModel {
   double? countMaxX() {
     return _weights.length - 1;
   }
-
-
 }
