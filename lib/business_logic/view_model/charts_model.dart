@@ -17,7 +17,7 @@ class ChartsModel extends BaseModel {
 
   List<Weight> _weights = [];
 
-  List<Weight>? get weights => _weights;
+  List<Weight> get weights => _weights;
 
   List<FlSpot> _spots = [];
 

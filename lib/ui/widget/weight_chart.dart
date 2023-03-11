@@ -3,22 +3,21 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
 
 import 'package:weight_app/business_logic/view_model/charts_model.dart';
-import 'package:weight_app/service_locator.dart';
 import '../../business_logic/utils/utils.date_format.dart';
 import '../../model/weight_model.dart';
 
 abstract class WeightChartWidget extends StatelessWidget {
 
-  WeightChartWidget({super.key});
+  const WeightChartWidget({super.key});
 
   @override
   Widget build(BuildContext context);
 
   Widget showLineChart(BuildContext context) {
-    // print('Weight Chart |hash: ${viewmodel.hashCode} | $weights  ');
+    ChartsModel model = context.read();
     DateTime now = DateTime.now();
-    return Consumer<ChartsModel>(
-      builder: (context,model,child) {
+    //return Consumer<ChartsModel>(
+      //builder: (context,model,child) {
         return LineChart(LineChartData(
         borderData: FlBorderData(
             border:
@@ -46,7 +45,7 @@ abstract class WeightChartWidget extends StatelessWidget {
               interval: model.countBottomTitleInterval(),
               showTitles: true,
               getTitlesWidget: (double value, TitleMeta meta) {
-                return buildBottomTitleWidgets(value, meta,model.weights!, now);
+                return buildBottomTitleWidgets(value, meta,model.weights, now);
               },
             )),
             leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false))),
@@ -72,8 +71,8 @@ abstract class WeightChartWidget extends StatelessWidget {
               dotData: FlDotData(show: false))
         ],
       ));
-      },
-    );
+    //   },
+    // );
   }
 
   Widget buildRightTitleWidgets(double value, TitleMeta meta) {

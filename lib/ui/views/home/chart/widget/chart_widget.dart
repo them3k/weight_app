@@ -8,48 +8,23 @@ import '../../../../widget/chart_widget_from_30_days.dart';
 import '../../../../widget/chart_widget_from_7_days.dart';
 import '../../../../widget/chart_widget_from_90_days.dart';
 
-class ChartWidget extends StatefulWidget {
+class ChartWidget extends StatelessWidget {
 
-  final ChartsModel model;
-  final Function (ChartsModel)? onModelReady;
-
-  const ChartWidget({Key? key, required this.model, this.onModelReady}) : super(key: key);
-
-  @override
-  State<ChartWidget> createState() => _ChartWidgetState();
-}
-
-class _ChartWidgetState extends State<ChartWidget> {
-  late ChartsModel model;
-
-  @override
-  void initState() {
-    model = widget.model;
-
-    if (widget.onModelReady != null) {
-      widget.onModelReady!(model);
-    }
-    super.initState();
-  }
+  final bool shouldDisplayChart;
+  final Periods period;
+  const ChartWidget({Key? key, required this.shouldDisplayChart, required this.period}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ChartsModel>(
-          builder: (context, model, child) {
-            print('Chart_widget | build');
-            return model.busy
-                ? _buildCircularProgressIndicator()
-                : model.shouldDisplayChart()
-                    ? _buildChart(model.period)
-                    : _buildEmptyChartInfo();
-          },
-        );
+    //return Consumer<ChartsModel>(
+      //builder: (context, model, child) {
+        print('Chart_widget | build');
+        return shouldDisplayChart
+            ? _buildChart(period)
+            : _buildEmptyChartInfo();
+    //   },
+    // );
   }
-}
-
-Widget _buildCircularProgressIndicator() {
-  print('Charts_widget | _buildCircularProgressIndicator');
-  return const CircularProgressIndicator();
 }
 
 Widget _buildChart(Periods period) {
@@ -60,9 +35,9 @@ Widget _buildChart(Periods period) {
       child: _showChart(period));
 }
 
-Widget _buildEmptyChartInfo(){
+Widget _buildEmptyChartInfo() {
   print('Charts_widget | _buildEmptyChartInfo');
-  return  SizedBox(
+  return SizedBox(
     height: 200,
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -70,8 +45,7 @@ Widget _buildEmptyChartInfo(){
       children: const [
         Padding(
           padding: EdgeInsets.all(8.0),
-          child: Center(
-              child: Text('Add weight to display chart')),
+          child: Center(child: Text('Add weight to display chart')),
         ),
         Icon(
           Icons.add_chart,
@@ -86,13 +60,13 @@ Widget _showChart(Periods period) {
   print('Charts_wiedget | showChart');
   switch (period) {
     case Periods.weekly:
-      return WeightChartWidgetFrom7days();
+      return const WeightChartWidgetFrom7days();
     case Periods.monthly:
-      return WeightChartWidgetFrom30days();
+      return const WeightChartWidgetFrom30days();
     case Periods.quarterly:
-      return WeightChartWidgetFrom90days();
+      return const WeightChartWidgetFrom90days();
     case Periods.semiAnnually:
-      return WeightChartWidgetFrom180days();
+      return const WeightChartWidgetFrom180days();
     default:
       return Text('Unsupported period $period');
   }

@@ -5,26 +5,27 @@ import 'package:flutter/material.dart';
 import 'package:weight_app/ui/views/home/chart/widget/chart_widget.dart';
 import 'package:weight_app/ui/views/home/chart/widget/perdiod_segmented_buttons_widget.dart';
 
-class ChartContainerWidget extends StatelessWidget {
-  const ChartContainerWidget({Key? key}) : super(key: key);
+class ChartView extends StatelessWidget {
+  const ChartView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<ChartsModel>(
-        create: (context) => ChartsModel(),
-        builder: (context, child) {
-          final ChartsModel model = Provider.of(context);
-         return Column(
-            children: [
-              model.busy
-                  ? const SizedBox()
-                  : const PeriodSegmentedButtonWidget(),
-              ChartWidget(
-                model: model,
-                onModelReady: (model) => model.loadData(),
-              )
-            ],
-          );
+    return BaseWidget(
+        model: ChartsModel(),
+        onModelReady: (model) => model.loadData(),
+        builder: (context, model, child) {
+          return model.busy
+              ? Column(
+                  children: const [
+                    SizedBox(),
+                    CircularProgressIndicator()],
+                )
+              : Column(
+                  children: [
+                    const PeriodSegmentedButtonWidget(),
+                    ChartWidget(shouldDisplayChart: !model.busy, period: model.period)
+                  ],
+                );
         });
   }
 }
