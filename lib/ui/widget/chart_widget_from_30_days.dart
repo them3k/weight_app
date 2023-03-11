@@ -6,7 +6,7 @@ import '../../model/weight_model.dart';
 
 class WeightChartWidgetFrom30days extends WeightChartWidget {
 
-  WeightChartWidgetFrom30days({super.key});
+  const WeightChartWidgetFrom30days({super.key});
 
 
   @override
