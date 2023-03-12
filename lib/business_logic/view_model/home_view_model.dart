@@ -40,6 +40,10 @@ class HomeViewModel extends BaseModel {
   Future<double> _countGainWeightFromLastWeek() async {
     List<Weight> lastWeekWeights =
         await _storageService.loadWeightFromDaysAgo(Constants.WEEKLY);
+
+    if(lastWeekWeights.isEmpty) {
+      return 0.0;
+    }
     double avg = lastWeekWeights.map((e) => e.value).reduce((a, b) => a + b) /
         lastWeekWeights.length;
 

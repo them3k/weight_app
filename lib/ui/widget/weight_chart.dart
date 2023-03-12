@@ -3,23 +3,21 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
 
 import 'package:weight_app/business_logic/view_model/charts_model.dart';
-import 'package:weight_app/service_locator.dart';
 import '../../business_logic/utils/utils.date_format.dart';
 import '../../model/weight_model.dart';
 
 abstract class WeightChartWidget extends StatelessWidget {
 
-  WeightChartWidget({super.key});
+  const WeightChartWidget({super.key});
 
   @override
   Widget build(BuildContext context);
 
   Widget showLineChart(BuildContext context) {
-    // print('Weight Chart |hash: ${viewmodel.hashCode} | $weights  ');
-
+    ChartsModel model = context.read();
     DateTime now = DateTime.now();
-    return Consumer<ChartsModel>(
-      builder: (context,viewmodel,child) {
+    //return Consumer<ChartsModel>(
+      //builder: (context,model,child) {
         return LineChart(LineChartData(
         borderData: FlBorderData(
             border:
@@ -36,7 +34,7 @@ abstract class WeightChartWidget extends StatelessWidget {
             show: true,
             rightTitles: AxisTitles(
                 sideTitles: SideTitles(
-              interval: viewmodel.countRightTitleInterval(),
+              interval: model.countRightTitleInterval(),
               reservedSize: 48,
               showTitles: true,
               getTitlesWidget: buildRightTitleWidgets,
@@ -44,17 +42,17 @@ abstract class WeightChartWidget extends StatelessWidget {
             topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
             bottomTitles: AxisTitles(
                 sideTitles: SideTitles(
-              interval: viewmodel.countBottomTitleInterval(),
+              interval: model.countBottomTitleInterval(),
               showTitles: true,
               getTitlesWidget: (double value, TitleMeta meta) {
-                return buildBottomTitleWidgets(value, meta,viewmodel.weights!, now);
+                return buildBottomTitleWidgets(value, meta,model.weights, now);
               },
             )),
             leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false))),
-        minY: viewmodel.countMinY(),
-        maxY: viewmodel.countMaxY(),
-        minX: viewmodel.countMinX(),
-        maxX: viewmodel.countMaxX(),
+        minY: model.countMinY(),
+        maxY: model.countMaxY(),
+        minX: model.countMinX(),
+        maxX: model.countMaxX(),
         lineBarsData: [
           LineChartBarData(
               belowBarData: BarAreaData(
@@ -66,15 +64,15 @@ abstract class WeightChartWidget extends StatelessWidget {
                         .map((color) => color.withOpacity(0.3))
                         .toList(),
                   )),
-              spots: viewmodel.spots,
+              spots: model.spots,
               color: Theme.of(context).colorScheme.primary,
               isCurved: true,
               barWidth: 0.3,
               dotData: FlDotData(show: false))
         ],
       ));
-      },
-    );
+    //   },
+    // );
   }
 
   Widget buildRightTitleWidgets(double value, TitleMeta meta) {
@@ -82,7 +80,7 @@ abstract class WeightChartWidget extends StatelessWidget {
         margin: const EdgeInsets.only(left: 8),
         child: Text(
           '${value.toInt()} kg',
-          style: TextStyle(color: Colors.grey, fontSize: 12),
+          style: const TextStyle(color: Colors.grey, fontSize: 12),
         ));
   }
 
@@ -105,7 +103,7 @@ abstract class WeightChartWidget extends StatelessWidget {
         margin: const EdgeInsets.only(top: 8),
         child: Text(
           DateFormat.displayDateXAxis(weightDateTime, now),
-          style: TextStyle(color: Colors.grey, fontSize: 12),
+          style: const TextStyle(color: Colors.grey, fontSize: 12),
         ));
   }
 

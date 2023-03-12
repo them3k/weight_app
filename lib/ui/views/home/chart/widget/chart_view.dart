@@ -3,24 +3,30 @@ import 'package:weight_app/business_logic/view_model/charts_model.dart';
 import 'package:weight_app/ui/base_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:weight_app/ui/views/home/chart/widget/chart_widget.dart';
+import 'package:weight_app/ui/views/home/chart/widget/empty_chart_info.dart';
 import 'package:weight_app/ui/views/home/chart/widget/perdiod_segmented_buttons_widget.dart';
 
-class ChartContainerWidget extends StatelessWidget {
-  const ChartContainerWidget({Key? key}) : super(key: key);
+class ChartView extends StatelessWidget {
+  const ChartView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    ChartsModel model = ChartsModel();
-    return ChangeNotifierProvider<ChartsModel>(
-        create: (context) => model,
-        child: Column(
-          children: [
-            const PeriodSegmentedButtonWidget(),
-            ChartWidget(
-              model: model,
-              onModelReady: (model) => model.loadData(),
-            )
-          ],
-        ));
+    return BaseWidget(
+        model: ChartsModel(),
+        onModelReady: (model) => model.loadData(),
+        builder: (context, model, child) {
+          return model.busy
+              ? Column(
+                  children: const [SizedBox(), CircularProgressIndicator()],
+                )
+              : model.shouldDisplayChart()
+                  ? Column(
+                      children: [
+                        const PeriodSegmentedButtonWidget(),
+                        ChartWidget(period: model.period)
+                      ],
+                    )
+                  : const EmptyChartInfo();
+        });
   }
 }

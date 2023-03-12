@@ -18,6 +18,7 @@ class _PeriodSegmentedButtonWidgetState
 
   @override
   Widget build(BuildContext context) {
+    print('Perdiod_segmented | build');
     const TextStyle textStyle = TextStyle(fontSize: 11);
     return SegmentedButton<Periods>(
       segments: const <ButtonSegment<Periods>>[

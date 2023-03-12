@@ -8,7 +8,7 @@ import '../../model/weight_model.dart';
 class WeightChartWidgetFrom180days extends WeightChartWidget {
 
 
-  WeightChartWidgetFrom180days({super.key});
+  const WeightChartWidgetFrom180days({super.key});
 
   @override
   Widget build(BuildContext context) {

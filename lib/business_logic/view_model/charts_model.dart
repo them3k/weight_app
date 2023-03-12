@@ -10,18 +10,16 @@ import '../../model/periods.dart';
 import '../../model/weight_model.dart';
 import '../utils/constants.dart';
 
-
 class ChartsModel extends BaseModel {
-
   final StorageService _storageService = serviceLocator<StorageService>();
 
   List<Weight> _weights = [];
 
-  List<Weight>? get weights => _weights;
+  List<Weight> get weights => _weights;
 
-  List<FlSpot>? _spots;
+  List<FlSpot> _spots = [];
 
-  List<FlSpot>? get spots => _spots;
+  List<FlSpot> get spots => _spots;
 
   Periods get period => _period;
 
@@ -58,12 +56,21 @@ class ChartsModel extends BaseModel {
     }
   }
 
+  Future fetchWeights() async {
+    _weights = await loadDataBasedOnPeriod();
+  }
+
+  bool shouldDisplayChart() {
+    return _weights.isNotEmpty;
+  }
+
   void loadData() async {
     setBusy(true);
     print('ChartsModel | loadData');
-    _weights = await loadDataBasedOnPeriod();
-    //await Future.delayed(const Duration(seconds: 2));
-    transformData();
+    await fetchWeights();
+    if (shouldDisplayChart()) {
+      transformData();
+    }
     setBusy(false);
   }
 
@@ -107,7 +114,6 @@ class ChartsModel extends BaseModel {
   }
 
   List<FlSpot> convertToDaysFlSpot() {
-    print('chart_viewModel | convertToDaysFlSpots');
     List<FlSpot> spots = [];
     for (int i = 0; i < _weights.length; i++) {
       spots.add(FlSpot(i.toDouble(), _weights[i].value.floorToDouble()));
@@ -116,18 +122,16 @@ class ChartsModel extends BaseModel {
   }
 
   void _sortFlSpots() {
-    if(_spots == null){
+    if (_spots == null) {
       return;
     }
     _spots!.sort((a, b) => a.x.compareTo(b.x));
   }
 
-  double countDiff() =>
-      getMaxWeightValue() - getMinWeightValue();
+  double countDiff() => getMaxWeightValue() - getMinWeightValue();
 
   double getMinWeightValue() {
-
-    if(_spots == null) {
+    if (_spots == null) {
       return 0;
     }
 
@@ -135,23 +139,19 @@ class ChartsModel extends BaseModel {
     for (var spot in _spots!) {
       ySpots.add(spot.y);
     }
-    print('Weight_chart | getMinWeightValue: ${ySpots.reduce(min)}');
     return ySpots.reduce(min);
   }
 
   double getMaxWeightValue() {
-
-    if(_spots == null){
+    if (_spots == null) {
       return 0;
     }
     List<double> ySpots = [];
     for (var spot in _spots!) {
       ySpots.add(spot.y);
     }
-    print('Weight_chart | getMaxWeightValue: ${ySpots.reduce(max)}');
     return ySpots.reduce(max);
   }
-
 
   double countRightTitleInterval() {
     if (_diff >= 0 && _diff <= 4) {
@@ -197,12 +197,10 @@ class ChartsModel extends BaseModel {
     if (_weights.length <= 3) {
       return 1;
     }
-  print('ChartViewModel | bottomInterval: ${(_weights.length - 1) / 2} ');
     return (_weights.length - 1) / 2;
   }
 
   double countMaxY() {
-
     double max = getMaxWeightValue();
     double interval = countRightTitleInterval();
 
@@ -214,7 +212,6 @@ class ChartsModel extends BaseModel {
   }
 
   double countMinY() {
-
     double min = getMinWeightValue();
     double interval = countRightTitleInterval();
 
@@ -238,9 +235,6 @@ class ChartsModel extends BaseModel {
   }
 
   double? countMaxX() {
-    print('ChartViewModel | countMaxX: ${_weights.length -1}');
     return _weights.length - 1;
   }
-
-
 }
