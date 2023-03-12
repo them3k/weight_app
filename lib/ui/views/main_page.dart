@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weight_app/business_logic/view_model/weight_viewmodel.dart';
-import 'package:weight_app/ui/views/history_page.dart';
+import 'package:weight_app/ui/views/history/history_page.dart';
 import 'package:weight_app/ui/views/home/home_view.dart';
 import 'package:weight_app/ui/views/settings_page.dart';
 

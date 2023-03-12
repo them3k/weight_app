@@ -4,7 +4,7 @@ import 'package:weight_app/model/weight_model.dart';
 import 'package:weight_app/ui/views/add_page.dart';
 import 'package:provider/provider.dart';
 import 'package:weight_app/ui/views/update_page.dart';
-import '../widget/weight_item.dart';
+import '../../widget/weight_item.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({Key? key}) : super(key: key);
