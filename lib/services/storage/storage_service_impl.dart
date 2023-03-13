@@ -78,6 +78,9 @@ class StorageServiceImpl extends StorageService {
   @override
   Future<double> getLastWeightValue() async {
     var weights = await getWeightData();
+    if(weights.isEmpty){
+      return 0.0;
+    }
     return weights.last.value;
   }
 
