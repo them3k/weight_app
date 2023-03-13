@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weight_app/business_logic/view_model/weight_viewmodel.dart';
-import 'package:weight_app/ui/views/history/history_page.dart';
+import 'package:weight_app/ui/views/history/history_view.dart';
 import 'package:weight_app/ui/views/home/home_view.dart';
 import 'package:weight_app/ui/views/settings_page.dart';
 
@@ -20,7 +20,7 @@ class _MainPageState extends State<MainPage> {
     super.initState();
   }
 
-  List page = [const HomeView(), const HistoryPage(), const SettingsPage()];
+  List page = [const HomeView(), const HistoryView(), const SettingsPage()];
   List appBarTitle = const ['Home', 'History','Settings'];
 
   @override

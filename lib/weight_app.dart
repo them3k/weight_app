@@ -4,7 +4,7 @@ import 'package:weight_app/business_logic/view_model/charts_model.dart';
 import 'package:weight_app/business_logic/view_model/weight_viewmodel.dart';
 import 'package:weight_app/colors.dart';
 import 'package:weight_app/service_locator.dart';
-import 'package:weight_app/ui/views/history/history_page.dart';
+import 'package:weight_app/ui/views/history/history_view.dart';
 import 'package:weight_app/ui/views/main_page.dart';
 
 class WeightApp extends StatefulWidget {

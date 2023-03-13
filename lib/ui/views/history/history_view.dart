@@ -7,17 +7,17 @@ import 'package:weight_app/ui/base_widget.dart';
 import 'package:weight_app/ui/views/add_page.dart';
 import 'package:provider/provider.dart';
 import 'package:weight_app/ui/views/update_page.dart';
-import 'package:weight_app/ui/widget/history_view_app_bar.dart';
-import '../../widget/weight_item.dart';
+import 'package:weight_app/ui/views/history/history_view_app_bar.dart';
+import 'weight_item.dart';
 
-class HistoryPage extends StatefulWidget {
-  const HistoryPage({Key? key}) : super(key: key);
+class HistoryView extends StatefulWidget {
+  const HistoryView({Key? key}) : super(key: key);
 
   @override
-  State<HistoryPage> createState() => _HistoryPageState();
+  State<HistoryView> createState() => _HistoryViewState();
 }
 
-class _HistoryPageState extends State<HistoryPage> {
+class _HistoryViewState extends State<HistoryView> {
 
 
   void onLongItemPress(int index) {
