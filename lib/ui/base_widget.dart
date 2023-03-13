@@ -42,4 +42,11 @@ class _BaseWidgetState<T extends ChangeNotifier> extends State<BaseWidget<T>> {
       ),
     );
   }
+
+
+  @override
+  void dispose() {
+    print('base_widget | ${model.runtimeType} | dispose');
+    super.dispose();
+  }
 }

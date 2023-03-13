@@ -28,7 +28,7 @@ class _MainPageState extends State<MainPage> {
     return ChangeNotifierProvider<WeightViewModel>(
       create: (context) => WeightViewModel(),
       child: Scaffold(
-        appBar: _buildAppBar(),
+         // appBar: _buildAppBar(),
         body: page[_selectedIndex],
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,
@@ -64,6 +64,12 @@ class _MainPageState extends State<MainPage> {
             : const SizedBox();
       }),
     ], title: Text(appBarTitle[_selectedIndex]));
+  }
+
+  @override
+  void dispose() {
+    print('main_page | dispose');
+    super.dispose();
   }
 }
 
