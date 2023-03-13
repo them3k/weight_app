@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:weight_app/business_logic/view_model/weight_viewmodel.dart';
 import 'package:weight_app/ui/views/history/history_view.dart';
 import 'package:weight_app/ui/views/home/home_view.dart';
-import 'package:weight_app/ui/views/settings_page.dart';
+import 'package:weight_app/ui/views/settings_view.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -20,7 +20,7 @@ class _MainPageState extends State<MainPage> {
     super.initState();
   }
 
-  List page = [const HomeView(), const HistoryView(), const SettingsPage()];
+  List page = [const HomeView(), const HistoryView(), const SettingsView()];
   List appBarTitle = const ['Home', 'History','Settings'];
 
   @override

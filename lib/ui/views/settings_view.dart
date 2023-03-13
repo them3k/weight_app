@@ -4,14 +4,14 @@ import 'package:weight_app/business_logic/view_model/weight_viewmodel.dart';
 
 import '../../model/weight_presentation_model.dart';
 
-class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+class SettingsView extends StatefulWidget {
+  const SettingsView({Key? key}) : super(key: key);
 
   @override
-  State<SettingsPage> createState() => _SettingsPageState();
+  State<SettingsView> createState() => _SettingsViewState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
+class _SettingsViewState extends State<SettingsView> {
 
   final _weightGoalController = TextEditingController();
   
