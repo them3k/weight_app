@@ -6,6 +6,7 @@ import 'package:weight_app/ui/views/home/widgets/congrat_widget.dart';
 import 'package:weight_app/ui/views/home/widgets/current_weight_widget.dart';
 import '../../../business_logic/view_model/home_view_model.dart';
 import '../../base_widget.dart';
+import '../../widget/custom_app_bar.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -23,10 +24,10 @@ class _HomeViewState extends State<HomeView> {
     return SizedBox(
         height: mediaQuery.size.height -
             kBottomNavigationBarHeight -
-            mediaQuery.padding.top -
-            appBarMaxHeight,
+            mediaQuery.padding.top,
         child: Column(
-          children: const [
+          children: [
+            CustomAppBar(title: 'Home'),
             HomeViewHeader(),
             ChartView(),
             Spacer(),

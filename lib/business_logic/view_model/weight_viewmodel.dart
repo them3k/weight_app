@@ -3,6 +3,7 @@ import 'package:weight_app/business_logic/utils/utils.date_format.dart';
 import 'package:weight_app/service_locator.dart';
 import 'package:weight_app/services/storage/storage_service.dart';
 import '../../model/weight_model.dart';
+import '../../model/weight_presentation_model.dart';
 import '../utils/constants.dart';
 
 class WeightViewModel extends ChangeNotifier {
@@ -126,28 +127,4 @@ class WeightViewModel extends ChangeNotifier {
   }
 }
 
-class WeightPresentation {
-  final String value;
-  final String dateEntry;
 
-  WeightPresentation(this.value, this.dateEntry);
-
-  static List<WeightPresentation> preparePresentation(List<Weight> list) {
-    List<WeightPresentation> weightPresentationList = [];
-
-    list.sort((a, b) => a.dateEntry.compareTo(b.dateEntry));
-
-    for (Weight weight in list) {
-      weightPresentationList.add(WeightPresentation(
-          weight.value.toString(), DateFormat.displayDate(weight.dateEntry)));
-    }
-    return weightPresentationList;
-  }
-
-  static double parseWeight(String value) {
-    if (value.isEmpty) {
-      return -1;
-    }
-    return double.parse(value.replaceAll(',', '.'));
-  }
-}
