@@ -54,8 +54,12 @@ class StorageServiceFake implements StorageService {
   }
 
   @override
-  Future<double> getMinWeightValue() async =>
-      fakeList.map((e) => e.value).reduce(min);
+  Future<double> getMinWeightValue() async {
+    if(fakeList.isEmpty) {
+      return 0.0;
+    }
+    return fakeList.map((e) => e.value).reduce(min);
+  }
 
 
   Future<List<Weight>> weeklyFakeList(int length) async {

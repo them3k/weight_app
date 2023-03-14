@@ -72,6 +72,9 @@ class StorageServiceImpl extends StorageService {
   @override
   Future<double> getMinWeightValue() async {
     var weights = await getWeightData();
+    if(weights.isEmpty){
+      return 0.0;
+    }
     return weights.map((e) => e.value).reduce(min);
   }
 
