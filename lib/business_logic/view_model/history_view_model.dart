@@ -1,4 +1,5 @@
 import 'package:weight_app/business_logic/view_model/base_model.dart';
+import 'package:weight_app/business_logic/view_model/weight_viewmodel.dart';
 import 'package:weight_app/service_locator.dart';
 import 'package:weight_app/services/storage/storage_service.dart';
 
@@ -17,10 +18,22 @@ class HistoryViewModel extends BaseModel {
   bool isItemsSelected = false;
 
 
+
   void loadData() async {
     setBusy(true);
     _weights = await _storageService.getWeightsByDate();
+    print('history_view_model | loadData | ${weights.length}');
     setBusy(false);
+  }
+
+  void updateData(List<Weight> weights) async{
+    if(weights != _weights){
+      setBusy(true);
+      print('history_view_model | updateData | weights size : ${weights.length}');
+      _weights = weights;
+     // await Future.delayed(Duration(seconds: 2));
+      setBusy(false);
+    }
   }
 
   Weight? getItemAtIndex(int index) {
