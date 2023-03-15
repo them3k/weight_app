@@ -1,23 +1,20 @@
-import 'package:flutter/widgets.dart';
-import 'package:weight_app/business_logic/utils/utils.date_format.dart';
+import 'package:weight_app/business_logic/view_model/base_model.dart';
 import 'package:weight_app/service_locator.dart';
 import 'package:weight_app/services/storage/storage_service.dart';
 import '../../model/weight_model.dart';
-import '../../model/weight_presentation_model.dart';
-import '../utils/constants.dart';
 
-class WeightModel extends ChangeNotifier {
+class WeightModel extends BaseModel {
+
   final StorageService _storageService = serviceLocator<StorageService>();
 
   List<Weight> _weights = [];
-  List<int> _selectedIndexes = [];
-  late bool isItemsSelected = false;
 
   List<Weight> get weight => _weights;
 
   void loadData() async {
+    setBusy(true);
     _weights = await _storageService.getWeightData();
-    print('weight_view_model | loadData()');
+    setBusy(false);
   }
 
   Weight? getItemAtIndex(int index) {
@@ -27,73 +24,38 @@ class WeightModel extends ChangeNotifier {
     return _weights[index];
   }
 
-  void addWeight(Weight weight) async {
-    print('ViewModel: $hashCode');
+  void _addWeight(Weight weight) async {
+    setBusy(true);
+    _weights.add(weight);
     await _storageService.addWeight(weight);
-    loadData();
+    setBusy(false);
   }
 
-  void updateWeight(Weight weight, int index) {
-    print('ViewModel | updateWeight: $weight | index: $index');
+  void _updateWeight(Weight weight, int index) {
+    setBusy(true);
+    _weights[index] = weight;
     _storageService.updateWeight(weight, index);
-    loadData();
+    setBusy(false);
   }
 
   void deleteWeights(List<int> indexes) {
+    setBusy(true);
+    for (var element in indexes) {_weights.removeAt(element);}
     _storageService.deleteWeight(indexes);
-    loadData();
+    setBusy(false);
+
   }
 
-  bool isWeightGrater(int index, int prevIndex) {
-    print('weight_viewModel | $index | $prevIndex');
-    if (index == 0) {
-      return false;
+  void saveWeight(double value, DateTime dateTime, int? index) {
+    print('weight_model | saveWeight | value: $value dateTime: $dateTime index: $index');
+    DateTime dateEntry = DateTime(dateTime.year,dateTime.month,dateTime.day);
+    if(index == null){
+      _addWeight(Weight(value: value, dateEntry: dateEntry));
+    }else {
+      _updateWeight(Weight(value: value, dateEntry: dateEntry), index);
     }
-    return _weights[index].value > _weights[prevIndex].value;
   }
 
-  Future<double> getMinWeightValue() => _storageService.getMinWeightValue();
-
-  Future<double> getLastWeightValue() => _storageService.getLastWeightValue();
-
-
-  Future<double> countGainWeightFromLastWeek() async {
-    List<Weight> lastWeekWeights =
-        await _storageService.loadWeightFromDaysAgo(Constants.WEEKLY);
-    double avg = lastWeekWeights.map((e) => e.value).reduce((a, b) => a + b) /
-        lastWeekWeights.length;
-
-    return await getLastWeightValue() - avg;
-  }
-
-  void onTapDeleteSelectedItems() {
-    deleteWeights(_selectedIndexes);
-    clearSelectedIndexes();
-  }
-
-  void clearSelectedIndexes() {
-    _selectedIndexes = List.empty();
-  }
-
-  void shouldShowDeleteIcon() {
-    isItemsSelected = _selectedIndexes.isNotEmpty;
-    notifyListeners();
-    print('WeightViewModel | shouldShowDeleteIcon | result: $isItemsSelected');
-    print(
-        'WeightViewModel | shouldShowDeleteIcon | selected: $_selectedIndexes');
-  }
-
-  bool checkIfIsSelected(int index) => _selectedIndexes.contains(index);
-
-  void selectItem(int index) {
-    _selectedIndexes.add(index);
-    shouldShowDeleteIcon();
-  }
-
-  void removeSelectedIndex(int index) {
-    _selectedIndexes.remove(index);
-    shouldShowDeleteIcon();
-  }
 }
 
 
