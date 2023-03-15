@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weight_app/business_logic/view_model/weight_viewmodel.dart';
+import 'package:weight_app/business_logic/view_model/weight_model.dart';
 import 'package:weight_app/ui/views/history/history_view.dart';
 import 'package:weight_app/ui/views/home/home_view.dart';
 import 'package:weight_app/ui/views/settings_view.dart';
@@ -25,9 +25,9 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<WeightViewModel>(
+    return ChangeNotifierProvider<WeightModel>(
       lazy: false,
-      create: (context) => WeightViewModel()..loadData(),
+      create: (context) => WeightModel()..loadData(),
       child: Scaffold(
          // appBar: _buildAppBar(),
         body: page[_selectedIndex],
@@ -53,7 +53,7 @@ class _MainPageState extends State<MainPage> {
 
   AppBar _buildAppBar() {
     return AppBar(actions: [
-      Consumer<WeightViewModel>(
+      Consumer<WeightModel>(
         builder: (context, viewModel, child) {
         return viewModel.isItemsSelected
           ? GestureDetector(

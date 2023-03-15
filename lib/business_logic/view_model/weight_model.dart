@@ -6,7 +6,7 @@ import '../../model/weight_model.dart';
 import '../../model/weight_presentation_model.dart';
 import '../utils/constants.dart';
 
-class WeightViewModel extends ChangeNotifier {
+class WeightModel extends ChangeNotifier {
   final StorageService _storageService = serviceLocator<StorageService>();
 
   List<Weight> _weights = [];

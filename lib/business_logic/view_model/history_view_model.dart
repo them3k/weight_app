@@ -1,5 +1,5 @@
 import 'package:weight_app/business_logic/view_model/base_model.dart';
-import 'package:weight_app/business_logic/view_model/weight_viewmodel.dart';
+import 'package:weight_app/business_logic/view_model/weight_model.dart';
 import 'package:weight_app/service_locator.dart';
 import 'package:weight_app/services/storage/storage_service.dart';
 

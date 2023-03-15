@@ -2,7 +2,7 @@
 // import 'package:provider/provider.dart';
 // import 'package:weight_app/business_logic/utils/utils.date_format.dart';
 // import 'package:weight_app/business_logic/utils/wave_clipper.dart';
-// import '../../business_logic/view_model/weight_viewmodel.dart';
+// import '../../business_logic/view_model/weight_model.dart';
 // import '../../model/weight_model.dart';
 // import '../widget/half_circle_chart.dart';
 //

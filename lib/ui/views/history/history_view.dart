@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weight_app/business_logic/view_model/history_view_model.dart';
-import 'package:weight_app/business_logic/view_model/weight_viewmodel.dart';
+import 'package:weight_app/business_logic/view_model/weight_model.dart';
 import 'package:weight_app/model/weight_model.dart';
 import 'package:weight_app/model/weight_presentation_model.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +32,7 @@ class _HistoryViewState extends State<HistoryView> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final listHeight = mediaQuery.size.height - kBottomNavigationBarHeight - 90;
-    return ProxyBaseWidget<HistoryViewModel, WeightViewModel>(
+    return ProxyBaseWidget<HistoryViewModel, WeightModel>(
       update: (context, parentModel, model) =>
           model..updateData(parentModel.weight),
       model: HistoryViewModel(),
