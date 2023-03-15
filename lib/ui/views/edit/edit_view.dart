@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weight_app/business_logic/view_model/edit_view_model.dart';
-import 'package:weight_app/business_logic/view_model/home_view_model.dart';
+import 'package:weight_app/business_logic/view_model/weight_model.dart';
 import 'package:weight_app/ui/base_widget.dart';
-import 'package:weight_app/ui/widget/custom_app_bar.dart';
-
 import '../../../business_logic/utils/utils.date_format.dart';
 import '../../../business_logic/utils/wave_clipper.dart';
 import '../../../model/weight_model.dart';
@@ -26,7 +24,7 @@ class _EditViewState extends State<EditView> {
   @override
   void initState() {
     super.initState();
-    if(widget.item != null){
+    if (widget.item != null) {
       _weightController.text = widget.item!.value.toString();
     }
   }
@@ -128,8 +126,9 @@ class _EditViewState extends State<EditView> {
                                 child: ElevatedButton(
                                     onPressed: () => {
                                           context
-                                              .read<EditViewModel>()
-                                              .saveItem(),
+                                              .read<WeightModel>()
+                                              .saveWeight(model.weightValue,
+                                                  model.date, model.index),
                                           Navigator.pop(context)
                                         },
                                     child: const Text('Save'))))
@@ -171,13 +170,14 @@ class _EditViewState extends State<EditView> {
               actions: [
                 TextButton(
                     onPressed: () => {
-                          context.read<EditViewModel>().pickWeight(_weightController.text),
+                          context
+                              .read<EditViewModel>()
+                              .pickWeight(_weightController.text),
                           Navigator.of(innerContext).pop(true)
                         },
                     child: Text('Save')),
                 TextButton(
-                    onPressed: () => {
-                      Navigator.of(innerContext).pop(false)},
+                    onPressed: () => {Navigator.of(innerContext).pop(false)},
                     child: Text('Cancel')),
               ],
             ));

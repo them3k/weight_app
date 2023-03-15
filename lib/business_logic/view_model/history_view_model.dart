@@ -15,6 +15,8 @@ class HistoryViewModel extends BaseModel {
 
   List<int> _selectedIndexes = [];
 
+  List<int> get selectedIndexes => _selectedIndexes;
+
   bool isItemsSelected = false;
 
 
@@ -26,14 +28,10 @@ class HistoryViewModel extends BaseModel {
     setBusy(false);
   }
 
-  void updateData(List<Weight> weights) async{
-    if(weights != _weights){
-      setBusy(true);
-      print('history_view_model | updateData | weights size : ${weights.length}');
-      _weights = weights;
-     // await Future.delayed(Duration(seconds: 2));
-      setBusy(false);
-    }
+  void updateData(List<Weight> weights) async {
+    setBusy(true);
+    _weights = weights;
+    setBusy(false);
   }
 
   Weight? getItemAtIndex(int index) {
@@ -46,7 +44,6 @@ class HistoryViewModel extends BaseModel {
   bool checkIfIsSelected(int index) => _selectedIndexes.contains(index);
 
   bool isWeightGrater(int index, int prevIndex) {
-    print('weight_viewModel | $index | $prevIndex');
     if (index == 0) {
       return false;
     }
@@ -54,14 +51,8 @@ class HistoryViewModel extends BaseModel {
   }
 
   void onTapDeleteSelectedItems() {
-    deleteWeights(_selectedIndexes);
     clearSelectedIndexes();
     shouldShowDeleteIcon();
-  }
-
-  void deleteWeights(List<int> indexes) {
-    _storageService.deleteWeight(indexes);
-    loadData();
   }
 
   void clearSelectedIndexes() {
@@ -83,6 +74,4 @@ class HistoryViewModel extends BaseModel {
     _selectedIndexes.remove(index);
     shouldShowDeleteIcon();
   }
-
-
 }

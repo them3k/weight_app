@@ -15,6 +15,6 @@ void setupServiceLocator() {
 
   // serviceLocator.registerFactory<WeightViewModel>(() => WeightViewModel());
   // serviceLocator.registerFactory<ChartViewModel>(() => ChartViewModel());
-  serviceLocator.registerLazySingleton<StorageService>(() => StorageServiceFake());
+  serviceLocator.registerLazySingleton<StorageService>(() => StorageServiceImpl());
 
 }

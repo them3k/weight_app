@@ -5,9 +5,10 @@ import 'package:weight_app/business_logic/view_model/history_view_model.dart';
 class HistoryAppBar extends StatefulWidget {
   final String title;
   final bool isItemSelected;
+  final Function onDelete;
 
   const HistoryAppBar(
-      {Key? key, required this.title, required this.isItemSelected})
+      {Key? key, required this.title, required this.isItemSelected,required this.onDelete})
       : super(key: key);
 
   @override
@@ -48,11 +49,7 @@ class _HistoryAppBarState extends State<HistoryAppBar> {
             widget.isItemSelected
                 ? GestureDetector(
                     child: const Icon(Icons.delete),
-                    onTap: () {
-                      context
-                          .read<HistoryViewModel>()
-                          .onTapDeleteSelectedItems();
-                    },
+                    onTap: () => widget.onDelete()
                   )
                 : const SizedBox()
           ])),

@@ -25,11 +25,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<WeightModel>(
-      lazy: false,
-      create: (context) => WeightModel()..loadData(),
-      child: Scaffold(
-         // appBar: _buildAppBar(),
+    return Scaffold(
         body: page[_selectedIndex],
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,
@@ -41,8 +37,7 @@ class _MainPageState extends State<MainPage> {
                 label: 'Settings', icon: Icon(Icons.settings)),
           ],
         ),
-      ),
-   );
+      );
   }
 
   void onTap(int index) {
@@ -51,21 +46,6 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
-  AppBar _buildAppBar() {
-    return AppBar(actions: [
-      Consumer<WeightModel>(
-        builder: (context, viewModel, child) {
-        return viewModel.isItemsSelected
-          ? GestureDetector(
-                child: const Icon(Icons.delete),
-                onTap: () {
-                  viewModel.onTapDeleteSelectedItems();
-                },
-              )
-            : const SizedBox();
-      }),
-    ], title: Text(appBarTitle[_selectedIndex]));
-  }
 
   @override
   void dispose() {

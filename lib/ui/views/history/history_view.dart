@@ -35,11 +35,16 @@ class _HistoryViewState extends State<HistoryView> {
     return ProxyBaseWidget<HistoryViewModel, WeightModel>(
       update: (context, parentModel, model) =>
           model..updateData(parentModel.weight),
+      onModelReady: (model) => model.loadData(),
       model: HistoryViewModel(),
       builder: (context, model, child) {
         return Column(
           children: [
             HistoryAppBar(
+              onDelete: () {
+                context.read<WeightModel>().deleteWeights(model.selectedIndexes);
+                model.onTapDeleteSelectedItems();
+              },
               title: 'History',
               isItemSelected: model.isItemsSelected,
             ),
