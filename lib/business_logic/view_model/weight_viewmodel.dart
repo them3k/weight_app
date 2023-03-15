@@ -12,43 +12,12 @@ class WeightViewModel extends ChangeNotifier {
   List<Weight> _weights = [];
   List<int> _selectedIndexes = [];
   late bool isItemsSelected = false;
-  double _goal = 0;
-  double _gainWeightFromLastWeek = 0;
-  double _lastWeight = 0;
 
-  double get goal => _goal;
-
-  double get gainWeightFromLastWeek => _gainWeightFromLastWeek;
-
-  double get lastWeight => _lastWeight;
-
-  void updateGoal(double value) {
-    if (value == _goal) {
-      return;
-    }
-    _goal = value;
-    notifyListeners();
-    saveGoal(goal);
-  }
-
-  Future<double> getGoalValue() => _storageService.getGoal();
-
-  void saveGoal(double goal) =>
-      _storageService.saveGoal(goal);
-
-
-
-  List<WeightPresentation> get weights {
-    return WeightPresentation.preparePresentation(_weights);
-  }
+  List<Weight> get weight => _weights;
 
   void loadData() async {
     _weights = await _storageService.getWeightData();
-    _lastWeight = await getLastWeightValue();
-    _gainWeightFromLastWeek = await countGainWeightFromLastWeek();
-    _goal = await getGoalValue();
-    notifyListeners();
-    print('ViewModel: $hashCode');
+    print('weight_view_model | loadData()');
   }
 
   Weight? getItemAtIndex(int index) {

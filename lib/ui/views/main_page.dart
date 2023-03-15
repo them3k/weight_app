@@ -25,10 +25,10 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    // return ChangeNotifierProvider<WeightViewModel>(
-    //   create: (context) => WeightViewModel(),
-    //   child:
-      return Scaffold(
+    return ChangeNotifierProvider<WeightViewModel>(
+      lazy: false,
+      create: (context) => WeightViewModel()..loadData(),
+      child: Scaffold(
          // appBar: _buildAppBar(),
         body: page[_selectedIndex],
         bottomNavigationBar: BottomNavigationBar(
@@ -41,8 +41,8 @@ class _MainPageState extends State<MainPage> {
                 label: 'Settings', icon: Icon(Icons.settings)),
           ],
         ),
-      );
- //   );
+      ),
+   );
   }
 
   void onTap(int index) {

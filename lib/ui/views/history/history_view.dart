@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:weight_app/business_logic/view_model/history_view_model.dart';
+import 'package:weight_app/business_logic/view_model/weight_viewmodel.dart';
 import 'package:weight_app/model/weight_model.dart';
 import 'package:weight_app/model/weight_presentation_model.dart';
-import 'package:weight_app/ui/base_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:weight_app/ui/views/update_page.dart';
-import 'package:weight_app/ui/views/history/history_view_app_bar.dart';
+import 'package:weight_app/ui/widget/proxy_base_widget.dart';
 import '../edit/edit_view.dart';
+import 'history_view_app_bar.dart';
 import 'weight_item.dart';
 
 class HistoryView extends StatefulWidget {
