@@ -17,68 +17,69 @@ class HistoryView extends StatefulWidget {
 }
 
 class _HistoryViewState extends State<HistoryView> {
+
+
   void onLongItemPress(int index) {
-    print('Item with index: $index is pressed');
     var result = context.read<HistoryViewModel>().checkIfIsSelected(index);
     setState(() {
       result
           ? context.read<HistoryViewModel>().removeSelectedIndex(index)
           : context.read<HistoryViewModel>().selectItem(index);
     });
-    print('HomePage | onItemPress | selectedIndexes: ');
   }
 
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final listHeight = mediaQuery.size.height - kBottomNavigationBarHeight - 90;
-    return BaseWidget(
-        model: HistoryViewModel(),
-        onModelReady: (model) => model.loadData(),
-        builder: (context, model, child) {
-          return model.busy
-              ? const CircularProgressIndicator()
-              : Column(
-                  children: [
-                    HistoryAppBar(
-                      title: 'History',
-                      isItemSelected: model.isItemsSelected,
-                    ),
-                    SizedBox(
-                      height: listHeight,
-                      child: ListView.builder(
-                          itemCount: model.weights.length,
-                          itemBuilder: (context, position) {
-                            return WeightItem(
-                              item: WeightPresentation.toPresentation(
-                                  model.weights[position]),
-                              onLongItemPress: (int index) => {
-                                setState(() {
-                                  context
-                                          .read<HistoryViewModel>()
-                                          .checkIfIsSelected(index)
-                                      ? context
-                                          .read<HistoryViewModel>()
-                                          .removeSelectedIndex(index)
-                                      : context
-                                          .read<HistoryViewModel>()
-                                          .selectItem(index);
-                                })
-                              },
-                              onItemPressed: (int position) {
-                                navigateToUpdatePage(
-                                    model.getItemAtIndex(position)!, position);
-                              },
-                              index: position,
-                              isPressed: model.checkIfIsSelected(position),
-                              isGreater:
-                                  model.isWeightGrater(position, position - 1),
-                            );
-                          }),
-                    ),
-                  ],
-                );
-        });
+    return ProxyBaseWidget<HistoryViewModel, WeightViewModel>(
+      update: (context, parentModel, model) =>
+          model..updateData(parentModel.weight),
+      model: HistoryViewModel(),
+      builder: (context, model, child) {
+        return Column(
+          children: [
+            HistoryAppBar(
+              title: 'History',
+              isItemSelected: model.isItemsSelected,
+            ),
+            model.busy
+                ? const CircularProgressIndicator()
+                : SizedBox(
+                    height: listHeight,
+                    child: ListView.builder(
+                        itemCount: model.weights.length,
+                        itemBuilder: (context, position) {
+                          return WeightItem(
+                            item: WeightPresentation.toPresentation(
+                                model.weights[position]),
+                            onLongItemPress: (int index) => {
+                              setState(() {
+                                context
+                                        .read<HistoryViewModel>()
+                                        .checkIfIsSelected(index)
+                                    ? context
+                                        .read<HistoryViewModel>()
+                                        .removeSelectedIndex(index)
+                                    : context
+                                        .read<HistoryViewModel>()
+                                        .selectItem(index);
+                              })
+                            },
+                            onItemPressed: (int position) {
+                              navigateToUpdatePage(
+                                  model.getItemAtIndex(position)!, position);
+                            },
+                            index: position,
+                            isPressed: model.checkIfIsSelected(position),
+                            isGreater:
+                                model.isWeightGrater(position, position - 1),
+                          );
+                        })),
+          ],
+        );
+      },
+    );
   }
 
   void navigateToUpdatePage(Weight item, int index) {

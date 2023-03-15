@@ -130,7 +130,7 @@ class _EditViewState extends State<EditView> {
                                           context
                                               .read<EditViewModel>()
                                               .saveItem(),
-                                          Navigator.pop(context,true)
+                                          Navigator.pop(context)
                                         },
                                     child: const Text('Save'))))
                       ]),
