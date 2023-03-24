@@ -10,8 +10,7 @@ class BaseModel extends ChangeNotifier {
       return;
     }
     _busy = value;
-    print('base_model | setBusy: $busy');
-    print('$hashCode');
+    print('base_model | $runtimeType | busy: $_busy | notify');
     notifyListeners();
   }
 }

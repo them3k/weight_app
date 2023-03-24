@@ -85,6 +85,8 @@ class EditViewModel extends BaseModel {
     if (value == null) {
       return;
     }
+    value = value.replaceAll(',', '.');
+    print('edit_view_model | pickWeight | $value');
     _setWeight(double.parse(value));
     notifyListeners();
   }

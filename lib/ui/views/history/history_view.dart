@@ -17,8 +17,6 @@ class HistoryView extends StatefulWidget {
 }
 
 class _HistoryViewState extends State<HistoryView> {
-
-
   void onLongItemPress(int index) {
     var result = context.read<HistoryViewModel>().checkIfIsSelected(index);
     setState(() {
@@ -29,13 +27,24 @@ class _HistoryViewState extends State<HistoryView> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    print('History_view | dispose');
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final listHeight = mediaQuery.size.height - kBottomNavigationBarHeight - 90;
     return ProxyBaseWidget<HistoryViewModel, WeightModel>(
       update: (context, parentModel, model) =>
-          model..updateData(parentModel.weight),
-      onModelReady: (model) => model.loadData(),
+          model..loadData(parentModel.weights),
+      //onModelReady: (model) => model.loadData(),
       model: HistoryViewModel(),
       builder: (context, model, child) {
         return Column(

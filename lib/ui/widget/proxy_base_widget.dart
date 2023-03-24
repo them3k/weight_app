@@ -6,7 +6,7 @@ import 'package:weight_app/business_logic/view_model/weight_model.dart';
 class ProxyBaseWidget<T extends ChangeNotifier, R extends ChangeNotifier>
     extends StatefulWidget {
   final Widget Function(
-      BuildContext context, HistoryViewModel model, Widget? child) builder;
+      BuildContext context, T model, Widget? child) builder;
   final T Function(
     BuildContext context,
     R parentModel,
@@ -47,7 +47,7 @@ class _ProxyBaseWidgetState<T extends ChangeNotifier, R extends ChangeNotifier>
       create: (context) => model,
       lazy: false,
       update: (context, T, R) => widget.update(context, T, R!),
-      child: Consumer<HistoryViewModel>(
+      child: Consumer<T>(
         builder: widget.builder,
         child: widget.child,
       ),

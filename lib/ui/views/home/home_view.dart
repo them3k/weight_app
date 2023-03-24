@@ -26,7 +26,7 @@ class _HomeViewState extends State<HomeView> {
             kBottomNavigationBarHeight -
             mediaQuery.padding.top,
         child: Column(
-          children: [
+          children: const [
             CustomAppBar(title: 'Home'),
             HomeViewHeader(),
             ChartView(),

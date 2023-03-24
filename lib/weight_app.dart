@@ -7,6 +7,8 @@ import 'package:weight_app/service_locator.dart';
 import 'package:weight_app/ui/views/history/history_view.dart';
 import 'package:weight_app/ui/views/main_page.dart';
 
+import 'model/weight_model.dart';
+
 class WeightApp extends StatefulWidget {
   WeightApp({Key? key}) : super(key: key);
 
@@ -25,14 +27,17 @@ class _WeightAppState extends State<WeightApp> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<WeightModel>(
-        lazy: false,
-        create: (context) => WeightModel()..loadData(),
-        child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: _themeData,
-            title: 'Weight App',
-            home: MainPage()));
+    return MultiProvider(
+      providers: [ChangeNotifierProvider<WeightModel>(
+          lazy: false,
+          create: (context) => WeightModel()..loadData()),
+            ],
+          child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: _themeData,
+              title: 'Weight App',
+              home: MainPage())
+    );
   }
 
   ThemeData _buildThemeData() {

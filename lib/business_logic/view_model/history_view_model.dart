@@ -19,18 +19,10 @@ class HistoryViewModel extends BaseModel {
 
   bool isItemsSelected = false;
 
-
-
-  void loadData() async {
+  void loadData(List<Weight> weights) async {
     setBusy(true);
-    _weights = await _storageService.getWeightsByDate();
-    print('history_view_model | loadData | ${weights.length}');
-    setBusy(false);
-  }
-
-  void updateData(List<Weight> weights) async {
-    setBusy(true);
-    _weights = weights;
+    print('history_view_model | udapteData | weigts: ${weights.length}');
+    _weights = WeightModel.sortByDate(weights);
     setBusy(false);
   }
 
@@ -66,6 +58,7 @@ class HistoryViewModel extends BaseModel {
   }
 
   void selectItem(int index) {
+    print('history_view_model | $index');
     _selectedIndexes.add(index);
     shouldShowDeleteIcon();
   }
