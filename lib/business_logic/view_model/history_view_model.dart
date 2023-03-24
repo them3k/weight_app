@@ -1,4 +1,5 @@
 import 'package:weight_app/business_logic/view_model/base_model.dart';
+import 'package:weight_app/business_logic/view_model/weight_model.dart';
 import 'package:weight_app/service_locator.dart';
 import 'package:weight_app/services/storage/storage_service.dart';
 
@@ -14,12 +15,14 @@ class HistoryViewModel extends BaseModel {
 
   List<int> _selectedIndexes = [];
 
+  List<int> get selectedIndexes => _selectedIndexes;
+
   bool isItemsSelected = false;
 
-
-  void loadData() async {
+  void loadData(List<Weight> weights) async {
     setBusy(true);
-    _weights = await _storageService.getWeightsByDate();
+    print('history_view_model | udapteData | weigts: ${weights.length}');
+    _weights = WeightModel.sortByDate(weights);
     setBusy(false);
   }
 
@@ -33,7 +36,6 @@ class HistoryViewModel extends BaseModel {
   bool checkIfIsSelected(int index) => _selectedIndexes.contains(index);
 
   bool isWeightGrater(int index, int prevIndex) {
-    print('weight_viewModel | $index | $prevIndex');
     if (index == 0) {
       return false;
     }
@@ -41,14 +43,8 @@ class HistoryViewModel extends BaseModel {
   }
 
   void onTapDeleteSelectedItems() {
-    deleteWeights(_selectedIndexes);
     clearSelectedIndexes();
     shouldShowDeleteIcon();
-  }
-
-  void deleteWeights(List<int> indexes) {
-    _storageService.deleteWeight(indexes);
-    loadData();
   }
 
   void clearSelectedIndexes() {
@@ -62,6 +58,7 @@ class HistoryViewModel extends BaseModel {
   }
 
   void selectItem(int index) {
+    print('history_view_model | $index');
     _selectedIndexes.add(index);
     shouldShowDeleteIcon();
   }
@@ -70,6 +67,4 @@ class HistoryViewModel extends BaseModel {
     _selectedIndexes.remove(index);
     shouldShowDeleteIcon();
   }
-
-
 }

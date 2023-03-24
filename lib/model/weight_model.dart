@@ -7,7 +7,7 @@ class Weight{
 
   @override
   String toString() {
-    return 'Weight + $value + $dateEntry';
+    return 'Weight : ${value}kg | ${dateEntry.year}-${dateEntry.month}-${dateEntry.day} ';
   }
 
 }

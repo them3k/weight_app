@@ -26,16 +26,16 @@ class ChartWidget extends StatelessWidget {
 
 
 Widget _showChart(Periods period) {
-  print('Charts_wiedget | showChart');
+  print('Charts_wiedget | showChart | $period');
   switch (period) {
     case Periods.weekly:
-      return const WeightChartWidgetFrom7days();
+      return  WeightChartWidgetFrom7days();
     case Periods.monthly:
-      return const WeightChartWidgetFrom30days();
+      return  WeightChartWidgetFrom30days();
     case Periods.quarterly:
-      return const WeightChartWidgetFrom90days();
+      return  WeightChartWidgetFrom90days();
     case Periods.semiAnnually:
-      return const WeightChartWidgetFrom180days();
+      return  WeightChartWidgetFrom180days();
     default:
       return Text('Unsupported period $period');
   }

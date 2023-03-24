@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:weight_app/model/weight_model.dart';
+import 'package:weight_app/ui/views/edit/edit_view.dart';
 
 import '../../add_page.dart';
 
 class AddWeightButtonContainer extends StatelessWidget {
-  const AddWeightButtonContainer({Key? key}) : super(key: key);
+
+  final Weight? item;
+  final int? index;
+
+  const AddWeightButtonContainer({this.item,this.index, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +26,6 @@ class AddWeightButtonContainer extends StatelessWidget {
 
   void navigateToAddPage(BuildContext context) {
     Navigator.of(context)
-        .push(MaterialPageRoute<AddPage>(builder: (_) => const AddPage()));
+        .push(MaterialPageRoute<EditView>(builder: (_) => EditView(item: item,index: index,)));
   }
 }

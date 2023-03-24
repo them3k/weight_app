@@ -1,21 +1,35 @@
 import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
+import 'package:weight_app/business_logic/helpers/weight_filters.dart';
 import 'package:weight_app/business_logic/view_model/base_model.dart';
-
+import 'package:weight_app/business_logic/view_model/weight_model.dart';
 import 'package:weight_app/service_locator.dart';
 import 'package:weight_app/services/storage/storage_service.dart';
 import '../../model/periods.dart';
 import '../../model/weight_model.dart';
 import '../utils/constants.dart';
 
+
+/*
+    1) LoadData with empty list  Is it necessary ??
+    2) UpdateData(List<Weight> weights)
+      a) Do we need this list elsewhere ? YES, if we need to change periods we also need all available weight to filter that
+        #) Can we ask one more time WeightModel for data or used previous one ?
+    3) Before build, we have to create _spots based on _weights
+      a) Maybe not, b/c build is made before update call ( I think so )
+      b) We have to only notify about updating #stateSource
+    4) Weight_Chart is based on weights so we have to also filter a think
+
+ */
+
 class ChartsModel extends BaseModel {
-  final StorageService _storageService = serviceLocator<StorageService>();
 
   List<Weight> _weights = [];
 
-  List<Weight> get weights => _weights;
+  List<Weight> _filteredWeights = [];
+
+  List<Weight> get filteredWeights => _filteredWeights;
 
   List<FlSpot> _spots = [];
 
@@ -29,53 +43,27 @@ class ChartsModel extends BaseModel {
 
   double get diff => _diff;
 
-  bool isPeriodPickerSelected(Periods selectedPeriod) =>
-      _period == selectedPeriod;
+  void loadData(List<Weight> weights) {
 
-  void togglePeriod(Periods selectedPeriod) {
-    print('charts_model_ | togglePeriod ');
-    if (_period == selectedPeriod) {
+    if(weights.isEmpty){
       return;
     }
-    _period = selectedPeriod;
-    loadData();
-  }
-
-  Future<List<Weight>> loadDataBasedOnPeriod() async {
-    switch (_period) {
-      case Periods.semiAnnually:
-        return loadDataWeightFrom180daysAgo();
-      case Periods.quarterly:
-        return loadDataWeightFrom90daysAgo();
-      case Periods.monthly:
-        return loadDataWeightFrom30daysAgo();
-      case Periods.weekly:
-        return loadDataWeightFrom7daysAgo();
-      default:
-        return [];
-    }
-  }
-
-  Future fetchWeights() async {
-    _weights = await loadDataBasedOnPeriod();
-  }
-
-  bool shouldDisplayChart() {
-    return _weights.isNotEmpty;
-  }
-
-  void loadData() async {
     setBusy(true);
-    print('ChartsModel | loadData');
-    await fetchWeights();
-    if (shouldDisplayChart()) {
-      transformData();
-    }
+    _weights = WeightModel.sortByDate(weights);
+    transformData();
     setBusy(false);
   }
 
-  void transformData() {
-    _spots = convertToDaysFlSpot();
+  void transformData() async {
+    print('charts_model | transformData | weights.len: ${_weights.length}');
+    List<Weight> filteredWeights = WeightFilters.filterDataBasedOnPeriod(_period,_weights);
+    print('charts_model | transformData | filtered.len: ${filteredWeights.length}');
+
+    // This list I should set as get for _weights !
+    List<Weight> weightsNoRepetition = joinRepeatedWeightDate(filteredWeights);
+    print('charts_model | transformData | noRep.len: ${weightsNoRepetition.length}');
+    _filteredWeights = weightsNoRepetition;
+    _spots = convertToDaysFlSpot(weightsNoRepetition);
     _sortFlSpots();
     _diff = countDiff();
   }
@@ -97,57 +85,50 @@ class ChartsModel extends BaseModel {
         .toList();
   }
 
-  Future<List<Weight>> loadDataWeightFrom180daysAgo() async {
-    return _storageService.loadWeightFromDaysAgo(Constants.SEMI_ANNUALLY);
-  }
-
-  Future<List<Weight>> loadDataWeightFrom90daysAgo() async {
-    return _storageService.loadWeightFromDaysAgo(Constants.QUATERLY);
-  }
-
-  Future<List<Weight>> loadDataWeightFrom30daysAgo() async {
-    return _storageService.loadWeightFromDaysAgo(Constants.MONTHLY);
-  }
-
-  Future<List<Weight>> loadDataWeightFrom7daysAgo() async {
-    return _storageService.loadWeightFromDaysAgo(Constants.WEEKLY);
-  }
-
-  List<FlSpot> convertToDaysFlSpot() {
+  List<FlSpot> convertToDaysFlSpot(List<Weight> weights) {
     List<FlSpot> spots = [];
-    for (int i = 0; i < _weights.length; i++) {
-      spots.add(FlSpot(i.toDouble(), _weights[i].value.floorToDouble()));
+    for (int i = 0; i < weights.length; i++) {
+      spots.add(FlSpot(i.toDouble(), weights[i].value.floorToDouble()));
     }
     return spots.toSet().toList();
   }
 
   void _sortFlSpots() {
-    if (_spots == null) {
-      return;
-    }
-    _spots!.sort((a, b) => a.x.compareTo(b.x));
+    _spots.sort((a, b) => a.x.compareTo(b.x));
   }
 
   double countDiff() => getMaxWeightValue() - getMinWeightValue();
 
-  double getMinWeightValue() {
-    if (_spots == null) {
-      return 0;
+  void togglePeriod(Periods selectedPeriod) async {
+    if (_period == selectedPeriod) {
+      return;
     }
+    _period = selectedPeriod;
+    transformData();
+    notifyListeners();
+  }
+
+  bool isPeriodPickerSelected(Periods selectedPeriod) =>
+      _period == selectedPeriod;
+
+  bool shouldDisplayChart() {
+    print('charts_model | shouldDisplayChart | ${_weights.isNotEmpty}');
+    return _filteredWeights.isNotEmpty;
+  }
+
+  double getMinWeightValue() {
 
     List<double> ySpots = [];
-    for (var spot in _spots!) {
+    for (var spot in _spots) {
       ySpots.add(spot.y);
     }
     return ySpots.reduce(min);
   }
 
   double getMaxWeightValue() {
-    if (_spots == null) {
-      return 0;
-    }
+
     List<double> ySpots = [];
-    for (var spot in _spots!) {
+    for (var spot in _spots) {
       ySpots.add(spot.y);
     }
     return ySpots.reduce(max);
@@ -194,10 +175,10 @@ class ChartsModel extends BaseModel {
   }
 
   double countBottomTitleInterval() {
-    if (_weights.length <= 3) {
+    if (_spots.length <= 3) {
       return 1;
     }
-    return (_weights.length - 1) / 2;
+    return (_spots.length - 1) / 2;
   }
 
   double countMaxY() {
@@ -230,11 +211,8 @@ class ChartsModel extends BaseModel {
     return dividend % divider == 0;
   }
 
-  double? countMinX() {
-    return 0;
-  }
+  double countMinX() => 0;
 
-  double? countMaxX() {
-    return _weights.length - 1;
-  }
+  double countMaxX() => _spots.length - 1;
+
 }

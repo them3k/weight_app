@@ -42,6 +42,7 @@ class StorageServiceImpl extends StorageService {
   void deleteWeight(List<int> indexes) {
     final Box<HiveWeight> box = getBox();
     for (var index in indexes) {
+      print('storage_services_impl | deleteWeight | indexes: $indexes');
       box.deleteAt(index);
     }
   }
@@ -72,12 +73,18 @@ class StorageServiceImpl extends StorageService {
   @override
   Future<double> getMinWeightValue() async {
     var weights = await getWeightData();
+    if(weights.isEmpty){
+      return 0.0;
+    }
     return weights.map((e) => e.value).reduce(min);
   }
 
   @override
   Future<double> getLastWeightValue() async {
-    var weights = await getWeightData();
+    var weights = await getWeightsByDate();
+    if(weights.isEmpty){
+      return 0.0;
+    }
     return weights.last.value;
   }
 

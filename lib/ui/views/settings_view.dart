@@ -22,9 +22,9 @@ class _SettingsViewState extends State<SettingsView> {
         model: SettingsViewModel(),
         onModelReady: (model) {
           model.loadData();
-          _weightGoalController.text = model.goal.toString();
         },
         builder: (context, model, child) {
+          _weightGoalController.text = model.goal.toString();
           return Column(
             children: [
               const CustomAppBar(title: 'Settings'),

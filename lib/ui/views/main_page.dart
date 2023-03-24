@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weight_app/business_logic/view_model/weight_viewmodel.dart';
+import 'package:weight_app/business_logic/view_model/weight_model.dart';
 import 'package:weight_app/ui/views/history/history_view.dart';
 import 'package:weight_app/ui/views/home/home_view.dart';
 import 'package:weight_app/ui/views/settings_view.dart';
@@ -25,10 +25,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<WeightViewModel>(
-      create: (context) => WeightViewModel(),
-      child: Scaffold(
-         // appBar: _buildAppBar(),
+    return Scaffold(
         body: page[_selectedIndex],
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,
@@ -40,8 +37,7 @@ class _MainPageState extends State<MainPage> {
                 label: 'Settings', icon: Icon(Icons.settings)),
           ],
         ),
-      ),
-    );
+      );
   }
 
   void onTap(int index) {
@@ -50,21 +46,6 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
-  AppBar _buildAppBar() {
-    return AppBar(actions: [
-      Consumer<WeightViewModel>(
-        builder: (context, viewModel, child) {
-        return viewModel.isItemsSelected
-          ? GestureDetector(
-                child: const Icon(Icons.delete),
-                onTap: () {
-                  viewModel.onTapDeleteSelectedItems();
-                },
-              )
-            : const SizedBox();
-      }),
-    ], title: Text(appBarTitle[_selectedIndex]));
-  }
 
   @override
   void dispose() {

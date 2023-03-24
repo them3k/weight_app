@@ -1,9 +1,9 @@
+import 'package:weight_app/business_logic/helpers/weight_filters.dart';
 import 'package:weight_app/business_logic/view_model/base_model.dart';
 
 import '../../model/weight_model.dart';
 import '../../service_locator.dart';
 import '../../services/storage/storage_service.dart';
-import '../utils/constants.dart';
 
 class HomeViewModel extends BaseModel {
 
@@ -17,11 +17,11 @@ class HomeViewModel extends BaseModel {
 
   double get gainedWeightFromLastWeek => _gainedWeightFromLastWeek;
 
-  void loadData() async {
+  void loadData(List<Weight> weights) async {
     print('HomeViewModel | loadData');
     setBusy(true);
-    await fetchLastWeight();
-    await fetchGainedWeightFromLastWeek();
+    _lastWeight = weights.last.value;
+    loadGainedWeightFromLastWeek(WeightFilters.filterWeeklyWeights(weights),lastWeight);
     setBusy(false);
   }
 
@@ -30,24 +30,21 @@ class HomeViewModel extends BaseModel {
     print('HomeViewModel | fetchLastWeight : $_lastWeight');
   }
 
-  Future<double> _getLastWeightValue() async =>
-      _storageService.getLastWeightValue();
+  Future loadGainedWeightFromLastWeek(List<Weight> weights, double lastWeight) async {
 
-  Future fetchGainedWeightFromLastWeek() async {
-    _gainedWeightFromLastWeek = await _countGainWeightFromLastWeek();
+    _gainedWeightFromLastWeek = _countGainWeightFromLastWeek(weights,lastWeight);
   }
 
-  Future<double> _countGainWeightFromLastWeek() async {
-    List<Weight> lastWeekWeights =
-        await _storageService.loadWeightFromDaysAgo(Constants.WEEKLY);
+  double _countGainWeightFromLastWeek(List<Weight> lastWeekWeights, double lastWeight) {
 
     if(lastWeekWeights.isEmpty) {
       return 0.0;
     }
+
     double avg = lastWeekWeights.map((e) => e.value).reduce((a, b) => a + b) /
         lastWeekWeights.length;
 
-    return await _getLastWeightValue() - avg;
+    return lastWeight - avg;
   }
 
 }
