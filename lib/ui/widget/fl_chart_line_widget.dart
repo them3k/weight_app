@@ -1,52 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:provider/provider.dart';
-
-import 'package:weight_app/business_logic/view_model/charts_model.dart';
 import 'package:weight_app/colors.dart';
 import '../../business_logic/utils/utils.date_format.dart';
+import '../../model/chart.dart';
 import '../../model/weight_model.dart';
 
 class FLChartLineWidget extends StatelessWidget {
-  double rightTitleInterval;
-  double bottomTitleInterval;
-  List<FlSpot> spots;
-  List<Weight> weights;
-  DateTime now;
 
+  final Chart chartData;
 
+  const FLChartLineWidget({
+    super.key,
+    required this.chartData
+  });
 
   @override
   Widget build(BuildContext context) {
-    return showLineChart(context);
-  }
-
-  Widget showLineChart(BuildContext context) {
-    ChartsModel model = context.read();
-    print('weights_chart | weights: ${model.filteredWeights}');
-    print('weights_chart | spots: ${model.spots}');
-
-    // This is a state;
-    DateTime now = DateTime.now();
-    return LineChart(LineChartData(
-      borderData: _buildFlBorderData(),
-      gridData: _buildFlGridData(),
-      titlesData: _buildFlTitlesData(),
-      minY: model.countMinY(),
-      maxY: model.countMaxY(),
-      minX: model.countMinX(),
-      maxX: model.countMaxX(),
-      lineBarsData: [_buildLineChartBarData(model.spots)],
-    ));
+    print('fl_chart_line_widget | build');
+      return LineChart(LineChartData(
+        borderData: _buildFlBorderData(),
+        gridData: _buildFlGridData(),
+        titlesData: _buildFlTitlesData(),
+        minY: chartData.minY,
+        maxY: chartData.maxY,
+        minX: chartData.minX,
+        maxX: chartData.maxX,
+        lineBarsData: [_buildLineChartBarData()],
+      ));
   }
 
   FlBorderData _buildFlBorderData() => FlBorderData(
       border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.4))));
 
-  LineChartBarData _buildLineChartBarData(List<FlSpot> spots) {
+  LineChartBarData _buildLineChartBarData() {
     return LineChartBarData(
         belowBarData: _buildAreaData(),
-        spots: spots,
+        spots: chartData.spots,
         color: lightColorScheme.primary,
         isCurved: true,
         barWidth: 0.3,
@@ -106,7 +95,7 @@ class FLChartLineWidget extends StatelessWidget {
 
   AxisTitles _buildRightTitles() => AxisTitles(
           sideTitles: SideTitles(
-        interval: rightTitleInterval,
+        interval: chartData.rightTitleInterval,
         reservedSize: 48,
         showTitles: true,
         getTitlesWidget: buildRightTitleWidgets,
@@ -121,10 +110,10 @@ class FLChartLineWidget extends StatelessWidget {
 
   AxisTitles _buildBottomTitlesTitle() => AxisTitles(
           sideTitles: SideTitles(
-        interval: bottomTitleInterval,
+        interval: chartData.bottomTitleInterval,
         showTitles: true,
         getTitlesWidget: (double value, TitleMeta meta) {
-          return buildBottomTitleWidgets(value, meta, weights, now);
+          return buildBottomTitleWidgets(value, meta, chartData.weights, chartData.now);
         },
       ));
 }
