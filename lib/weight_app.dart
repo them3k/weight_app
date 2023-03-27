@@ -47,10 +47,10 @@ class _WeightAppState extends State<WeightApp> {
   }
 
   ThemeData _buildThemeData() {
-    ThemeData base = ThemeData.light();
+    ThemeData base = ThemeData.dark();
     return base.copyWith(
       useMaterial3: true,
-      colorScheme: lightColorScheme,
+      colorScheme: darkColorScheme,
     );
   }
 }

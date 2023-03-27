@@ -41,8 +41,8 @@ class _HistoryAppBarState extends State<HistoryAppBar> {
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text(
               widget.title,
-              style: const TextStyle(
-                  color: Colors.black,
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.onBackground,
                   fontSize: 28,
                   fontWeight: FontWeight.bold),
             ),

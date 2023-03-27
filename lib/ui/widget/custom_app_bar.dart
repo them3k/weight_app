@@ -14,8 +14,8 @@ class CustomAppBar extends StatelessWidget {
         padding: const EdgeInsets.only(left: 20),
         child: Text(
           title,
-          style: const TextStyle(
-              color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.onBackground, fontSize: 28, fontWeight: FontWeight.bold),
         ),
       ),
     );

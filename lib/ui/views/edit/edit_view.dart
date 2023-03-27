@@ -4,7 +4,6 @@ import 'package:weight_app/business_logic/view_model/edit_view_model.dart';
 import 'package:weight_app/business_logic/view_model/weight_model.dart';
 import 'package:weight_app/ui/base_widget.dart';
 import '../../../business_logic/utils/utils.date_format.dart';
-import '../../../business_logic/utils/wave_clipper.dart';
 import '../../../model/weight_model.dart';
 import '../../widget/half_circle_chart.dart';
 
@@ -35,7 +34,7 @@ class _EditViewState extends State<EditView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        title: Text('Edit'),
+        title: Text('Edit', style: TextStyle( color: Theme.of(context).colorScheme.onPrimaryContainer,)),
       ),
       body: BaseWidget(
           model: EditViewModel(weight: widget.item, index: widget.index),
@@ -45,94 +44,66 @@ class _EditViewState extends State<EditView> {
                 ? CircularProgressIndicator()
                 : Column(
                     children: [
-                      const Spacer(),
+                      const SizedBox(height: 16,),
                       HalfCircleChart(
                         minimum: model.minimum,
                         goal: model.goal,
                         progressValue: model.weightValue,
                       ),
-                      Stack(children: [
-                        Container(
-                          padding: const EdgeInsets.only(top: 60),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.white, width: 0),
-                            color: Theme.of(context).colorScheme.primary,
+                      const SizedBox(height: 16,),
+                      Column(
+                        children: [
+                          InkWell(
+                            onTap: () =>
+                                {_buildWeightValueChangeDialog(context)},
+                            child: Text(
+                              '${model.weightValue} kg',
+                              style: TextStyle(
+                                  fontSize: 34,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurface),
+                            ),
                           ),
-                          height: mediaQuery.size.height -
-                              56 -
-                              mediaQuery.size.height * 0.3 -
-                              mediaQuery.viewPadding.top,
-                          child: Column(
+                          const SizedBox(
+                            height: 64,
+                          ),
+                          Row(
                             children: [
-                              InkWell(
-                                onTap: () =>
-                                    {_buildWeightValueChangeDialog(context)},
-                                child: Text(
-                                  '${model.weightValue} kg',
-                                  style: TextStyle(
-                                      fontSize: 34,
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimary),
-                                ),
+                              const SizedBox(width: 12),
+                              Text(
+                                DateFormat.ddMMMyyyy(model.date),
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground),
                               ),
-                              const SizedBox(
-                                height: 24,
-                              ),
-                              Row(
-                                children: [
-                                  const SizedBox(width: 12),
-                                  Text(
-                                    DateFormat.ddMMMyyyy(model.date),
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onPrimary),
-                                  ),
-                                  const Spacer(),
-                                  ElevatedButton(
-                                      onPressed: () => _pickDate(context),
-                                      child: Text('pick date')),
-                                  const SizedBox(width: 12),
-                                ],
-                              ),
+                              const Spacer(),
+                              ElevatedButton(
+                                  onPressed: () => _pickDate(context),
+                                  child: Text('pick date')),
+                              const SizedBox(width: 12),
                             ],
                           ),
-                        ),
-                        ClipPath(
-                          clipper: WaveClipper(),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.surface,
-                                border:
-                                    Border.all(color: Colors.white, width: 0)),
-                            height: mediaQuery.size.height -
-                                56 -
-                                mediaQuery.size.height * 0.3 -
-                                mediaQuery.viewPadding.top,
-                          ),
-                        ),
-                        Positioned(
-                            bottom: 20,
-                            left: 0,
-                            right: 0,
-                            child: Container(
-                                height: 40,
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                child: ElevatedButton(
-                                    onPressed: () => {
-                                          context
-                                              .read<WeightModel>()
-                                              .saveWeight(model.weightValue,
-                                                  model.date, model.index),
-                                          Navigator.pop(context)
-                                        },
-                                    child: const Text('Save'))))
-                      ]),
+                        ],
+                      ),
+                          const Spacer(),
+                          Container(
+                              height: 40,
+                              width: double.infinity,
+                              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                              child: ElevatedButton(
+                                  onPressed: () => {
+                                        context
+                                            .read<WeightModel>()
+                                            .saveWeight(model.weightValue,
+                                                model.date, model.index),
+                                        Navigator.pop(context)
+                                      },
+                                  child: const Text('Save')))
                     ],
                   );
           }),
