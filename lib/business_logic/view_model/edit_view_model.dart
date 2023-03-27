@@ -43,6 +43,7 @@ class EditViewModel extends BaseModel {
     }else {
       _goal = goal;
     }
+    print('edit_view_model | goal: $_goal');
   }
 
   Future fetchMinimum() async {

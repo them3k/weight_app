@@ -86,7 +86,7 @@ class StorageServiceFake implements StorageService {
 
   @override
   void saveGoal(double goal) {
-    if(goal != this.goal) {
+    if(goal == this.goal) {
       return;
     }
     this.goal = goal;
