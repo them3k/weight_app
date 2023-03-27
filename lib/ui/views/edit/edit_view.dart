@@ -160,6 +160,9 @@ class _EditViewState extends State<EditView> {
                   children: [
                     const Text('Insert your current weight: '),
                     TextField(
+                      decoration: const InputDecoration(
+                        suffixText: 'kg'
+                      ),
                       autofocus: true,
                       controller: _weightController,
                       style: const TextStyle(fontSize: 24),

@@ -60,6 +60,9 @@ class _SettingsViewState extends State<SettingsView> {
                   children: [
                     const Text('Insert your current weight goal: '),
                     TextField(
+                      decoration: const InputDecoration(
+                        suffixText: 'kg'
+                      ),
                       autofocus: true,
                       controller: _weightGoalController,
                       style: const TextStyle(fontSize: 24),
