@@ -74,7 +74,6 @@ flutter:
   assets:
     - lib/assets/images/ballons.png
     - lib/assets/images/weight_icon.png
-    - lib/assets/images/body_weight_scales_icon.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

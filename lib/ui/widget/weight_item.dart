@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../model/weight_presentation_model.dart';
+import '../../model/weight_presentation_model.dart';
 
 class WeightItem extends StatelessWidget {
   const WeightItem({Key? key,
