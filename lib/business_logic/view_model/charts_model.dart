@@ -44,13 +44,10 @@ class ChartsModel extends BaseModel {
 
   void loadData(List<Weight> weights) async {
 
-    if(_weights == weights){
+    if(_weights == weights || weights.isEmpty){
       return;
     }
 
-    if (weights.isEmpty) {
-      return;
-    }
     setBusy(true);
     _weights = weights;
     await createChart();
