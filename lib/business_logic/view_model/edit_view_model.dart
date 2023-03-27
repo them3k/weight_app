@@ -97,5 +97,5 @@ class EditViewModel extends BaseModel {
       notifyListeners();
     }
   }
-  
+
 }
