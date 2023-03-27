@@ -10,11 +10,14 @@ class WeightModel extends BaseModel {
 
   List<Weight> get weights => _weights;
 
+  bool isInitialized = false;
+
   void loadData() async {
-    setBusy(true);
     _weights = await _storageService.getWeightsByDate();
     print('weight_model | loadData() | notify');
-    setBusy(false);
+    await Future.delayed(Duration(seconds: 1));
+    isInitialized = true;
+    notifyListeners();
   }
 
   Weight? getItemAtIndex(int index) {

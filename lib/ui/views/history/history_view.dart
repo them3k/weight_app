@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:weight_app/ui/widget/proxy_base_widget.dart';
 import '../edit/edit_view.dart';
 import 'history_view_app_bar.dart';
-import 'weight_item.dart';
+import '../../widget/weight_item.dart';
 
 class HistoryView extends StatefulWidget {
   const HistoryView({Key? key}) : super(key: key);
