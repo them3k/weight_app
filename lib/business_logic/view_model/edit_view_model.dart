@@ -97,23 +97,5 @@ class EditViewModel extends BaseModel {
       notifyListeners();
     }
   }
-
-  void saveItem() {
-    print('UpdatePage | _saveItem');
-    DateTime dateTime = DateTime(_date.year, _date.month, _date.day);
-    Weight weight = Weight(value: _weightValue, dateEntry: dateTime);
-    if (index == null) {
-      addItem(weight);
-      return;
-    }
-    updateItem(weight, index!);
-  }
-
-  void updateItem(Weight item, int index) {
-    _storageService.updateWeight(item, index);
-  }
-
-  void addItem(Weight item) {
-    _storageService.addWeight(item);
-  }
+  
 }
