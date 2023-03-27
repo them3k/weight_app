@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 class DarkModeModel extends ChangeNotifier {
 
-  bool _isDark = true;
+  bool _isDark = false;
 
   bool get isDark => _isDark;
 

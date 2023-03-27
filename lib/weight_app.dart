@@ -7,6 +7,7 @@ import 'package:weight_app/colors.dart';
 import 'package:weight_app/service_locator.dart';
 import 'package:weight_app/ui/views/history/history_view.dart';
 import 'package:weight_app/ui/views/main_page.dart';
+import 'package:weight_app/ui/views/on_boarding_view.dart';
 import 'package:weight_app/ui/views/splash_view.dart';
 
 import 'model/weight_model.dart';
@@ -43,9 +44,11 @@ class _WeightAppState extends State<WeightApp> {
                 ? _buildDarkThemeData()
                 : _buildLightThemeData(),
                 title: 'Weight App',
-                home: context.watch<WeightModel>().isInitialized
-                ? MainPage()
-                : SplashView());
+                home: OnBoardingView()
+            );
+                // context.watch<WeightModel>().isInitialized
+                // ? MainPage()
+                // : SplashView());
         }
       ),
             ],
