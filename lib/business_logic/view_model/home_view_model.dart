@@ -20,18 +20,23 @@ class HomeViewModel extends BaseModel {
   void loadData(List<Weight> weights) async {
     print('HomeViewModel | loadData');
     setBusy(true);
-    _lastWeight = weights.last.value;
+    loadLastWeight(weights);
     loadGainedWeightFromLastWeek(WeightFilters.filterWeeklyWeights(weights),lastWeight);
     setBusy(false);
   }
 
-  Future fetchLastWeight() async {
-    _lastWeight = await _storageService.getLastWeightValue();
+  void loadLastWeight(List<Weight> weights) async {
+    if(weights.isEmpty){
+      return Future.delayed(Duration.zero);
+    }
+    _lastWeight = weights.last.value;
     print('HomeViewModel | fetchLastWeight : $_lastWeight');
   }
 
-  Future loadGainedWeightFromLastWeek(List<Weight> weights, double lastWeight) async {
-
+  void loadGainedWeightFromLastWeek(List<Weight> weights, double lastWeight) async {
+    if(weights.isEmpty){
+      return Future.delayed(Duration.zero);
+    }
     _gainedWeightFromLastWeek = _countGainWeightFromLastWeek(weights,lastWeight);
   }
 

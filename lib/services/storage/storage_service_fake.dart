@@ -19,19 +19,20 @@ class StorageServiceFake implements StorageService {
 
   @override
   Future<void> addWeight(Weight item) async {
-    fakeList.add(item);
+    // fakeList.add(item);
+    // print('storage_service_fake | addWeight | ${fakeList.hashCode}');
   }
 
   @override
   void deleteWeight(List<int> indexes) {
-    for (int index in indexes) {
-      fakeList.removeAt(index);
-    }
+    // for (int index in indexes) {
+    //   fakeList.removeAt(index);
+    // }
   }
 
   @override
   void updateWeight(Weight item, int index) {
-    fakeList[index] = item;
+    //fakeList[index] = item;
   }
 
   @override
@@ -85,7 +86,7 @@ class StorageServiceFake implements StorageService {
 
   @override
   void saveGoal(double goal) {
-    if(goal != this.goal) {
+    if(goal == this.goal) {
       return;
     }
     this.goal = goal;

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:weight_app/business_logic/view_model/base_model.dart';
 import 'package:weight_app/model/weight_model.dart';
 import 'package:weight_app/service_locator.dart';
@@ -44,6 +43,7 @@ class EditViewModel extends BaseModel {
     }else {
       _goal = goal;
     }
+    print('edit_view_model | goal: $_goal');
   }
 
   Future fetchMinimum() async {
@@ -98,22 +98,4 @@ class EditViewModel extends BaseModel {
     }
   }
 
-  void saveItem() {
-    print('UpdatePage | _saveItem');
-    DateTime dateTime = DateTime(_date.year, _date.month, _date.day);
-    Weight weight = Weight(value: _weightValue, dateEntry: dateTime);
-    if (index == null) {
-      addItem(weight);
-      return;
-    }
-    updateItem(weight, index!);
-  }
-
-  void updateItem(Weight item, int index) {
-    _storageService.updateWeight(item, index);
-  }
-
-  void addItem(Weight item) {
-    _storageService.addWeight(item);
-  }
 }

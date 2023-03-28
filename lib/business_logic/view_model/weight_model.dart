@@ -29,8 +29,9 @@ class WeightModel extends BaseModel {
 
   void _addWeight(Weight weight) {
     _weights.add(weight);
+    print('weight_model | addWeight | ${weights.hashCode}');
     _storageService.addWeight(weight);
-    print('weight_model | addWeight() | notify');
+    print('weight_model | addWeight() | size: ${_weights.length} notify');
     notifyListeners();
   }
 
