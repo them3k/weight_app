@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weight_app/business_logic/view_model/charts_model.dart';
 import 'package:weight_app/business_logic/view_model/dark_mode_model.dart';
 import 'package:weight_app/business_logic/view_model/weight_model.dart';
 import 'package:weight_app/colors.dart';
-import 'package:weight_app/service_locator.dart';
-import 'package:weight_app/ui/views/history/history_view.dart';
-import 'package:weight_app/ui/views/main_page.dart';
-import 'package:weight_app/ui/views/on_boarding_view.dart';
-import 'package:weight_app/ui/views/splash_view.dart';
-
-import 'model/weight_model.dart';
+import 'package:weight_app/ui/views/onBoarding/on_boarding_view.dart';
 
 class WeightApp extends StatefulWidget {
   WeightApp({Key? key}) : super(key: key);
@@ -20,13 +13,7 @@ class WeightApp extends StatefulWidget {
 }
 
 class _WeightAppState extends State<WeightApp> {
-  late ThemeData _themeData;
-
-  @override
-  void initState() {
-    _themeData = _buildLightThemeData();
-    super.initState();
-  }
+  bool isInitialize = false;
 
   @override
   Widget build(BuildContext context) {
