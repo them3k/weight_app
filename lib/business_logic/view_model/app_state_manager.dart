@@ -10,15 +10,18 @@ class AppStateManagement extends ChangeNotifier {
   bool _onBoardingComplete = false;
   bool _onSetting = false;
   bool _onHistory = false;
+  bool _onHome = false;
 
 
   bool get isInitialize => _isInitialize;
   bool get onBoardingComplete => _onBoardingComplete;
   bool get onSetting => _onSetting;
   bool get onHistory => _onHistory;
+  bool get onHome => _onHome;
 
-  void isInitialized(bool value){
-    _isInitialize = value;
+  void initializeApp() async {
+    _isInitialize = true;
+    print('appStateManagement | initializeApp | ');
     notifyListeners();
   }
 
@@ -34,6 +37,11 @@ class AppStateManagement extends ChangeNotifier {
 
   void onHistoryTapped(bool value){
     _onHistory = value;
+    notifyListeners();
+  }
+
+  void onHomeTapped(bool value){
+    _onHome = value;
     notifyListeners();
   }
 
