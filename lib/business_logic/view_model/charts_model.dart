@@ -47,7 +47,7 @@ class ChartsModel extends BaseModel {
     if(_weights == weights || weights.isEmpty){
       return;
     }
-
+    print('charts_model | loadData | weights: ${weights.length}');
     setBusy(true);
     _weights = weights;
     await createChart();
@@ -56,16 +56,21 @@ class ChartsModel extends BaseModel {
 
   Future createChart() async {
     filterDataByPeriod();
-    await fetchChartData();
+    fetchChartData();
   }
 
   void filterDataByPeriod() {
+    print('charts_model | filterDataByPeriod() ');
     _filteredWeights = WeightFilters.filterDataBasedOnPeriod(_period, _weights);
+    print('charts_model | filterDataByPeriod() | $_filteredWeights ');
   }
 
   Future fetchChartData() async {
-    print('charts_model | fetchChartData |');
-    _chartData = await _chartService.fetchDataChart(filteredWeights, now);
+    print('charts_model | fetchChartData | filteredWeights: ${_filteredWeights.length}');
+    if(_filteredWeights.isEmpty) {
+      return;
+    }
+    _chartData = await _chartService.fetchDataChart(_filteredWeights, now);
     print('charts_model | fetchChartData | ${chartData}');
 
   }
@@ -83,7 +88,7 @@ class ChartsModel extends BaseModel {
       _period == selectedPeriod;
 
   bool shouldDisplayChart() {
-    print('charts_model | shouldDisplayChart | ${_weights.isNotEmpty}');
+    print('charts_model | shouldDisplayChart | ${_filteredWeights.isNotEmpty}');
     return _filteredWeights.isNotEmpty;
   }
 }
