@@ -5,9 +5,18 @@ import 'package:weight_app/business_logic/view_model/setting_view_model.dart';
 import 'package:weight_app/ui/base_widget.dart';
 import 'package:weight_app/ui/widget/custom_app_bar.dart';
 
+import '../../business_logic/utils/pages.dart';
 import '../../model/weight_presentation_model.dart';
+import '../bottom_navigation_bar.dart';
 
 class SettingsView extends StatefulWidget {
+  static MaterialPage page() {
+    return MaterialPage<SettingsView>(
+        key: ValueKey(Pages.settingsPath),
+        name: Pages.settingsPath,
+        child: SettingsView());
+  }
+
   const SettingsView({Key? key}) : super(key: key);
 
   @override
