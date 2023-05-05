@@ -44,9 +44,7 @@ class ChartsModel extends BaseModel {
 
   void loadData(List<Weight> weights) async {
 
-    if(_weights == weights || weights.isEmpty){
-      return;
-    }
+
     print('charts_model | loadData | weights: ${weights.length}');
     setBusy(true);
     _weights = weights;
@@ -55,6 +53,7 @@ class ChartsModel extends BaseModel {
   }
 
   Future createChart() async {
+    print('charts_model | createCharts');
     filterDataByPeriod();
     fetchChartData();
   }
@@ -86,7 +85,6 @@ class ChartsModel extends BaseModel {
 
   bool isPeriodPickerSelected(Periods selectedPeriod) =>
       _period == selectedPeriod;
-
   bool shouldDisplayChart() {
     print('charts_model | shouldDisplayChart | ${_filteredWeights.isNotEmpty}');
     return _filteredWeights.isNotEmpty;
