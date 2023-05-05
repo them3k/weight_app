@@ -55,6 +55,7 @@ class ChartsModel extends BaseModel {
   Future createChart() async {
     print('charts_model | createCharts');
     filterDataByPeriod();
+    removeRepetition();
     fetchChartData();
   }
 
@@ -62,6 +63,13 @@ class ChartsModel extends BaseModel {
     print('charts_model | filterDataByPeriod() ');
     _filteredWeights = WeightFilters.filterDataBasedOnPeriod(_period, _weights);
     print('charts_model | filterDataByPeriod() | $_filteredWeights ');
+  }
+
+  void removeRepetition() {
+    print('charts_model | removeRepetition');
+    List<Weight> noRepetiton = WeightFilters.removeRepetitions(_filteredWeights);
+    _filteredWeights = noRepetiton;
+    print('charts_model | removeRepetition | $_filteredWeights');
   }
 
   Future fetchChartData() async {

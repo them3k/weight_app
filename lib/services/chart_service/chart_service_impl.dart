@@ -67,7 +67,8 @@ class ChartServiceImpl extends ChartService {
   @override
   List<FlSpot> createSpots(List<Weight> weights) {
     print('chart_service_impl | createSpots');
-    _spots = convertToDaysFlSpot(weights);
+    List<Weight> noRepetitionWeights = [];
+    _spots = convertToDaysFlSpot(noRepetitionWeights);
     return sortFlSpots(_spots);
   }
 
@@ -197,25 +198,5 @@ class ChartServiceImpl extends ChartService {
 
   @override
   double countMaxX() => _spots.length - 1;
-
-  @override
-  List<Weight> removeRepetitions(List<Weight> list) {
-    Map<DateTime, double> weightMap = {};
-
-    for (var element in list) {
-      DateTime key = element.dateEntry;
-      if (weightMap.containsKey(key) && weightMap[key] != null) {
-        weightMap[key] = (weightMap[key]! + element.value) / 2;
-      } else {
-        weightMap[key] = element.value;
-      }
-    }
-
-    return weightMap.entries
-        .map((e) => Weight(value: e.value, dateEntry: e.key))
-        .toList();
-  }
-
-
 
 }
