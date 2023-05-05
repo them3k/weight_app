@@ -4,12 +4,21 @@ import 'package:weight_app/business_logic/view_model/weight_model.dart';
 import 'package:weight_app/model/weight_model.dart';
 import 'package:weight_app/model/weight_presentation_model.dart';
 import 'package:provider/provider.dart';
+import 'package:weight_app/ui/bottom_navigation_bar.dart';
 import 'package:weight_app/ui/widget/proxy_base_widget.dart';
+import '../../../business_logic/utils/pages.dart';
 import '../edit/edit_view.dart';
 import 'history_view_app_bar.dart';
 import '../../widget/weight_item.dart';
 
 class HistoryView extends StatefulWidget {
+
+  static MaterialPage page() {
+    return MaterialPage<HistoryView>(
+      key: ValueKey(Pages.historyPath), name: Pages.historyPath, child: const HistoryView()
+    );
+  }
+
   const HistoryView({Key? key}) : super(key: key);
 
   @override
