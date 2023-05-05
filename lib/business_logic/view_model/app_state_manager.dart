@@ -6,13 +6,14 @@ class AppStateManagement extends ChangeNotifier {
 
   final StorageService _storageService = serviceLocator<StorageService>();
 
+  int _index = 0;
   bool _isInitialize = false;
   bool _onBoardingComplete = false;
   bool _onSetting = false;
   bool _onHistory = false;
   bool _onHome = false;
 
-
+  int get index => _index;
   bool get isInitialize => _isInitialize;
   bool get onBoardingComplete => _onBoardingComplete;
   bool get onSetting => _onSetting;
@@ -31,12 +32,14 @@ class AppStateManagement extends ChangeNotifier {
   }
 
   void onSettingTapped(bool value){
+    _index = 2;
     _onSetting = value;
     _onHome = false;
     notifyListeners();
   }
 
   void onHistoryTapped(bool value){
+    _index = 1;
     _onHistory = value;
     _onHome = false;
     _onSetting = false;
@@ -44,6 +47,7 @@ class AppStateManagement extends ChangeNotifier {
   }
 
   void onHomeTapped(bool value){
+    _index = 0;
     _onHome = value;
     _onHistory = false;
     _onSetting = false;

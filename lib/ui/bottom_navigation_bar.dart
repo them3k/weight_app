@@ -13,13 +13,13 @@ class BottomNavBar extends StatefulWidget {
 // Add appStateManagement ( there is information about current screen )
 
 class _BottomNavBarState extends State<BottomNavBar> {
-
   late AppStateManagement _appStateManagement;
 
   @override
   void initState() {
     super.initState();
-    _appStateManagement = Provider.of<AppStateManagement>(context,listen: false);
+    _appStateManagement =
+        Provider.of<AppStateManagement>(context, listen: false);
   }
 
   @override
@@ -31,14 +31,21 @@ class _BottomNavBarState extends State<BottomNavBar> {
         BottomNavigationBarItem(label: 'Settings', icon: Icon(Icons.settings)),
       ],
       onTap: _onTap,
+      currentIndex: _appStateManagement.index,
     );
   }
 
   void _onTap(int index) {
-      switch(index) {
-        case 0: _appStateManagement.onHomeTapped(true); break;
-        case 1: _appStateManagement.onHistoryTapped(true); break;
-        case 2: _appStateManagement.onSettingTapped(true); break;
-      }
+    switch (index) {
+      case 0:
+        _appStateManagement.onHomeTapped(true);
+        break;
+      case 1:
+        _appStateManagement.onHistoryTapped(true);
+        break;
+      case 2:
+        _appStateManagement.onSettingTapped(true);
+        break;
+    }
   }
 }
