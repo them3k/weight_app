@@ -67,8 +67,7 @@ class ChartServiceImpl extends ChartService {
   @override
   List<FlSpot> createSpots(List<Weight> weights) {
     print('chart_service_impl | createSpots');
-    List<Weight> noRepetitionWeights = [];
-    _spots = convertToDaysFlSpot(noRepetitionWeights);
+    _spots = convertToDaysFlSpot(weights);
     return sortFlSpots(_spots);
   }
 
