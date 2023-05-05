@@ -32,16 +32,21 @@ class AppStateManagement extends ChangeNotifier {
 
   void onSettingTapped(bool value){
     _onSetting = value;
+    _onHome = false;
     notifyListeners();
   }
 
   void onHistoryTapped(bool value){
     _onHistory = value;
+    _onHome = false;
+    _onSetting = false;
     notifyListeners();
   }
 
   void onHomeTapped(bool value){
     _onHome = value;
+    _onHistory = false;
+    _onSetting = false;
     notifyListeners();
   }
 

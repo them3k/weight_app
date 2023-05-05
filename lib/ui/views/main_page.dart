@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weight_app/business_logic/view_model/weight_model.dart';
+import 'package:weight_app/ui/bottom_navigation_bar.dart';
 import 'package:weight_app/ui/views/history/history_view.dart';
 import 'package:weight_app/ui/views/home/home_view.dart';
 import 'package:weight_app/ui/views/settings_view.dart';
@@ -27,16 +28,18 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: page[_selectedIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: onTap,
-          items: const [
-            BottomNavigationBarItem(label: 'Home', icon: Icon(Icons.home)),
-            BottomNavigationBarItem(label: "History", icon: Icon(Icons.history)),
-            BottomNavigationBarItem(
-                label: 'Settings', icon: Icon(Icons.settings)),
-          ],
-        ),
+        bottomNavigationBar:
+        const BottomNavBar()
+        // BottomNavigationBar(
+        //   currentIndex: _selectedIndex,
+        //   onTap: onTap,
+        //   items: const [
+        //     BottomNavigationBarItem(label: 'Home', icon: Icon(Icons.home)),
+        //     BottomNavigationBarItem(label: "History", icon: Icon(Icons.history)),
+        //     BottomNavigationBarItem(
+        //         label: 'Settings', icon: Icon(Icons.settings)),
+        //   ],
+        // ),
       );
   }
 

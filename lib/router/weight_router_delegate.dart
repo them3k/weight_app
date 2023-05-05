@@ -1,34 +1,37 @@
 import 'package:flutter/cupertino.dart';
 import 'package:weight_app/business_logic/view_model/app_state_manager.dart';
 import 'package:weight_app/service_locator.dart';
+import 'package:weight_app/ui/views/history/history_view.dart';
 import 'package:weight_app/ui/views/home/home_view.dart';
 import 'package:weight_app/ui/views/main_page.dart';
+import 'package:weight_app/ui/views/settings_view.dart';
 import 'package:weight_app/ui/views/splash_view.dart';
 
 class WeightRouterDelegate extends RouterDelegate<AppStateManagement>
-with ChangeNotifier, PopNavigatorRouterDelegateMixin {
+    with ChangeNotifier, PopNavigatorRouterDelegateMixin {
+  final AppStateManagement appStateManagement =
+      serviceLocator<AppStateManagement>();
 
-  final AppStateManagement appStateManagement = serviceLocator<AppStateManagement>();
-
-
-  WeightRouterDelegate(): navigatorKey = GlobalKey<NavigatorState>() {
+  WeightRouterDelegate() : navigatorKey = GlobalKey<NavigatorState>() {
     appStateManagement.addListener(notifyListeners);
   }
 
   @override
   Widget build(BuildContext context) {
     return Navigator(
-      onPopPage: (route,result) => route.didPop(result),
+      onPopPage: (route, result) => route.didPop(result),
       key: navigatorKey,
       pages: [
-        if(!appStateManagement.isInitialize) SplashView.page(),
-        if(appStateManagement.isInitialize) HomeView.page()],
+        if (!appStateManagement.isInitialize) SplashView.page(),
+        if (appStateManagement.isInitialize) HomeView.page(),
+        if (appStateManagement.onHistory) HistoryView.page(),
+        if(appStateManagement.onSetting) SettingsView.page()
+      ],
     );
   }
 
   @override
   late GlobalKey<NavigatorState> navigatorKey;
-
 
   @override
   void removeListener(VoidCallback listener) {
@@ -37,7 +40,5 @@ with ChangeNotifier, PopNavigatorRouterDelegateMixin {
   }
 
   @override
-  Future<void> setNewRoutePath(AppStateManagement configuration) async =>
-      null;
-
+  Future<void> setNewRoutePath(AppStateManagement configuration) async => null;
 }

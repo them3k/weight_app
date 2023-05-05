@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weight_app/ui/bottom_navigation_bar.dart';
 import 'package:weight_app/ui/views/home/widgets/home_view_header.dart';
 import 'package:weight_app/ui/views/home/widgets/add_weight_button_container.dart';
 import 'package:weight_app/ui/views/home/chart/widget/chart_view.dart';
@@ -39,6 +40,7 @@ class _HomeViewState extends State<HomeView> {
               AddWeightButtonContainer()
             ],
           )),
+       bottomNavigationBar: const BottomNavBar(),
     );
   }
 }
