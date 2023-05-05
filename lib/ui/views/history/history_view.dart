@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:weight_app/business_logic/view_model/history_view_model.dart';
 import 'package:weight_app/business_logic/view_model/weight_model.dart';
