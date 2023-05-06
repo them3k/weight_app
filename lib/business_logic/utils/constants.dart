@@ -1,6 +1,7 @@
 class Constants {
   static const String WEIGHT_BOX = 'weight_box';
   static const String GOAL_BOX = 'goal_box';
+  static const String APP_STATE_MANAGEMENT_BOX = 'app_state_management_box';
   static const String GOAL_KEY = 'goal_key';
   static const String WEIGHTS_LIST_KEY = 'weights_key';
   static const int NEW_ITEM = -1;
