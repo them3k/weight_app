@@ -98,4 +98,14 @@ class StorageServiceImpl extends StorageService {
   void saveGoal(double goal) {
     getGoalBox().put(Constants.GOAL_KEY, goal);
   }
+
+  @override
+  bool isOnBoardingCompleted() {
+    return false;
+  }
+
+  @override
+  void onBoardingComplete() {
+    // TODO implement
+  }
 }
