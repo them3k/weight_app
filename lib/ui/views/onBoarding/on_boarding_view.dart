@@ -5,6 +5,7 @@ import 'package:weight_app/ui/views/main_page.dart';
 import 'package:weight_app/ui/views/onBoarding/onBoardingWeightInitWidget.dart';
 import 'package:weight_app/ui/views/onBoarding/on_boading_goal_init_widget.dart';
 
+import '../../../business_logic/utils/pages.dart';
 
 /*
     I have to store 2 values
@@ -13,6 +14,13 @@ import 'package:weight_app/ui/views/onBoarding/on_boading_goal_init_widget.dart'
  */
 
 class OnBoardingView extends StatefulWidget {
+  static MaterialPage page() {
+    return MaterialPage(
+        key: ValueKey(Pages.onBoardingPath),
+        name: Pages.onBoardingPath,
+        child: OnBoardingView());
+  }
+
   const OnBoardingView({Key? key}) : super(key: key);
 
   @override
