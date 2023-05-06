@@ -21,14 +21,17 @@ class AppStateManagement extends ChangeNotifier {
   bool get onHome => _onHome;
 
   void initializeApp() async {
-    _isInitialize = true;
     print('appStateManagement | initializeApp | ');
+    _isInitialize = true;
     notifyListeners();
   }
 
   void onBoardingCompleteTapped(bool value){
     _onBoardingComplete = value;
-    notifyListeners();
+    if(_onBoardingComplete){
+      initializeApp();
+    }
+    saveOnBoardingComplete();
   }
 
   void onSettingTapped(bool value){
@@ -54,5 +57,8 @@ class AppStateManagement extends ChangeNotifier {
     notifyListeners();
   }
 
+  void saveOnBoardingComplete() {
+    _storageService.onBoardingComplete();
+  }
 
 }

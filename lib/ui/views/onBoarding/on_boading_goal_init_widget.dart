@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weight_app/business_logic/view_model/app_state_manager.dart';
 
 import '../../../business_logic/view_model/onboarding_view_model.dart';
 import '../main_page.dart';
@@ -78,7 +79,7 @@ class _OnBoardingGoalInitWidgetState extends State<OnBoardingGoalInitWidget> {
           child: ElevatedButton(
               onPressed: () {
                 context.read<OnBoardingViewModel>().saveGoal(_sliderValue);
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> MainPage()));
+                context.read<AppStateManagement>().onBoardingCompleteTapped(true);
               },
               child: Text('Get Started',style: Theme.of(context).textTheme.labelMedium,)),
         )
