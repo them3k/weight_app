@@ -42,15 +42,19 @@ class _WeightAppState extends State<WeightApp> {
         ChangeNotifierProvider<WeightModel>(
             lazy: false,
             create: (context) => WeightModel()),
-        // ChangeNotifierProxyProvider<WeightModel, AppStateManagement>(
-        //     create: (context) => AppStateManagement(),
-        //     update: (context, parentModel, model) {
-        //       print('weight_app | proxy | ${parentModel.isInitialized}');
-        //       return !parentModel.isInitialized
-        //           ? AppStateManagement()
-        //           : AppStateManagement()
-        //         ..initializeApp();
-        //     }),
+        ChangeNotifierProxyProvider<AppStateManagement, WeightModel>(
+            create: (context) => WeightModel(),
+            update: (_, appStateManagement, weightModel) {
+              if(weightModel == null && appStateManagement.isInitialize){
+                return WeightModel()..loadData();
+              }else if(weightModel != null && appStateManagement.isInitialize) {
+                return weightModel..loadData();
+              }else if(weightModel !=null && !appStateManagement.isInitialize){
+                return weightModel;
+              }else {
+                return WeightModel();
+              }
+            }),
       ],
     );
   }
