@@ -20,6 +20,11 @@ class AppStateManagement extends ChangeNotifier {
   bool get onHistory => _onHistory;
   bool get onHome => _onHome;
 
+  void loadValues() {
+    print('app_state_manager | loadValues');
+    fetchOnBoardingCompleted();
+  }
+
   void initializeApp() async {
     print('appStateManagement | initializeApp | ');
     _isInitialize = true;
@@ -59,6 +64,13 @@ class AppStateManagement extends ChangeNotifier {
 
   void saveOnBoardingComplete() {
     _storageService.onBoardingComplete();
+  }
+
+  void fetchOnBoardingCompleted() {
+    print('appStateManager | fetchOnBoardingCompleted');
+    bool result = _storageService.isOnBoardingCompleted();
+    _onBoardingComplete = result;
+    initializeApp();
   }
 
 }
