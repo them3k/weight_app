@@ -8,6 +8,7 @@ class WeightManager extends ChangeNotifier {
   Weight? _weight;
 
   int get index => _selectedIndex;
+  Weight? get weight => _weight;
 
   void onChangeSelectedWeightItem(int index, Weight weight) {
     if(_selectedIndex == index || _weight == weight){
