@@ -6,6 +6,7 @@ import 'package:weight_app/ui/base_widget.dart';
 import 'package:weight_app/ui/widget/custom_app_bar.dart';
 
 import '../../business_logic/utils/pages.dart';
+import '../../business_logic/view_model/app_state_manager.dart';
 import '../../model/weight_presentation_model.dart';
 import '../bottom_navigation_bar.dart';
 
@@ -58,7 +59,7 @@ class _SettingsViewState extends State<SettingsView> {
                 const SizedBox(
                   height: 16,
                 ),
-                Consumer<DarkModeModel>(
+                Consumer<AppStateManagement>(
                   builder: (context, model, child) => Container(
                     margin: const EdgeInsets.symmetric(horizontal: 10),
                     child: SwitchListTile(
@@ -71,7 +72,7 @@ class _SettingsViewState extends State<SettingsView> {
                           'DarkMode',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        value: model.isDark,
+                        value: model.isDarkModeEnabled,
                         onChanged: (value) => model.toggleDarkMode()),
                   ),
                 )
