@@ -10,6 +10,8 @@ import 'package:weight_app/ui/views/onBoarding/on_boarding_view.dart';
 import 'package:weight_app/ui/views/settings_view.dart';
 import 'package:weight_app/ui/views/splash_view.dart';
 
+import '../business_logic/utils/pages.dart';
+
 class WeightRouterDelegate extends RouterDelegate<AppStateManagement>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
   final AppStateManagement _appStateManagement =
@@ -25,7 +27,7 @@ class WeightRouterDelegate extends RouterDelegate<AppStateManagement>
   @override
   Widget build(BuildContext context) {
     return Navigator(
-      onPopPage: (route, result) => route.didPop(result),
+      onPopPage: _handlePopPages,
       key: navigatorKey,
       pages: [
         if (!_appStateManagement.isInitialize) SplashView.page(),
@@ -50,6 +52,27 @@ class WeightRouterDelegate extends RouterDelegate<AppStateManagement>
           )
       ],
     );
+  }
+
+  bool _handlePopPages(Route<dynamic> route, result){
+    if(!route.didPop(result)){
+      return false;
+    }
+
+    if(route.settings.name == Pages.settingsPath){
+      _appStateManagement.onSettingTapped(false);
+    }
+
+    if(route.settings.name == Pages.historyPath){
+      _appStateManagement.onHistoryTapped(false);
+    }
+
+    if(route.settings.name == Pages.editPath){
+      _weightManager.onChangeSelectedWeightItem(-1);
+    }
+
+
+    return true;
   }
 
   @override
