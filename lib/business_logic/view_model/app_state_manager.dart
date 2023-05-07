@@ -34,9 +34,9 @@ class AppStateManagement extends ChangeNotifier {
   void onBoardingCompleteTapped(bool value){
     _onBoardingComplete = value;
     if(_onBoardingComplete){
-      initializeApp();
+      saveOnBoardingStateResult();
     }
-    saveOnBoardingComplete();
+    notifyListeners();
   }
 
   void onSettingTapped(bool value){
@@ -62,7 +62,7 @@ class AppStateManagement extends ChangeNotifier {
     notifyListeners();
   }
 
-  void saveOnBoardingComplete() {
+  void saveOnBoardingStateResult() {
     _storageService.onBoardingComplete();
   }
 
