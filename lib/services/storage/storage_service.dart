@@ -28,4 +28,8 @@ abstract class StorageService {
  bool isOnBoardingCompleted();
 
  void onBoardingComplete();
+
+ void saveDarkModeState(bool isEnabled);
+
+ bool fetchDarkModeState();
 }

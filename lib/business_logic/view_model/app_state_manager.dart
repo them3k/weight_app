@@ -12,6 +12,7 @@ class AppStateManagement extends ChangeNotifier {
   bool _onSetting = false;
   bool _onHistory = false;
   bool _onHome = false;
+  bool _isDarkModeEnabled = false;
 
   int get index => _index;
   bool get isInitialize => _isInitialize;
@@ -19,9 +20,11 @@ class AppStateManagement extends ChangeNotifier {
   bool get onSetting => _onSetting;
   bool get onHistory => _onHistory;
   bool get onHome => _onHome;
+  bool get isDarkModeEnabled => _isDarkModeEnabled;
 
   void loadValues() {
     print('app_state_manager | loadValues');
+    fetchDarkModeState();
     fetchOnBoardingCompleted();
   }
 
@@ -71,6 +74,21 @@ class AppStateManagement extends ChangeNotifier {
     bool result = _storageService.isOnBoardingCompleted();
     _onBoardingComplete = result;
     initializeApp();
+  }
+
+  void toggleDarkMode() {
+    _isDarkModeEnabled = !_isDarkModeEnabled;
+    saveDarkModeState();
+    notifyListeners();
+  }
+
+  void saveDarkModeState() {
+    _storageService.saveDarkModeState(_isDarkModeEnabled);
+  }
+
+  void fetchDarkModeState() {
+    _isDarkModeEnabled = _storageService.fetchDarkModeState();
+    notifyListeners();
   }
 
 }

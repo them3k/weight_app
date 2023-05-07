@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weight_app/business_logic/view_model/app_state_manager.dart';
-import 'package:weight_app/business_logic/view_model/dark_mode_model.dart';
 import 'package:weight_app/business_logic/view_model/weight_model.dart';
 import 'package:weight_app/colors.dart';
 import 'package:weight_app/router/weight_router_delegate.dart';
@@ -25,7 +24,7 @@ class _WeightAppState extends State<WeightApp> {
       builder: (context, child) {
         return MaterialApp(
             debugShowCheckedModeBanner: false,
-            theme: Provider.of<DarkModeModel>(context).isDark
+            theme: Provider.of<AppStateManagement>(context).isDarkModeEnabled
                 ? _buildDarkThemeData()
                 : _buildLightThemeData(),
             title: 'Weight App',
@@ -36,8 +35,6 @@ class _WeightAppState extends State<WeightApp> {
       providers: [
         ChangeNotifierProvider<AppStateManagement>(
             create: (_) => serviceLocator<AppStateManagement>()),
-        ChangeNotifierProvider<DarkModeModel>(
-            create: (context) => DarkModeModel()),
         ChangeNotifierProvider<WeightModel>(
             lazy: false,
             create: (context) => WeightModel()..loadData()),

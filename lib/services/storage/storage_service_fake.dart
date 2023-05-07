@@ -7,6 +7,7 @@ class StorageServiceFake implements StorageService {
 
   double goal = 0;
   bool _onBoardingCompleted = false;
+  bool _isDarkModeEnabled = false;
 
   List<Weight> fakeList = //[];
   List.generate(
@@ -101,5 +102,15 @@ class StorageServiceFake implements StorageService {
   @override
   void onBoardingComplete() {
     _onBoardingCompleted = true;
+  }
+
+  @override
+  bool fetchDarkModeState() {
+    return _isDarkModeEnabled;
+  }
+
+  @override
+  void saveDarkModeState(bool isEnabled) {
+    _isDarkModeEnabled = isEnabled;
   }
 }
