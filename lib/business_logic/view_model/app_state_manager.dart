@@ -24,6 +24,7 @@ class AppStateManagement extends ChangeNotifier {
 
   void loadValues() {
     print('app_state_manager | loadValues');
+    fetchDarkModeState();
     fetchOnBoardingCompleted();
   }
 
@@ -77,6 +78,16 @@ class AppStateManagement extends ChangeNotifier {
 
   void toggleDarkMode() {
     _isDarkModeEnabled = !_isDarkModeEnabled;
+    saveDarkModeState();
+    notifyListeners();
+  }
+
+  void saveDarkModeState() {
+    _storageService.saveDarkModeState(_isDarkModeEnabled);
+  }
+
+  void fetchDarkModeState() {
+    _isDarkModeEnabled = _storageService.fetchDarkModeState();
     notifyListeners();
   }
 
