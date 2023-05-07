@@ -10,14 +10,5 @@ class OnBoardingViewModel extends ChangeNotifier {
   void saveGoal(double value){
     _storageService.saveGoal(value.truncateToDouble());
   }
-
-  void saveInitWeight(double value) {
-    DateTime now = DateTime.now();
-    Weight weight = Weight(
-        value: value.truncateToDouble(),
-        dateEntry: DateTime(
-            now.year,now.month,
-        now.day));
-    _storageService.addWeight(weight);
-  }
+  
 }

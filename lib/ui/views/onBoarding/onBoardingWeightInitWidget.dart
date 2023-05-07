@@ -81,7 +81,6 @@ class _OnBoardingWeightInitWidgetState
           right: 20,
           child: ElevatedButton(
               onPressed: () {
-                context.read<OnBoardingViewModel>().saveInitWeight(_sliderValue);
                 context.read<WeightModel>().saveInitWeight(_sliderValue);
                 widget.onIncrement();
               },
