@@ -20,6 +20,7 @@ class SplashView extends StatefulWidget {
 
 class _SplashViewState extends State<SplashView> {
 
+
   @override
   void initState() {
     super.initState();
@@ -38,8 +39,7 @@ class _SplashViewState extends State<SplashView> {
   void loadData() async {
     // WidgetsBinding.instance.addPostFrameCallback((_) async {
        await slowDownLoading();
-       Provider.of<WeightModel>(listen:false,context).loadData().then((isInitialized) =>
-     isInitialized ? Provider.of<AppStateManagement>(listen: false,context).initializeApp() : throwError());
+       Provider.of<AppStateManagement>(listen:false,context).loadValues();
      //});
   }
 
