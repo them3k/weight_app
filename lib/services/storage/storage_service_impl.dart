@@ -113,4 +113,15 @@ class StorageServiceImpl extends StorageService {
   void onBoardingComplete() {
     getAppStateManagementBox().put(Constants.ON_BOARDING_COMPLETED_KEY, true);
   }
+
+  @override
+  bool fetchDarkModeState() {
+    return getAppStateManagementBox().get(Constants.DARK_MODE_KEY) ?? false;
+  }
+
+  @override
+  void saveDarkModeState(bool isEnabled) {
+    Box<bool> box = getAppStateManagementBox();
+    box.put(Constants.DARK_MODE_KEY, isEnabled);
+  }
 }
