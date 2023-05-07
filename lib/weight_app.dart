@@ -6,7 +6,6 @@ import 'package:weight_app/business_logic/view_model/weight_model.dart';
 import 'package:weight_app/colors.dart';
 import 'package:weight_app/router/weight_router_delegate.dart';
 import 'package:weight_app/service_locator.dart';
-import 'package:weight_app/ui/views/onBoarding/on_boarding_view.dart';
 
 class WeightApp extends StatefulWidget {
   WeightApp({Key? key}) : super(key: key);
@@ -41,20 +40,7 @@ class _WeightAppState extends State<WeightApp> {
             create: (context) => DarkModeModel()),
         ChangeNotifierProvider<WeightModel>(
             lazy: false,
-            create: (context) => WeightModel()),
-        ChangeNotifierProxyProvider<AppStateManagement, WeightModel>(
-            create: (context) => WeightModel(),
-            update: (_, appStateManagement, weightModel) {
-              if(weightModel == null && appStateManagement.isInitialize){
-                return WeightModel()..loadData();
-              }else if(weightModel != null && appStateManagement.isInitialize) {
-                return weightModel..loadData();
-              }else if(weightModel !=null && !appStateManagement.isInitialize){
-                return weightModel;
-              }else {
-                return WeightModel();
-              }
-            }),
+            create: (context) => WeightModel()..loadData()),
       ],
     );
   }
