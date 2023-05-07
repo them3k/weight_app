@@ -24,4 +24,8 @@ abstract class StorageService {
  Future<double> getGoal();
 
  void saveGoal(double goal);
+
+ bool isOnBoardingCompleted();
+
+ void onBoardingComplete();
 }

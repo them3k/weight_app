@@ -7,8 +7,6 @@ abstract class ChartService {
 
   Future<Chart> fetchDataChart(List<Weight> weights, DateTime now);
 
-  List<Weight> removeRepetitions (List<Weight> list);
-
   List<FlSpot> createSpots(List<Weight> weights);
 
   double countDiff();

@@ -6,6 +6,7 @@ import 'package:weight_app/services/storage/storage_service.dart';
 class StorageServiceFake implements StorageService {
 
   double goal = 0;
+  bool _onBoardingCompleted = false;
 
   List<Weight> fakeList = //[];
   List.generate(
@@ -90,5 +91,15 @@ class StorageServiceFake implements StorageService {
       return;
     }
     this.goal = goal;
+  }
+
+  @override
+  bool isOnBoardingCompleted() {
+    return false;
+  }
+
+  @override
+  void onBoardingComplete() {
+    _onBoardingCompleted = true;
   }
 }

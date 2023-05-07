@@ -20,4 +20,5 @@ Future? initializeHive() async {
   registerAdapters();
   await Hive.openBox<HiveWeight>(Constants.WEIGHT_BOX);
   await Hive.openBox<double>(Constants.GOAL_BOX);
+  await Hive.openBox<bool>(Constants.APP_STATE_MANAGEMENT_BOX);
 }

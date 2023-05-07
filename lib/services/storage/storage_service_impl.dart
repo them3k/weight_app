@@ -18,6 +18,10 @@ class StorageServiceImpl extends StorageService {
     return Hive.box<double>(Constants.GOAL_BOX);
   }
 
+  Box<bool> getAppStateManagementBox() {
+    return Hive.box<bool>(Constants.APP_STATE_MANAGEMENT_BOX);
+  }
+
 
   @override
   Future<Future<int>> addWeight(Weight item) async {
@@ -97,5 +101,16 @@ class StorageServiceImpl extends StorageService {
   @override
   void saveGoal(double goal) {
     getGoalBox().put(Constants.GOAL_KEY, goal);
+  }
+
+  @override
+  bool isOnBoardingCompleted() {
+    Box<bool> box = getAppStateManagementBox();
+    return box.get(Constants.ON_BOARDING_COMPLETED_KEY) ?? false;
+  }
+
+  @override
+  void onBoardingComplete() {
+    getAppStateManagementBox().put(Constants.ON_BOARDING_COMPLETED_KEY, true);
   }
 }

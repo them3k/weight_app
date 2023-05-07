@@ -5,9 +5,18 @@ import 'package:weight_app/business_logic/view_model/setting_view_model.dart';
 import 'package:weight_app/ui/base_widget.dart';
 import 'package:weight_app/ui/widget/custom_app_bar.dart';
 
+import '../../business_logic/utils/pages.dart';
 import '../../model/weight_presentation_model.dart';
+import '../bottom_navigation_bar.dart';
 
 class SettingsView extends StatefulWidget {
+  static MaterialPage page() {
+    return MaterialPage<SettingsView>(
+        key: ValueKey(Pages.settingsPath),
+        name: Pages.settingsPath,
+        child: SettingsView());
+  }
+
   const SettingsView({Key? key}) : super(key: key);
 
   @override
@@ -19,53 +28,57 @@ class _SettingsViewState extends State<SettingsView> {
 
   @override
   Widget build(BuildContext context) {
-    return BaseWidget(
-        model: SettingsViewModel(),
-        onModelReady: (model) {
-          model.loadData();
-        },
-        builder: (context, model, child) {
-          _weightGoalController.text = model.goal.toString();
-          return Column(
-            children: [
-              const CustomAppBar(title: 'Settings'),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                child: ListTile(
-                  onTap: () => _buildWeightValueChangeDialog(context),
-                  trailing: const Icon(Icons.arrow_forward),
-                  title: const Text(
-                    'Change weight goal',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  //leading: const Icon(Icons.monitor_weight_outlined),
-                  tileColor: Theme.of(context).colorScheme.primaryContainer,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              Consumer<DarkModeModel>(
-                builder: (context, model, child) => Container(
+    return Scaffold(
+      bottomNavigationBar: const BottomNavBar(),
+      body: BaseWidget(
+          model: SettingsViewModel(),
+          onModelReady: (model) {
+            model.loadData();
+          },
+          builder: (context, model, child) {
+            _weightGoalController.text = model.goal.toString();
+            return Column(
+              children: [
+                const CustomAppBar(title: 'Settings'),
+                Container(
                   margin: const EdgeInsets.symmetric(horizontal: 10),
-                  child: SwitchListTile(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      tileColor: Theme.of(context).colorScheme.primaryContainer,
-                      title: const Text(
-                        'DarkMode',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      value: model.isDark,
-                      onChanged: (value) => model.toggleDarkMode()),
+                  child: ListTile(
+                    onTap: () => _buildWeightValueChangeDialog(context),
+                    trailing: const Icon(Icons.arrow_forward),
+                    title: const Text(
+                      'Change weight goal',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    //leading: const Icon(Icons.monitor_weight_outlined),
+                    tileColor: Theme.of(context).colorScheme.primaryContainer,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                  ),
                 ),
-              )
-            ],
-          );
-        });
+                const SizedBox(
+                  height: 16,
+                ),
+                Consumer<DarkModeModel>(
+                  builder: (context, model, child) => Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    child: SwitchListTile(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        tileColor:
+                            Theme.of(context).colorScheme.primaryContainer,
+                        title: const Text(
+                          'DarkMode',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        value: model.isDark,
+                        onChanged: (value) => model.toggleDarkMode()),
+                  ),
+                )
+              ],
+            );
+          }),
+    );
   }
 
   Widget _buildSettingListTile(

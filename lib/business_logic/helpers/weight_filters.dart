@@ -28,4 +28,20 @@ class WeightFilters {
         return [];
     }
   }
+  static List<Weight> removeRepetitions(List<Weight> list) {
+    Map<DateTime, double> weightMap = {};
+
+    for (var element in list) {
+      DateTime key = element.dateEntry;
+      if (weightMap.containsKey(key) && weightMap[key] != null) {
+        weightMap[key] = (weightMap[key]! + element.value) / 2;
+      } else {
+        weightMap[key] = element.value;
+      }
+    }
+
+    return weightMap.entries
+        .map((e) => Weight(value: e.value, dateEntry: e.key))
+        .toList();
+  }
 }

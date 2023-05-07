@@ -1,3 +1,5 @@
+import 'package:provider/provider.dart';
+import 'package:weight_app/business_logic/view_model/app_state_manager.dart';
 import 'package:weight_app/business_logic/view_model/base_model.dart';
 import 'package:weight_app/service_locator.dart';
 import 'package:weight_app/services/storage/storage_service.dart';
@@ -10,14 +12,12 @@ class WeightModel extends BaseModel {
 
   List<Weight> get weights => _weights;
 
-  bool isInitialized = false;
 
-  void loadData() async {
+  Future<bool> loadData() async {
     _weights = await _storageService.getWeightsByDate();
     print('weight_model | loadData() | notify');
-    await Future.delayed(Duration(seconds: 1));
-    isInitialized = true;
     notifyListeners();
+    return true;
   }
 
   Weight? getItemAtIndex(int index) {
@@ -60,6 +60,16 @@ class WeightModel extends BaseModel {
     } else {
       _updateWeight(Weight(value: value, dateEntry: dateEntry), index);
     }
+  }
+
+  void saveInitWeight(double value) {
+    DateTime now = DateTime.now();
+    Weight weight = Weight(
+        value: value.truncateToDouble(),
+        dateEntry: DateTime(
+            now.year,now.month,
+            now.day));
+    _addWeight(weight);
   }
 
   static List<Weight> sortByDate(List<Weight> list) {
