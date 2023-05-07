@@ -24,7 +24,7 @@ class WeightRouterDelegate extends RouterDelegate<AppStateManagement>
       key: navigatorKey,
       pages: [
         if (!appStateManagement.isInitialize) SplashView.page(),
-        if(!appStateManagement.onBoardingComplete) OnBoardingView.page(),
+        if(!appStateManagement.onBoardingComplete && appStateManagement.isInitialize) OnBoardingView.page(),
         if (appStateManagement.onBoardingComplete && appStateManagement.isInitialize) HomeView.page(),
         if (appStateManagement.onBoardingComplete && appStateManagement.onHistory) HistoryView.page(),
         if(appStateManagement.onBoardingComplete && appStateManagement.onSetting) SettingsView.page()
