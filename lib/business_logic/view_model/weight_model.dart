@@ -12,12 +12,10 @@ class WeightModel extends BaseModel {
 
   List<Weight> get weights => _weights;
 
-  bool isInitialized = false;
 
   Future<bool> loadData() async {
     _weights = await _storageService.getWeightsByDate();
     print('weight_model | loadData() | notify');
-    isInitialized = true;
     notifyListeners();
     return true;
   }
@@ -62,6 +60,16 @@ class WeightModel extends BaseModel {
     } else {
       _updateWeight(Weight(value: value, dateEntry: dateEntry), index);
     }
+  }
+
+  void saveInitWeight(double value) {
+    DateTime now = DateTime.now();
+    Weight weight = Weight(
+        value: value.truncateToDouble(),
+        dateEntry: DateTime(
+            now.year,now.month,
+            now.day));
+    _addWeight(weight);
   }
 
   static List<Weight> sortByDate(List<Weight> list) {
