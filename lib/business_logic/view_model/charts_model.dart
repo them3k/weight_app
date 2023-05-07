@@ -56,6 +56,7 @@ class ChartsModel extends BaseModel {
     print('charts_model | createCharts');
     filterDataByPeriod();
     removeRepetition();
+    sortByDate();
     fetchChartData();
   }
 
@@ -70,6 +71,10 @@ class ChartsModel extends BaseModel {
     List<Weight> noRepetiton = WeightFilters.removeRepetitions(_filteredWeights);
     _filteredWeights = noRepetiton;
     print('charts_model | removeRepetition | $_filteredWeights');
+  }
+
+  void sortByDate() {
+    _filteredWeights.sort((a, b) => a.dateEntry.compareTo(b.dateEntry));
   }
 
   Future fetchChartData() async {
