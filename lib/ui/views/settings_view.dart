@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weight_app/business_logic/view_model/dark_mode_model.dart';
 import 'package:weight_app/business_logic/view_model/setting_view_model.dart';
 import 'package:weight_app/ui/base_widget.dart';
 import 'package:weight_app/ui/widget/custom_app_bar.dart';
