@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weight_app/business_logic/view_model/history_view_model.dart';
+import 'package:weight_app/business_logic/view_model/weight_manager.dart';
 import 'package:weight_app/business_logic/view_model/weight_model.dart';
 import 'package:weight_app/model/weight_model.dart';
 import 'package:weight_app/model/weight_presentation_model.dart';
@@ -116,7 +117,6 @@ class _HistoryViewState extends State<HistoryView> {
   }
 
   void navigateToUpdatePage(Weight item, int index) {
-    Navigator.of(context).push(MaterialPageRoute<EditView>(
-        builder: (_) => EditView(item: item, index: index)));
+    Provider.of<WeightManager>(listen: false,context).onChangeSelectedWeightItem(index, item);
   }
 }

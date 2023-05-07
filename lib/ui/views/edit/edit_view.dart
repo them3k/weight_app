@@ -3,11 +3,20 @@ import 'package:provider/provider.dart';
 import 'package:weight_app/business_logic/view_model/edit_view_model.dart';
 import 'package:weight_app/business_logic/view_model/weight_model.dart';
 import 'package:weight_app/ui/base_widget.dart';
+import '../../../business_logic/utils/pages.dart';
 import '../../../business_logic/utils/utils.date_format.dart';
 import '../../../model/weight_model.dart';
 import '../../widget/half_circle_chart.dart';
 
 class EditView extends StatefulWidget {
+
+  static MaterialPage page([int? index, Weight? item]) {
+    return MaterialPage(
+        key: ValueKey(Pages.editPath),
+        name: Pages.editPath,
+        child: EditView(index: index, item: item));
+  }
+
   final Weight? item;
   final int? index;
 
@@ -61,9 +70,8 @@ class _EditViewState extends State<EditView> {
                               style: TextStyle(
                                   fontSize: 34,
                                   fontWeight: FontWeight.bold,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSurface),
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface),
                             ),
                           ),
                           const SizedBox(
@@ -90,20 +98,21 @@ class _EditViewState extends State<EditView> {
                           ),
                         ],
                       ),
-                          const Spacer(),
-                          Container(
-                              height: 40,
-                              width: double.infinity,
-                              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                              child: ElevatedButton(
-                                  onPressed: () => {
-                                        context
-                                            .read<WeightModel>()
-                                            .saveWeight(model.weightValue,
-                                                model.date, model.index),
-                                        Navigator.pop(context)
-                                      },
-                                  child: const Text('Save')))
+                      const Spacer(),
+                      Container(
+                          height: 40,
+                          width: double.infinity,
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 20),
+                          child: ElevatedButton(
+                              onPressed: () => {
+                                    context.read<WeightModel>().saveWeight(
+                                        model.weightValue,
+                                        model.date,
+                                        model.index),
+                                    Navigator.pop(context)
+                                  },
+                              child: const Text('Save')))
                     ],
                   );
           }),
@@ -131,9 +140,7 @@ class _EditViewState extends State<EditView> {
                   children: [
                     const Text('Insert your current weight: '),
                     TextField(
-                      decoration: const InputDecoration(
-                        suffixText: 'kg'
-                      ),
+                      decoration: const InputDecoration(suffixText: 'kg'),
                       autofocus: true,
                       controller: _weightController,
                       style: const TextStyle(fontSize: 24),

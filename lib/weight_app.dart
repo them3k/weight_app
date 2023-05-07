@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weight_app/business_logic/view_model/app_state_manager.dart';
+import 'package:weight_app/business_logic/view_model/weight_manager.dart';
 import 'package:weight_app/business_logic/view_model/weight_model.dart';
 import 'package:weight_app/colors.dart';
 import 'package:weight_app/router/weight_router_delegate.dart';
@@ -35,6 +36,8 @@ class _WeightAppState extends State<WeightApp> {
       providers: [
         ChangeNotifierProvider<AppStateManagement>(
             create: (_) => serviceLocator<AppStateManagement>()),
+        ChangeNotifierProvider<WeightManager>(
+            create: (_) => serviceLocator<WeightManager>()),
         ChangeNotifierProvider<WeightModel>(
             lazy: false,
             create: (context) => WeightModel()..loadData()),
