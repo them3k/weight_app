@@ -44,7 +44,7 @@ class WeightRouterDelegate extends RouterDelegate<AppStateManagement>
             _appStateManagement.onSetting)
           SettingsView.page(),
         if (_appStateManagement.onBoardingComplete &&
-            _appStateManagement.onHistory &&
+            //_appStateManagement.onHistory &&
             _weightManager.index != -1)
           EditView.page(
             _weightManager.index,
