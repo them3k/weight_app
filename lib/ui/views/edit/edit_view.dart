@@ -120,11 +120,12 @@ class _EditViewState extends State<EditView> {
   }
 
   void _pickDate(BuildContext context) {
+    DateTime now = DateTime.now();
     showDatePicker(
             context: context,
-            initialDate: DateTime.now(),
+            initialDate: now,
             firstDate: DateTime(1900),
-            lastDate: DateTime(2100))
+            lastDate: now)
         .then((value) => context.read<EditViewModel>().pickDate(value));
   }
 
