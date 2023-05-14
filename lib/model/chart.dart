@@ -13,6 +13,7 @@ class Chart {
   double maxX;
   double minY;
   double maxY;
+  bool isFirstValue;
 
   Chart({
     required this.now,
@@ -25,10 +26,11 @@ class Chart {
     required this.maxX,
     required this.minY,
     required this.maxY,
+    required this.isFirstValue
   });
 
   @override
   String toString() =>
       'Chart: now: $now \n spots: $spots \n weights: $weights \n bTitle: $bottomTitleInterval \n rTitle: $rightTitleInterval \n'
-          'diff: $diff \n  minX: $minX maxX: $maxX minY: $minY maxY: $maxY' ;
+          'diff: $diff \n  minX: $minX maxX: $maxX minY: $minY maxY: $maxY isFirstValue: $isFirstValue' ;
 }
