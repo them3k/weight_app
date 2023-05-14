@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weight_app/business_logic/view_model/app_state_manager.dart';
 import 'package:weight_app/business_logic/view_model/weight_manager.dart';
 import 'package:weight_app/model/weight_model.dart';
-import 'package:weight_app/ui/views/edit/edit_view.dart';
 
 class AddWeightButtonContainer extends StatelessWidget {
 

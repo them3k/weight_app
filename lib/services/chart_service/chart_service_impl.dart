@@ -38,6 +38,7 @@ class ChartServiceImpl extends ChartService {
   late double _maxX;
   late double _minY;
   late double _maxY;
+  late bool isFirstValue;
 
   @override
   Future<Chart> fetchDataChart(List<Weight> weights, DateTime now) async{
@@ -60,6 +61,7 @@ class ChartServiceImpl extends ChartService {
       maxX: _maxX,
       minY: _minY,
       maxY: _maxY,
+      isFirstValue: _spots.length == 1
     );
   }
 

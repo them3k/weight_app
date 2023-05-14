@@ -39,7 +39,7 @@ class FLChartLineWidget extends StatelessWidget {
         color: lightColorScheme.primary,
         isCurved: true,
         barWidth: 0.3,
-        dotData: FlDotData(show: false));
+        dotData: FlDotData(show: chartData.isFirstValue));
   }
 
   BarAreaData _buildAreaData() => BarAreaData(

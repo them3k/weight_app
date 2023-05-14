@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:hive/hive.dart';
 import 'package:weight_app/business_logic/utils/constants.dart';
 import 'package:weight_app/model/hive/convertors.dart';

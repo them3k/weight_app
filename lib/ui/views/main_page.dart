@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:weight_app/business_logic/view_model/weight_model.dart';
 import 'package:weight_app/ui/bottom_navigation_bar.dart';
 import 'package:weight_app/ui/views/history/history_view.dart';
 import 'package:weight_app/ui/views/home/home_view.dart';

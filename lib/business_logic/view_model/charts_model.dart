@@ -1,9 +1,5 @@
-import 'dart:math';
-
-import 'package:fl_chart/fl_chart.dart';
 import 'package:weight_app/business_logic/helpers/weight_filters.dart';
 import 'package:weight_app/business_logic/view_model/base_model.dart';
-import 'package:weight_app/business_logic/view_model/weight_model.dart';
 import 'package:weight_app/service_locator.dart';
 import '../../model/chart.dart';
 import '../../model/periods.dart';
@@ -56,6 +52,7 @@ class ChartsModel extends BaseModel {
     print('charts_model | createCharts');
     filterDataByPeriod();
     removeRepetition();
+    sortByDate();
     fetchChartData();
   }
 
@@ -70,6 +67,10 @@ class ChartsModel extends BaseModel {
     List<Weight> noRepetiton = WeightFilters.removeRepetitions(_filteredWeights);
     _filteredWeights = noRepetiton;
     print('charts_model | removeRepetition | $_filteredWeights');
+  }
+
+  void sortByDate() {
+    _filteredWeights.sort((a, b) => a.dateEntry.compareTo(b.dateEntry));
   }
 
   Future fetchChartData() async {

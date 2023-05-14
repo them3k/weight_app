@@ -1,7 +1,4 @@
-import 'package:hive/hive.dart';
 import 'package:weight_app/model/weight_model.dart';
-
-import '../../model/hive/models/weight.dart';
 
 abstract class StorageService {
 

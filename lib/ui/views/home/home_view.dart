@@ -3,11 +3,7 @@ import 'package:weight_app/ui/bottom_navigation_bar.dart';
 import 'package:weight_app/ui/views/home/widgets/home_view_header.dart';
 import 'package:weight_app/ui/views/home/widgets/add_weight_button_container.dart';
 import 'package:weight_app/ui/views/home/chart/widget/chart_view.dart';
-import 'package:weight_app/ui/views/home/widgets/congrat_widget.dart';
-import 'package:weight_app/ui/views/home/widgets/current_weight_widget.dart';
 import '../../../business_logic/utils/pages.dart';
-import '../../../business_logic/view_model/home_view_model.dart';
-import '../../base_widget.dart';
 import '../../widget/custom_app_bar.dart';
 
 class HomeView extends StatefulWidget {

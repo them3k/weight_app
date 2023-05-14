@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weight_app/business_logic/view_model/onboarding_view_model.dart';
-import 'package:weight_app/ui/views/main_page.dart';
 import 'package:weight_app/ui/views/onBoarding/onBoardingWeightInitWidget.dart';
 import 'package:weight_app/ui/views/onBoarding/on_boading_goal_init_widget.dart';
 
@@ -49,8 +48,8 @@ class _OnBoardingViewState extends State<OnBoardingView> {
           child: Column(
             children: [
               SizedBox(height: 56,),
-              SizedBox(
-                height: heightScreen - 56,
+              Expanded(
+                //height: heightScreen - 56,
                 child: PageView(
                   controller: _pageController,
                   onPageChanged: (int page) {
@@ -64,19 +63,6 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                   ],
                 ),
               ),
-              // Container(
-              //   alignment: Alignment.centerRight,
-              //   margin: const EdgeInsets.only(right: 16, bottom: 16),
-              //   child: ElevatedButton(
-              //       onPressed: () => {
-              //         context
-              //             .read<OnBoardingViewModel>()
-              //             .saveGoal(20),
-              //         Navigator.of(context).pushReplacement(MaterialPageRoute<MainPage>(
-              //             builder: (context) => MainPage()))
-              //       },
-              //       child: Text('Next')),
-              // )
             ],
           ),
         ));

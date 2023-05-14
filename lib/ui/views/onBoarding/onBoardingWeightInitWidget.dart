@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weight_app/business_logic/view_model/onboarding_view_model.dart';
 import 'package:weight_app/business_logic/view_model/weight_model.dart';
 
 class OnBoardingWeightInitWidget extends StatefulWidget {
@@ -79,13 +78,22 @@ class _OnBoardingWeightInitWidgetState
         Positioned(
           bottom: 20,
           right: 20,
-          child: ElevatedButton(
-              onPressed: () {
-                context.read<OnBoardingViewModel>().saveInitWeight(_sliderValue);
-                context.read<WeightModel>().saveInitWeight(_sliderValue);
-                widget.onIncrement();
-              },
-              child: Text('Next',style: Theme.of(context).textTheme.labelMedium,)),
+          child: Row(
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    widget.onIncrement();
+                  },
+                  child: Text('Skip',style: Theme.of(context).textTheme.labelMedium,)),
+              const SizedBox(width: 10,),
+              ElevatedButton(
+                  onPressed: () {
+                    context.read<WeightModel>().saveInitWeight(_sliderValue);
+                    widget.onIncrement();
+                  },
+                  child: Text('Next',style: Theme.of(context).textTheme.labelMedium,)),
+            ],
+          ),
         )
       ],
     );

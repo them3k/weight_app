@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:weight_app/model/hive/register_adapters.dart';
@@ -21,4 +22,6 @@ Future? initializeHive() async {
   await Hive.openBox<HiveWeight>(Constants.WEIGHT_BOX);
   await Hive.openBox<double>(Constants.GOAL_BOX);
   await Hive.openBox<bool>(Constants.APP_STATE_MANAGEMENT_BOX);
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
 }
