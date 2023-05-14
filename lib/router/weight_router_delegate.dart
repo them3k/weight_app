@@ -5,7 +5,6 @@ import 'package:weight_app/service_locator.dart';
 import 'package:weight_app/ui/views/edit/edit_view.dart';
 import 'package:weight_app/ui/views/history/history_view.dart';
 import 'package:weight_app/ui/views/home/home_view.dart';
-import 'package:weight_app/ui/views/main_page.dart';
 import 'package:weight_app/ui/views/onBoarding/on_boarding_view.dart';
 import 'package:weight_app/ui/views/settings_view.dart';
 import 'package:weight_app/ui/views/splash_view.dart';

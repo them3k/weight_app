@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:weight_app/business_logic/view_model/onboarding_view_model.dart';
-import 'package:weight_app/ui/views/main_page.dart';
 import 'package:weight_app/ui/views/onBoarding/onBoardingWeightInitWidget.dart';
 import 'package:weight_app/ui/views/onBoarding/on_boading_goal_init_widget.dart';
 

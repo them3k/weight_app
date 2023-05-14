@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:weight_app/ui/views/home/chart/widget/empty_chart_info.dart';
 import 'package:weight_app/ui/views/home/chart/widget/perdiod_segmented_buttons_widget.dart';
 import 'package:weight_app/ui/widget/fl_chart_line_widget.dart';
-import 'package:weight_app/ui/widget/proxy_base_widget.dart';
 
 
 class ChartView extends StatelessWidget {

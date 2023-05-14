@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:weight_app/business_logic/view_model/app_state_manager.dart';
 
 import '../../../business_logic/view_model/onboarding_view_model.dart';
-import '../main_page.dart';
 
 class OnBoardingGoalInitWidget extends StatefulWidget {
 
