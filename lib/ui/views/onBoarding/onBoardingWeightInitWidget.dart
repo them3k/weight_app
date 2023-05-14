@@ -79,12 +79,22 @@ class _OnBoardingWeightInitWidgetState
         Positioned(
           bottom: 20,
           right: 20,
-          child: ElevatedButton(
-              onPressed: () {
-                context.read<WeightModel>().saveInitWeight(_sliderValue);
-                widget.onIncrement();
-              },
-              child: Text('Next',style: Theme.of(context).textTheme.labelMedium,)),
+          child: Row(
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    widget.onIncrement();
+                  },
+                  child: Text('Skip',style: Theme.of(context).textTheme.labelMedium,)),
+              const SizedBox(width: 10,),
+              ElevatedButton(
+                  onPressed: () {
+                    context.read<WeightModel>().saveInitWeight(_sliderValue);
+                    widget.onIncrement();
+                  },
+                  child: Text('Next',style: Theme.of(context).textTheme.labelMedium,)),
+            ],
+          ),
         )
       ],
     );
