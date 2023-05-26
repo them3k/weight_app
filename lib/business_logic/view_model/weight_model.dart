@@ -27,7 +27,7 @@ class WeightModel extends BaseModel {
     return _weights[index];
   }
 
-  void _addWeight(Weight weight) {
+  void addWeight(Weight weight) {
     _weights.add(weight);
     print('weight_model | addWeight | ${weights.hashCode}');
     _storageService.addWeight(weight);
@@ -56,7 +56,7 @@ class WeightModel extends BaseModel {
         'weight_model | saveWeight | value: $value dateTime: $dateTime index: $index');
     DateTime dateEntry = DateTime(dateTime.year, dateTime.month, dateTime.day);
     if (index == null) {
-      _addWeight(Weight(value: value, dateEntry: dateEntry));
+      addWeight(Weight(value: value, dateEntry: dateEntry));
     } else {
       _updateWeight(Weight(value: value, dateEntry: dateEntry), index);
     }
@@ -69,7 +69,7 @@ class WeightModel extends BaseModel {
         dateEntry: DateTime(
             now.year,now.month,
             now.day));
-    _addWeight(weight);
+    addWeight(weight);
   }
 
   static List<Weight> sortByDate(List<Weight> list) {
