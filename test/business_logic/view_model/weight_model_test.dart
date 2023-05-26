@@ -32,4 +32,27 @@ main() {
   setUp(() {
     sut = WeightModel();
   });
+
+  group('loadData', () {
+
+    test("loadData called storageService.getWeightByDate is called once",
+            () async {
+          //Arrange
+          when(() => sut.storageService.getWeightsByDate())
+              .thenAnswer((_) async => []);
+          await sut.loadData();
+          //Act
+          //Asset
+          verify(() => sut.storageService.getWeightsByDate()).called(1);
+        });
+
+    test("loadData called list with 3 weights", () async {
+      //Arrange
+      arrangeStorageServiceReturns3Weights();
+      //Act
+      await sut.loadData();
+      //Asset
+      expect(sut.weights, weightsFromService);
+    });
+  });
 }
