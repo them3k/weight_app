@@ -55,4 +55,28 @@ main() {
       expect(sut.weights, weightsFromService);
     });
   });
+
+  group('getItemAtIndex', () {
+
+
+
+    test("index is -1 return null", () async {
+      //Arrange
+      int index = -1;
+      //Act
+      Weight? result = sut.getItemAtIndex(index);
+      //Asset
+      expect(result, null);
+    });
+
+    test("list has 3 items and index is 2 return 3rd testSingleWeight", () async {
+      //Arrange
+      arrangeStorageServiceReturns3Weights();
+      //Act
+      await sut.loadData();
+      Weight? item = sut.getItemAtIndex(2);
+      //Asset
+      expect(item, weightsFromService[2]);
+    });
+  });
 }
