@@ -6,6 +6,8 @@ import '../../model/weight_model.dart';
 class WeightModel extends BaseModel {
   final StorageService _storageService = serviceLocator<StorageService>();
 
+  StorageService get storageService => _storageService;
+
   List<Weight> _weights = [];
 
   List<Weight> get weights => _weights;
