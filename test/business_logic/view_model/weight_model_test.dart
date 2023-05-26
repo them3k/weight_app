@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:weight_app/business_logic/view_model/weight_model.dart';
 import 'package:weight_app/model/weight_model.dart';
@@ -16,13 +18,17 @@ main() {
     Weight(value: 25, dateEntry: DateTime(2023, 05, 03))
   ];
 
-  final Weight testSingleWeight = Weight(
-      value: 25, dateEntry: DateTime(2023, 05, 03));
-
+  final Weight testSingleWeight =
+      Weight(value: 25, dateEntry: DateTime(2023, 05, 03));
 
   void arrangeStorageServiceReturns3Weights() {
     when(() => sut.storageService.getWeightsByDate())
         .thenAnswer((_) async => weightsFromService);
+  }
+
+  void arrangeStorageAddWeightServiceReturns1() {
+    when(() => sut.storageService.addWeight(testSingleWeight))
+        .thenAnswer((_) async => 1);
   }
 
   setUpAll(() {
@@ -34,17 +40,16 @@ main() {
   });
 
   group('loadData', () {
-
     test("loadData called storageService.getWeightByDate is called once",
-            () async {
-          //Arrange
-          when(() => sut.storageService.getWeightsByDate())
-              .thenAnswer((_) async => []);
-          await sut.loadData();
-          //Act
-          //Asset
-          verify(() => sut.storageService.getWeightsByDate()).called(1);
-        });
+        () async {
+      //Arrange
+      when(() => sut.storageService.getWeightsByDate())
+          .thenAnswer((_) async => []);
+      await sut.loadData();
+      //Act
+      //Asset
+      verify(() => sut.storageService.getWeightsByDate()).called(1);
+    });
 
     test("loadData called list with 3 weights", () async {
       //Arrange
@@ -57,9 +62,6 @@ main() {
   });
 
   group('getItemAtIndex', () {
-
-
-
     test("index is -1 return null", () async {
       //Arrange
       int index = -1;
@@ -69,7 +71,8 @@ main() {
       expect(result, null);
     });
 
-    test("list has 3 items and index is 2 return 3rd testSingleWeight", () async {
+    test("list has 3 items and index is 2 return 3rd testSingleWeight",
+        () async {
       //Arrange
       arrangeStorageServiceReturns3Weights();
       //Act
@@ -78,5 +81,40 @@ main() {
       //Asset
       expect(item, weightsFromService[2]);
     });
+
+    group('addWeight', () {
+      test("addWeight called then storageService.addWeight called once",
+          () async {
+        //Arrange
+
+        when(() => sut.storageService.addWeight(testSingleWeight))
+            .thenAnswer((_) async => 1);
+        //Act
+        sut.addWeight(testSingleWeight);
+        //Asset
+        verify(() => sut.storageService.addWeight(testSingleWeight)).called(1);
+      });
+
+      test("add weight weight list increases by 1 ", () async {
+        //Arrange
+        arrangeStorageAddWeightServiceReturns1();
+        //Act
+        expect(sut.weights.length, 0);
+        sut.addWeight(testSingleWeight);
+        //Asset
+        expect(sut.weights.length, 1);
+      });
+
+      test("add testSingleWeight weights contains testSingleWeight", () async {
+        //Arrange
+        arrangeStorageAddWeightServiceReturns1();
+        //Act
+        sut.addWeight(testSingleWeight);
+        //Asset
+        expect(sut.weights[0], testSingleWeight);
+      });
+    });
+
+    group('deleteWeight', () {});
   });
 }
