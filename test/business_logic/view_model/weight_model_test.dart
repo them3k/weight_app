@@ -236,10 +236,32 @@ main() {
       //Arrange
       sut.weights.add(testSingleWeight);
       //Act
-      sut.saveWeight(testSingleWeightUpdated.value, testSingleWeightUpdated.dateEntry, 0);
+      sut.saveWeight(
+          testSingleWeightUpdated.value, testSingleWeightUpdated.dateEntry, 0);
       //Asset
-        verify(() => sut.storageService.updateWeight(testSingleWeightUpdated, 0)).called(1);
+      verify(() => sut.storageService.updateWeight(testSingleWeightUpdated, 0))
+          .called(1);
     });
   });
 
+  group('saveInitWeight', () {
+
+    DateTime now = DateTime.now();
+    double value = 25;
+    Weight testWeightNow = Weight(value: value, dateEntry: DateTime(now.year,now.month,now.day));
+
+    test("user saves init value, addWeight called", () async {
+      //Arrange
+
+      when(() => sut.storageService.addWeight(
+              testWeightNow))
+          .thenAnswer((_) async => 1);
+      //Act
+      sut.saveInitWeight(25);
+      //Asset
+      verify(() => sut.addWeight(testWeightNow)).called(1);
+    });
+  });
+
+ 
 }
