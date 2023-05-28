@@ -36,7 +36,6 @@ class WeightModel extends BaseModel {
   void updateWeight(Weight weight, int index) {
     _weights[index] = weight;
     _storageService.updateWeight(weight, index);
-    print('weight_model | updateWeght() | notify');
     notifyListeners();
   }
 
