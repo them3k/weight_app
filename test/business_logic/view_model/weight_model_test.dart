@@ -83,7 +83,7 @@ main() {
     });
 
     group('addWeight', () {
-      test("addWeight called then storageService.addWeight called once",
+      test("users add a weight, storageService.addWeight called once",
           () async {
         //Arrange
 
@@ -95,7 +95,7 @@ main() {
         verify(() => sut.storageService.addWeight(testSingleWeight)).called(1);
       });
 
-      test("add weight weight list increases by 1 ", () async {
+      test("user adds a weight, list should be incremented by 1", () async {
         //Arrange
         arrangeStorageAddWeightServiceReturns1();
         //Act
@@ -105,7 +105,7 @@ main() {
         expect(sut.weights.length, 1);
       });
 
-      test("add testSingleWeight weights contains testSingleWeight", () async {
+      test("user adds a weight, list should contains this element ", () async {
         //Arrange
         arrangeStorageAddWeightServiceReturns1();
         //Act
