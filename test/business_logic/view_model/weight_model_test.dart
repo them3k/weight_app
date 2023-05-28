@@ -272,4 +272,23 @@ main() {
     //Asset
     expect(result, formattedDateTimeNow);
   });
+
+  test("user gets weights, ordered weights list", () async {
+    //Arrange
+    List<Weight> list = [
+      Weight(value: 25, dateEntry: DateTime(2023,05,06)),
+      Weight(value: 26, dateEntry: DateTime(2023,05,04)),
+      Weight(value: 27, dateEntry: DateTime(2022,05,06)),
+    ];
+
+    List<Weight> sortedList = [
+      Weight(value: 27, dateEntry: DateTime(2022,05,06)),
+      Weight(value: 26, dateEntry: DateTime(2023,05,04)),
+      Weight(value: 25, dateEntry: DateTime(2023,05,06)),
+    ];
+    //Act
+    var result = WeightModel.sortByDate(list);
+    //Asset
+    expect(result, sortedList);
+  });
 }
