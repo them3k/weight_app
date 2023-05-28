@@ -263,5 +263,13 @@ main() {
     });
   });
 
- 
+  test("simplifyDateTimeFormat called, formattedDateTimeNow", () async {
+    //Arrange
+    DateTime now = DateTime.now();
+    DateTime formattedDateTimeNow = DateTime(now.year,now.month,now.day);
+    //Act
+    var result = sut.simplifyDateTimeFormat(now);
+    //Asset
+    expect(result, formattedDateTimeNow);
+  });
 }
