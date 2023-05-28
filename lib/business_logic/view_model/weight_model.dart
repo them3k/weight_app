@@ -49,8 +49,7 @@ class WeightModel extends BaseModel {
   }
 
   void saveWeight(double value, DateTime dateTime, int? index) {
-    print(
-        'weight_model | saveWeight | value: $value dateTime: $dateTime index: $index');
+  
     DateTime dateEntry = simplifyDateTimeFormat(dateTime);
     if (index == null) {
       addWeight(Weight(value: value, dateEntry: dateEntry));
