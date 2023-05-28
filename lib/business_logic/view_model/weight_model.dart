@@ -1,10 +1,12 @@
-import 'package:weight_app/business_logic/view_model/base_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:weight_app/service_locator.dart';
 import 'package:weight_app/services/storage/storage_service.dart';
 import '../../model/weight_model.dart';
 
-class WeightModel extends BaseModel {
+class WeightModel extends ChangeNotifier {
   final StorageService _storageService = serviceLocator<StorageService>();
+
+  StorageService get storageService => _storageService;
 
   List<Weight> _weights = [];
 
@@ -25,18 +27,15 @@ class WeightModel extends BaseModel {
     return _weights[index];
   }
 
-  void _addWeight(Weight weight) {
+  void addWeight(Weight weight) {
     _weights.add(weight);
-    print('weight_model | addWeight | ${weights.hashCode}');
     _storageService.addWeight(weight);
-    print('weight_model | addWeight() | size: ${_weights.length} notify');
     notifyListeners();
   }
 
-  void _updateWeight(Weight weight, int index) {
+  void updateWeight(Weight weight, int index) {
     _weights[index] = weight;
     _storageService.updateWeight(weight, index);
-    print('weight_model | updateWeght() | notify');
     notifyListeners();
   }
 
@@ -50,13 +49,12 @@ class WeightModel extends BaseModel {
   }
 
   void saveWeight(double value, DateTime dateTime, int? index) {
-    print(
-        'weight_model | saveWeight | value: $value dateTime: $dateTime index: $index');
-    DateTime dateEntry = DateTime(dateTime.year, dateTime.month, dateTime.day);
+  
+    DateTime dateEntry = simplifyDateTimeFormat(dateTime);
     if (index == null) {
-      _addWeight(Weight(value: value, dateEntry: dateEntry));
+      addWeight(Weight(value: value, dateEntry: dateEntry));
     } else {
-      _updateWeight(Weight(value: value, dateEntry: dateEntry), index);
+      updateWeight(Weight(value: value, dateEntry: dateEntry), index);
     }
   }
 
@@ -67,8 +65,11 @@ class WeightModel extends BaseModel {
         dateEntry: DateTime(
             now.year,now.month,
             now.day));
-    _addWeight(weight);
+    addWeight(weight);
   }
+
+  DateTime simplifyDateTimeFormat(DateTime dateTime) =>
+    DateTime(dateTime.year,dateTime.month,dateTime.day);
 
   static List<Weight> sortByDate(List<Weight> list) {
     list.sort((a, b) => a.dateEntry.compareTo(b.dateEntry));
