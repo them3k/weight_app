@@ -21,6 +21,11 @@ main() {
   final Weight testSingleWeight =
       Weight(value: 25, dateEntry: DateTime(2023, 05, 03));
 
+  final Weight testSingleWeightUpdated =
+  Weight(value: 30, dateEntry: DateTime(2023, 05, 03));
+
+
+
   void arrangeStorageServiceReturns3Weights() {
     when(() => sut.storageService.getWeightsByDate())
         .thenAnswer((_) async => weightsFromService);
@@ -83,6 +88,7 @@ main() {
     });
 
     group('addWeight', () {
+
       test("users add a weight, storageService.addWeight called once",
           () async {
         //Arrange
@@ -105,7 +111,7 @@ main() {
         expect(sut.weights.length, 1);
       });
 
-      test("user adds a weight, list should contains this element ", () async {
+      test("user adds a weight, list should contains this element", () async {
         //Arrange
         arrangeStorageAddWeightServiceReturns1();
         //Act
@@ -115,6 +121,41 @@ main() {
       });
     });
 
-    group('deleteWeight', () {});
+    group('updateWeight', () {
+
+      void arrangeWeightModelUpdateWeight() {
+        arrangeStorageAddWeightServiceReturns1();
+        sut.addWeight(testSingleWeight);
+      }
+
+      test("user update weights, storageService.updateWeights called once", () async {
+        //Arrange
+        arrangeWeightModelUpdateWeight();
+        //Act
+        sut.updateWeight(testSingleWeightUpdated, 0);
+        //Asset
+        verify(() => sut.storageService.updateWeight(testSingleWeightUpdated, 0)).called(1);
+      });
+
+      test("user update weights, length of list remains the same", () async {
+        //Arrange
+        arrangeWeightModelUpdateWeight();
+        int lengthBeforeUpdateWeight = sut.weights.length;
+        //Act
+        sut.updateWeight(testSingleWeightUpdated, 0);
+        int lengthAfterUpdateWeight = sut.weights.length;
+        //Asset
+        expect(lengthAfterUpdateWeight, lengthBeforeUpdateWeight);
+      });
+
+      test("user update weights, testSingleWeight is replaced by testSingleWeightUpdated", () async {
+        //Arrange
+        arrangeWeightModelUpdateWeight();
+        //Act
+        sut.updateWeight(testSingleWeightUpdated, 0);
+        //Asset
+        expect(sut.weights[0], testSingleWeightUpdated);
+      });
+    });
   });
 }
