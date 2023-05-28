@@ -209,4 +209,37 @@ main() {
     });
   });
 
+
+  // void saveWeight(double value, DateTime dateTime, int? index) {
+  //
+  //   DateTime dateEntry = simplifyDateTimeFormat(dateTime);
+  //   if (index == null) {
+  //     addWeight(Weight(value: value, dateEntry: dateEntry));
+  //   } else {
+  //     updateWeight(Weight(value: value, dateEntry: dateEntry), index);
+  //   }
+  // }
+
+    group('saveWeights', () {
+
+      test("index is null, storageService.addWeight called once", () async {
+      //Arrange
+      arrangeStorageAddWeightServiceReturns1();
+      Weight weight = Weight(value: 25, dateEntry: DateTime(2023,05,03));
+      //Act
+      sut.saveWeight(weight.value,weight.dateEntry, null);
+      //Asset
+        verify(() => sut.storageService.addWeight(weight)).called(1);
+    });
+
+      test("index is not null, storageService.updateWeight called once", () async {
+      //Arrange
+      sut.weights.add(testSingleWeight);
+      //Act
+      sut.saveWeight(testSingleWeightUpdated.value, testSingleWeightUpdated.dateEntry, 0);
+      //Asset
+        verify(() => sut.storageService.updateWeight(testSingleWeightUpdated, 0)).called(1);
+    });
+  });
+
 }
