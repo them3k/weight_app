@@ -51,7 +51,7 @@ class WeightModel extends BaseModel {
   void saveWeight(double value, DateTime dateTime, int? index) {
     print(
         'weight_model | saveWeight | value: $value dateTime: $dateTime index: $index');
-    DateTime dateEntry = DateTime(dateTime.year, dateTime.month, dateTime.day);
+    DateTime dateEntry = simplifyDateTimeFormat(dateTime);
     if (index == null) {
       addWeight(Weight(value: value, dateEntry: dateEntry));
     } else {
@@ -68,6 +68,9 @@ class WeightModel extends BaseModel {
             now.day));
     addWeight(weight);
   }
+
+  DateTime simplifyDateTimeFormat(DateTime dateTime) =>
+    DateTime(dateTime.year,dateTime.month,dateTime.day);
 
   static List<Weight> sortByDate(List<Weight> list) {
     list.sort((a, b) => a.dateEntry.compareTo(b.dateEntry));
