@@ -33,7 +33,7 @@ class WeightModel extends BaseModel {
     notifyListeners();
   }
 
-  void _updateWeight(Weight weight, int index) {
+  void updateWeight(Weight weight, int index) {
     _weights[index] = weight;
     _storageService.updateWeight(weight, index);
     print('weight_model | updateWeght() | notify');
@@ -56,7 +56,7 @@ class WeightModel extends BaseModel {
     if (index == null) {
       addWeight(Weight(value: value, dateEntry: dateEntry));
     } else {
-      _updateWeight(Weight(value: value, dateEntry: dateEntry), index);
+      updateWeight(Weight(value: value, dateEntry: dateEntry), index);
     }
   }
 
