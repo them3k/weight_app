@@ -76,7 +76,7 @@ class ChartServiceImpl extends ChartService {
   List<FlSpot> convertToDaysFlSpot(List<Weight> weights) {
     List<FlSpot> spots = [];
     for (int i = 0; i < weights.length; i++) {
-      spots.add(FlSpot(i.toDouble(), weights[i].value.floorToDouble()));
+      spots.add(FlSpot(i.toDouble(), weights[i].value));
     }
     return spots.toSet().toList();
   }
