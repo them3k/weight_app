@@ -29,14 +29,22 @@ and hide its implementation details from the rest of the app.
  */
 
 class ChartServiceImpl extends ChartService {
-
   late double _diff;
+
+  double get diff => _diff;
+
   late List<FlSpot> _spots;
   late double _bottomTitleInterval;
   late double _rightTitleInterval;
+
+  double get rightTitleInterval => _rightTitleInterval;
+
   late double _minX;
   late double _maxX;
   late double _minY;
+
+  double get minY => _minY;
+
   late double _maxY;
   late bool isFirstValue;
 
@@ -65,7 +73,6 @@ class ChartServiceImpl extends ChartService {
     );
   }
 
-
   @override
   List<FlSpot> createSpots(List<Weight> weights) {
     print('chart_service_impl | createSpots');
@@ -90,7 +97,6 @@ class ChartServiceImpl extends ChartService {
     _diff = getMaxWeightValue() - getMinWeightValue();
     return _diff;
   }
-
 
   @override
   double getMinWeightValue() {
