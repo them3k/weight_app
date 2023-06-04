@@ -120,43 +120,41 @@ class ChartServiceImpl extends ChartService {
 
   @override
   double countRightTitleInterval() {
-    if (_diff >= 0 && _diff <= 4) {
-      return 1;
-    }
-
-    if (_diff >= 5 && _diff <= 7) {
-      return 2;
-    }
-
-    if (_diff >= 8 && _diff <= 10) {
-      return 3;
-    }
-
-    if (_diff >= 11 && _diff <= 13) {
-      return 4;
-    }
-
-    if (_diff >= 14 && _diff <= 16) {
-      return 5;
-    }
-
-    if (_diff >= 17 && _diff <= 44) {
-      return 10;
-    }
-
-    if (_diff >= 45 && _diff <= 74) {
-      return 20;
-    }
-
-    if (_diff >= 75 && _diff <= 104) {
-      return 30;
-    }
 
     if (_diff >= 105) {
       return 50;
     }
 
+    if (_diff >= 74) {
+      return 30;
+    }
+
+    if (_diff >= 44) {
+      return 20;
+    }
+
+    if (_diff >= 16) {
+      return 10;
+    }
+
+    if (_diff >= 13) {
+      return 5;
+    }
+
+    if (_diff >= 10) {
+      return 4;
+    }
+
+    if (_diff >= 7) {
+      return 3;
+    }
+
+    if (_diff >= 4) {
+      return 2;
+    }
+
     return 1;
+
   }
 
   @override
