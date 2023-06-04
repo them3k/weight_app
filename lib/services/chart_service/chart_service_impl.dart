@@ -170,6 +170,10 @@ class ChartServiceImpl extends ChartService {
     double max = getMaxWeightValue();
     double interval = countRightTitleInterval();
 
+    if (_diff >= 0 && _diff < 1) {
+      return max.truncateToDouble() + 1;
+    }
+
     if (isDivisible(max, interval)) {
       return (max += interval).toDouble();
     }
@@ -184,6 +188,10 @@ class ChartServiceImpl extends ChartService {
 
     if (min - interval <= 0) {
       return 0;
+    }
+
+    if (_diff >= 0 && _diff < 1) {
+      return min.truncateToDouble();
     }
 
     if (isDivisible(min, interval)) {
