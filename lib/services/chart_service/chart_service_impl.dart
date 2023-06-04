@@ -79,11 +79,11 @@ class ChartServiceImpl extends ChartService {
     _spots = convertToDaysFlSpot(weights);
     return sortFlSpots(_spots);
   }
-
+// We have to set FlSpot x to specific day of week day
   List<FlSpot> convertToDaysFlSpot(List<Weight> weights) {
     List<FlSpot> spots = [];
     for (int i = 0; i < weights.length; i++) {
-      spots.add(FlSpot(i.toDouble(), weights[i].value));
+      spots.add(FlSpot(weights[i].dateEntry.weekday.toDouble() - 1, weights[i].value));
     }
     return spots.toSet().toList();
   }
@@ -210,6 +210,6 @@ class ChartServiceImpl extends ChartService {
   double countMinX() => 0;
 
   @override
-  double countMaxX() => _spots.length - 1;
+  double countMaxX() => 6;
 
 }
