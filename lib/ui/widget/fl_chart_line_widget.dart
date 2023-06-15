@@ -63,16 +63,29 @@ class FLChartLineWidget extends StatelessWidget {
 
   Widget buildBottomTitleWidgets(
       double value, TitleMeta meta, List<Weight> weights, DateTime now) {
-    DateTime dateEntry = weights[value.toInt()].dateEntry;
+   // DateTime dateEntry = weights[value.toInt()].dateEntry;
+
+    print('fl_chart_line_widget | buildBottomTitleWidgets | value: $value');
 
     if (meta.min == value) {
       return Container(
         margin: const EdgeInsets.only(left: 20),
-        child: showXTitle(dateEntry, now),
+        child: showXTitle(now.subtract(const Duration(days: 6)), now)
       );
     }
 
-    return showXTitle(dateEntry, now);
+
+    switch(value.toInt()){
+      case 1: return showXTitle(now.subtract(const Duration(days: 5)), now);
+      case 2: return showXTitle(now.subtract(const Duration(days: 4)), now);
+      case 3: return showXTitle(now.subtract(const Duration(days: 3)), now);
+      case 4: return showXTitle(now.subtract(const Duration(days: 2)), now);
+      case 5: return showXTitle(now.subtract(const Duration(days: 1)), now);
+      case 6: return showXTitle(now.subtract(const Duration(days: 0)), now);
+      default: return showXTitle(now.subtract(const Duration(days: 0)), now);
+    }
+
+
   }
 
   Widget showXTitle(DateTime weightDateTime, DateTime now) {

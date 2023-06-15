@@ -32,5 +32,5 @@ class Chart {
   @override
   String toString() =>
       'Chart: now: $now \n spots: $spots \n weights: $weights \n bTitle: $bottomTitleInterval \n rTitle: $rightTitleInterval \n'
-          'diff: $diff \n  minX: $minX maxX: $maxX minY: $minY maxY: $maxY isFirstValue: $isFirstValue' ;
+          ' diff: $diff \n bTitleInterval: $bottomTitleInterval \n minX: $minX \n maxX: $maxX \n minY: $minY \n maxY: $maxY \n isFirstValue: $isFirstValue' ;
 }

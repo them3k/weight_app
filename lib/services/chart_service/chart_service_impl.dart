@@ -29,14 +29,22 @@ and hide its implementation details from the rest of the app.
  */
 
 class ChartServiceImpl extends ChartService {
-
   late double _diff;
+
+  double get diff => _diff;
+
   late List<FlSpot> _spots;
   late double _bottomTitleInterval;
   late double _rightTitleInterval;
+
+  double get rightTitleInterval => _rightTitleInterval;
+
   late double _minX;
   late double _maxX;
   late double _minY;
+
+  double get minY => _minY;
+
   late double _maxY;
   late bool isFirstValue;
 
@@ -65,18 +73,17 @@ class ChartServiceImpl extends ChartService {
     );
   }
 
-
   @override
   List<FlSpot> createSpots(List<Weight> weights) {
     print('chart_service_impl | createSpots');
     _spots = convertToDaysFlSpot(weights);
     return sortFlSpots(_spots);
   }
-
+// We have to set FlSpot x to specific day of week day
   List<FlSpot> convertToDaysFlSpot(List<Weight> weights) {
     List<FlSpot> spots = [];
     for (int i = 0; i < weights.length; i++) {
-      spots.add(FlSpot(i.toDouble(), weights[i].value));
+      spots.add(FlSpot(weights[i].dateEntry.weekday.toDouble() - 1, weights[i].value));
     }
     return spots.toSet().toList();
   }
@@ -90,7 +97,6 @@ class ChartServiceImpl extends ChartService {
     _diff = getMaxWeightValue() - getMinWeightValue();
     return _diff;
   }
-
 
   @override
   double getMinWeightValue() {
@@ -114,43 +120,41 @@ class ChartServiceImpl extends ChartService {
 
   @override
   double countRightTitleInterval() {
-    if (_diff >= 0 && _diff <= 4) {
-      return 1;
-    }
-
-    if (_diff >= 5 && _diff <= 7) {
-      return 2;
-    }
-
-    if (_diff >= 8 && _diff <= 10) {
-      return 3;
-    }
-
-    if (_diff >= 11 && _diff <= 13) {
-      return 4;
-    }
-
-    if (_diff >= 14 && _diff <= 16) {
-      return 5;
-    }
-
-    if (_diff >= 17 && _diff <= 44) {
-      return 10;
-    }
-
-    if (_diff >= 45 && _diff <= 74) {
-      return 20;
-    }
-
-    if (_diff >= 75 && _diff <= 104) {
-      return 30;
-    }
 
     if (_diff >= 105) {
       return 50;
     }
 
+    if (_diff >= 74) {
+      return 30;
+    }
+
+    if (_diff >= 44) {
+      return 20;
+    }
+
+    if (_diff >= 16) {
+      return 10;
+    }
+
+    if (_diff >= 13) {
+      return 5;
+    }
+
+    if (_diff >= 10) {
+      return 4;
+    }
+
+    if (_diff >= 7) {
+      return 3;
+    }
+
+    if (_diff >= 4) {
+      return 2;
+    }
+
     return 1;
+
   }
 
   @override
@@ -166,6 +170,10 @@ class ChartServiceImpl extends ChartService {
     double max = getMaxWeightValue();
     double interval = countRightTitleInterval();
 
+    if (_diff >= 0 && _diff < 1) {
+      return max.truncateToDouble() + 1;
+    }
+
     if (isDivisible(max, interval)) {
       return (max += interval).toDouble();
     }
@@ -180,6 +188,10 @@ class ChartServiceImpl extends ChartService {
 
     if (min - interval <= 0) {
       return 0;
+    }
+
+    if (_diff >= 0 && _diff < 1) {
+      return min.truncateToDouble();
     }
 
     if (isDivisible(min, interval)) {
@@ -198,6 +210,6 @@ class ChartServiceImpl extends ChartService {
   double countMinX() => 0;
 
   @override
-  double countMaxX() => _spots.length - 1;
+  double countMaxX() => 6;
 
 }
