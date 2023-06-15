@@ -76,18 +76,16 @@ class FLChartLineWidget extends StatelessWidget {
 
 
     switch(value.toInt()){
-      case 0: return showXTitle(now.subtract(const Duration(days: 6)), now);
       case 1: return showXTitle(now.subtract(const Duration(days: 5)), now);
       case 2: return showXTitle(now.subtract(const Duration(days: 4)), now);
       case 3: return showXTitle(now.subtract(const Duration(days: 3)), now);
       case 4: return showXTitle(now.subtract(const Duration(days: 2)), now);
       case 5: return showXTitle(now.subtract(const Duration(days: 1)), now);
       case 6: return showXTitle(now.subtract(const Duration(days: 0)), now);
-      default: return showXTitle(now.subtract(const Duration(days: 1)), now);
+      default: return showXTitle(now.subtract(const Duration(days: 0)), now);
     }
 
 
-    // return showXTitle(dateEntry, now);
   }
 
   Widget showXTitle(DateTime weightDateTime, DateTime now) {
