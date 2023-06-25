@@ -52,7 +52,7 @@ class ChartsModel extends BaseModel {
     print('charts_model | createCharts');
     filterDataByPeriod();
     removeRepetition();
-    sortByDate();
+    sortByDateDescending();
     fetchChartData();
   }
 
@@ -69,8 +69,8 @@ class ChartsModel extends BaseModel {
     print('charts_model | removeRepetition | $_filteredWeights');
   }
 
-  void sortByDate() {
-    _filteredWeights.sort((a, b) => a.dateEntry.compareTo(b.dateEntry));
+  void sortByDateDescending() {
+    _filteredWeights.sort((a, b) => b.dateEntry.compareTo(a.dateEntry));
   }
 
   Future fetchChartData() async {
@@ -78,7 +78,7 @@ class ChartsModel extends BaseModel {
     if(_filteredWeights.isEmpty) {
       return;
     }
-    _chartData = await _chartService.fetchDataChart(_filteredWeights, now);
+    _chartData = await _chartService.fetchDataChart(_filteredWeights, now,_period);
     print('charts_model | fetchChartData | ${chartData}');
 
   }
