@@ -21,6 +21,7 @@ class FLChartLineWidget extends StatelessWidget {
         borderData: _buildFlBorderData(),
         gridData: _buildFlGridData(),
         titlesData: _buildFlTitlesData(),
+        lineTouchData: _buildLineTouchData(),
         minY: chartData.minY,
         maxY: chartData.maxY,
         minX: chartData.minX,
@@ -39,7 +40,7 @@ class FLChartLineWidget extends StatelessWidget {
         color: lightColorScheme.primary,
         isCurved: true,
         barWidth: 0.3,
-        dotData: FlDotData(show: chartData.isFirstValue));
+        dotData: FlDotData(show: true));
   }
 
   BarAreaData _buildAreaData() => BarAreaData(
@@ -62,7 +63,7 @@ class FLChartLineWidget extends StatelessWidget {
   }
 
   Widget buildBottomTitleWidgets(
-      double value, TitleMeta meta, List<Weight> weights, DateTime now) {
+      double value, TitleMeta meta, List<Weight> weights, DateTime now,double maxX) {
    // DateTime dateEntry = weights[value.toInt()].dateEntry;
 
     print('fl_chart_line_widget | buildBottomTitleWidgets | value: $value');
@@ -70,22 +71,20 @@ class FLChartLineWidget extends StatelessWidget {
     if (meta.min == value) {
       return Container(
         margin: const EdgeInsets.only(left: 20),
-        child: showXTitle(now.subtract(const Duration(days: 6)), now)
+        child: showXTitle(now.subtract(Duration(days: (maxX.toInt()))), now)
       );
     }
 
 
-    switch(value.toInt()){
-      case 1: return showXTitle(now.subtract(const Duration(days: 5)), now);
-      case 2: return showXTitle(now.subtract(const Duration(days: 4)), now);
-      case 3: return showXTitle(now.subtract(const Duration(days: 3)), now);
-      case 4: return showXTitle(now.subtract(const Duration(days: 2)), now);
-      case 5: return showXTitle(now.subtract(const Duration(days: 1)), now);
-      case 6: return showXTitle(now.subtract(const Duration(days: 0)), now);
-      default: return showXTitle(now.subtract(const Duration(days: 0)), now);
-    }
-
-
+    return showXTitle(calculateBottomTitleDate(now, value,maxX), now);
+  }
+  // 1) reverset list
+  // 2) substract max - days
+  DateTime calculateBottomTitleDate(DateTime now, double value, double maxX) {
+    print('fl_chart_line_widget | calculateBottomTitleDate |  maxX: ${maxX}');
+    int days = maxX.toInt() - value.toInt();
+    print('fl_chart_line_widget | calculateBottomTitleDate| value: $value | date: ${now.subtract(Duration(days: days))}');
+    return now.subtract(Duration(days: days));
   }
 
   Widget showXTitle(DateTime weightDateTime, DateTime now) {
@@ -126,7 +125,15 @@ class FLChartLineWidget extends StatelessWidget {
         interval: chartData.bottomTitleInterval,
         showTitles: true,
         getTitlesWidget: (double value, TitleMeta meta) {
-          return buildBottomTitleWidgets(value, meta, chartData.weights, chartData.now);
+          return buildBottomTitleWidgets(value, meta, chartData.weights, chartData.now,chartData.maxX);
         },
       ));
+
+  LineTouchData _buildLineTouchData() {
+    return LineTouchData(
+      touchTooltipData: LineTouchTooltipData(
+        tooltipBgColor: Colors.white
+      )
+    );
+  }
 }

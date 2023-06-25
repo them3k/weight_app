@@ -1,10 +1,11 @@
 import 'package:fl_chart/fl_chart.dart';
 import '../../model/chart.dart';
+import '../../model/periods.dart';
 import '../../model/weight_model.dart';
 
 abstract class ChartService {
 
-  Future<Chart> fetchDataChart(List<Weight> weights, DateTime now);
+  Future<Chart> fetchDataChart(List<Weight> weights, DateTime now, Periods period);
 
   List<FlSpot> createSpots(List<Weight> weights);
 

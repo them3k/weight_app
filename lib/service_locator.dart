@@ -6,6 +6,7 @@ import 'package:weight_app/router/weight_router_delegate.dart';
 import 'package:weight_app/services/chart_service/chart_service.dart';
 import 'package:weight_app/services/chart_service/chart_service_impl.dart';
 import 'package:weight_app/services/storage/storage_service.dart';
+import 'package:weight_app/services/storage/storage_service_fake.dart';
 import 'package:weight_app/services/storage/storage_service_impl.dart';
 
 import 'business_logic/view_model/charts_model.dart';
